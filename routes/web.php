@@ -22,10 +22,10 @@ Route::middleware([
         return view('penelitian.index');
     })->name('penelitian');
 
-    // Modul Pengabdian
-    Route::get('/pengabdian', function () {
-        return view('pengabdian.index');
-    })->name('pengabdian');
+    // Modul Pengabmas
+    Route::get('/pengabmas', function () {
+        return view('pengabmas.index');
+    })->name('pengabmas');
 
     // Modul Renop
     Route::get('/renop', function () {
