@@ -2,30 +2,81 @@
 
 ## Project
 
-**RSP-UHB (Research & Strategic Planning UHB)**
+**RSP-UHB (Research & Strategic Planning UHB)**  
 Laravel 12 + Jetstream Livewire + Flux UI
 
 ---
 
 ## UI & Design System (Flux UI)
 
-Aplikasi menggunakan **Flux UI style** dengan prinsip:
+Aplikasi menggunakan **Flux UI style modern admin dashboard** dengan prinsip:
 
-* Clean & minimal interface
-* Fokus pada readability dan spacing
-* Komponen reusable
-* Tidak berlebihan dalam dekorasi visual
+* Clean & structured interface (bukan sekadar minimal)
+* UI harus memiliki visual hierarchy yang jelas
+* Layout berbasis section + grid (bukan hanya stack vertikal)
+* Komponen reusable dan konsisten
+* Fokus pada readability + spatial design (ruang antar elemen)
 
-### Color Palette (Simple & Clean)
+---
 
-* Primary: slate / blue-600
+## Visual Design Principles
+
+UI harus:
+
+* Memiliki depth (layering visual)
+* Tidak flat / tidak monoton
+* Menggunakan elevation (shadow + hover interaction)
+* Memiliki grouping section yang jelas
+* Memiliki visual rhythm (atas → tengah → bawah)
+
+---
+
+## Color Palette (Simple but Functional)
+
+* Primary: blue / blue-600 (Penelitian)
+* Secondary: violet (Pengabmas)
+* Accent: amber (Renop)
+* Support: teal (Dosen)
 * Background: slate-50 / white
-* Surface/Card: white
+* Surface: white
 * Text: slate-800 / slate-600
-* Border: slate-200
-* Accent: blue-500
+* Border: slate-100 / slate-200
 
-> Hindari penggunaan warna mencolok, gradient berlebihan, dan variasi warna yang tidak konsisten.
+> Warna hanya sebagai accent untuk identitas module, bukan dominasi UI.
+
+---
+
+## Component Design Rules
+
+### Cards
+
+* Gunakan card-based design dengan variasi ukuran (small / medium / large)
+* Setiap card wajib memiliki:
+  - visual hierarchy (title → value → description)
+  - icon atau indicator
+  - accent highlight (border/top bar/side strip)
+  - hover interaction (translate + shadow elevation)
+
+### Interaction
+
+* Hover wajib memberikan feedback visual:
+  - shadow meningkat (shadow-sm → shadow-md)
+  - sedikit naik (translate-y-[-2px] atau [-3px])
+* Transition smooth (200–300ms)
+
+---
+
+## Layout Principles
+
+* Gunakan grid system untuk layout utama
+* Hindari layout full vertical stack tanpa grouping
+* Dashboard harus dibagi minimal:
+
+1. Header section (title + context)
+2. Stats grid section (cards)
+3. Main content section (2 columns)
+   - left: primary content
+   - right: secondary actions/info
 
 ---
 
@@ -33,7 +84,7 @@ Aplikasi menggunakan **Flux UI style** dengan prinsip:
 
 Aplikasi terdiri dari 2 module utama:
 
-1. Modul Penelitian & Pengabdian Masyarakat
+1. Modul Penelitian & pengabmas
 2. Modul Renop Fakultas & Prodi
 
 Semua module berada dalam 1 Laravel project dan 1 repository GitHub.
@@ -47,7 +98,7 @@ Semua module berada dalam 1 Laravel project dan 1 repository GitHub.
 Fokus:
 
 * Dashboard utama
-* Modul Penelitian & Pengabdian
+* Modul Penelitian & pengabmas
 * UI module penelitian
 
 Branch:
@@ -105,6 +156,7 @@ resources/views/
 ├── layouts/
 ├── dashboard/
 ├── penelitian/
+├── pengabmas/
 └── renop/
 ```
 
@@ -116,6 +168,7 @@ resources/views/
 app/Http/Controllers/
 ├── DashboardController.php
 ├── PenelitianController.php
+├── PengabmasController.php
 └── RenopController.php
 ```
 
