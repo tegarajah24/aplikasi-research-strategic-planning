@@ -92,4 +92,9 @@ Route::middleware([
         return view('rkt.kalender.index');
     })->name('rkt.kalender');
 
+    // Master Data – Bidang
+    Route::get('/bidang', function () {
+        return view('master-data.bidang.index');
+    })->name('bidang');
+
 });
