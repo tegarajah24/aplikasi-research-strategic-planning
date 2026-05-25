@@ -481,42 +481,58 @@
 
 
     {{-- ══════════════════════════════════════
-         CTA SECTION
-    ══════════════════════════════════════ --}}
-    <section class="bg-gradient-to-br from-blue-600 to-blue-700 py-16 lg:py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="max-w-2xl mx-auto">
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">
-                    Mulai Kelola Riset Universitas Anda Sekarang
-                </h2>
-                <p class="text-blue-100 text-sm leading-relaxed mb-8">
-                    Bergabunglah dengan civitas akademika Universitas Harapan Bangsa dalam membangun ekosistem riset yang terkelola, terukur, dan berdampak.
-                </p>
-                @auth
-                    <a href="{{ url('/dashboard') }}"
-                       class="inline-flex items-center gap-2 rounded-xl bg-white px-7 py-3.5 text-sm font-bold text-blue-700 shadow-lg hover:bg-blue-50 hover:-translate-y-0.5 transition-all duration-200">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6z"/>
-                        </svg>
-                        Buka Dashboard
-                    </a>
-                @else
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-                        <a href="{{ route('login') }}"
-                           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 text-sm font-bold text-blue-700 shadow-lg hover:bg-blue-50 hover:-translate-y-0.5 transition-all duration-200">
-                            Masuk ke Sistem
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
-                            </svg>
-                        </a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-blue-400/50 bg-blue-500/30 px-7 py-3.5 text-sm font-semibold text-white hover:bg-blue-500/50 hover:-translate-y-0.5 transition-all duration-200">
-                                Daftar Akun
+         CTA SECTION (PREMIUM FLOATING CARD)
+         ══════════════════════════════════════ --}}
+    <section class="bg-slate-50 py-16 lg:py-24 border-t border-slate-200/50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/80 shadow-xl shadow-slate-100/80 overflow-hidden">
+                
+                {{-- Decorative subtle background gradient shapes --}}
+                <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-blue-500/5 blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-violet-500/5 blur-3xl pointer-events-none"></div>
+                
+                <div class="relative max-w-2xl mx-auto text-center">
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3.5 py-1.5 text-xs font-semibold text-blue-700 mb-5 border border-blue-100">
+                        <span class="h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
+                        Akses Sistem Sekarang
+                    </span>
+                    
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">
+                        Mulai Kelola Riset Universitas Anda Sekarang
+                    </h2>
+                    
+                    <p class="text-slate-500 text-sm sm:text-base leading-relaxed mb-8">
+                        Bergabunglah dengan civitas akademika Universitas Harapan Bangsa dalam membangun ekosistem riset yang terkelola, terukur, dan berdampak.
+                    </p>
+                    
+                    @auth
+                        <div class="flex justify-center">
+                            <a href="{{ url('/dashboard') }}"
+                               class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-600/25 hover:bg-blue-700 hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all duration-200">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6z"/>
+                                </svg>
+                                Buka Dashboard Utama
                             </a>
-                        @endif
-                    </div>
-                @endauth
+                        </div>
+                    @else
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                            <a href="{{ route('login') }}"
+                               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-600/25 hover:bg-blue-700 hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all duration-200">
+                                Masuk ke Sistem
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                                </svg>
+                            </a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}"
+                                   class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-7 py-3.5 text-sm font-bold text-slate-700 shadow-sm hover:bg-slate-50 hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-200">
+                                    Daftar Akun Baru
+                                </a>
+                            @endif
+                        </div>
+                    @endauth
+                </div>
             </div>
         </div>
     </section>
