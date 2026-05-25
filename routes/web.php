@@ -83,4 +83,13 @@ Route::middleware([
     Route::post('/artikel/import', [App\Http\Controllers\ArtikelController::class, 'import'])->name('artikel.import');
     Route::resource('artikel', App\Http\Controllers\ArtikelController::class)->except(['create', 'show', 'edit']);
 
+    // Modul RKT
+    Route::get('/rkt/kegiatan', function () {
+        return view('rkt.kegiatan.index');
+    })->name('rkt.kegiatan');
+
+    Route::get('/rkt/kalender', function () {
+        return view('rkt.kalender.index');
+    })->name('rkt.kalender');
+
 });
