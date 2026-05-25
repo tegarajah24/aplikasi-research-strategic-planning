@@ -78,9 +78,8 @@ Route::middleware([
     })->name('hki');
 
     // Modul Buku
-    Route::get('/buku', function () {
-        return view('buku.index');
-    })->name('buku');
+    Route::post('/buku/import', [App\Http\Controllers\BukuController::class, 'import'])->name('buku.import');
+    Route::resource('buku', App\Http\Controllers\BukuController::class)->except(['create', 'show', 'edit']);
 
     // Modul Artikel
     Route::post('/artikel/import', [App\Http\Controllers\ArtikelController::class, 'import'])->name('artikel.import');
