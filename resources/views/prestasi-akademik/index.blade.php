@@ -8,6 +8,16 @@
         </div>
     </x-slot>
 
+    <style>
+        .dash-card {
+            transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1);
+        }
+        .dash-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px -6px rgba(15,23,42,.10), 0 2px 6px -2px rgba(15,23,42,.06);
+        }
+    </style>
+
     <div class="py-8 min-h-full" x-data="{ 
         showCreateModal: false, 
         showEditModal: false, 
@@ -34,49 +44,52 @@
             @endif
 
             <!-- Summary Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
                 <!-- Regional Card (Red) -->
-                <div class="bg-red-500 rounded-xl shadow-sm text-white overflow-hidden relative">
-                    <div class="p-6 relative z-10 flex justify-between items-center">
-                        <div>
-                            <svg class="w-12 h-12 text-red-200/50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                            </svg>
+                <div class="dash-card bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                    <div class="h-1 bg-rose-500"></div>
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+                                </svg>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <p class="text-4xl font-bold">{{ $totalRegional }}</p>
-                            <p class="text-red-100 font-medium">Regional</p>
-                        </div>
+                        <p class="text-2xl font-bold text-slate-800 tracking-tight">{{ $totalRegional }}</p>
+                        <p class="text-xs text-slate-400 mt-1">Total Prestasi Regional</p>
                     </div>
                 </div>
 
                 <!-- Nasional Card (Green) -->
-                <div class="bg-green-600 rounded-xl shadow-sm text-white overflow-hidden relative">
-                    <div class="p-6 relative z-10 flex justify-between items-center">
-                        <div>
-                            <svg class="w-12 h-12 text-green-200/50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                            </svg>
+                <div class="dash-card bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                    <div class="h-1 bg-emerald-500"></div>
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+                                </svg>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <p class="text-4xl font-bold">{{ $totalNasional }}</p>
-                            <p class="text-green-100 font-medium">Nasional</p>
-                        </div>
+                        <p class="text-2xl font-bold text-slate-800 tracking-tight">{{ $totalNasional }}</p>
+                        <p class="text-xs text-slate-400 mt-1">Total Prestasi Nasional</p>
                     </div>
                 </div>
 
                 <!-- Internasional Card (Teal/Blue) -->
-                <div class="bg-teal-500 rounded-xl shadow-sm text-white overflow-hidden relative">
-                    <div class="p-6 relative z-10 flex justify-between items-center">
-                        <div>
-                            <svg class="w-12 h-12 text-teal-200/50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                            </svg>
+                <div class="dash-card bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                    <div class="h-1 bg-blue-500"></div>
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+                                </svg>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <p class="text-4xl font-bold">{{ $totalInternasional }}</p>
-                            <p class="text-teal-100 font-medium">Internasional</p>
-                        </div>
+                        <p class="text-2xl font-bold text-slate-800 tracking-tight">{{ $totalInternasional }}</p>
+                        <p class="text-xs text-slate-400 mt-1">Total Prestasi Internasional</p>
                     </div>
                 </div>
             </div>
@@ -114,28 +127,28 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-blue-600 text-white border-b border-blue-700">
-                                <th rowspan="2" class="py-4 px-6 text-sm font-semibold tracking-wider w-12 text-center align-middle border-r border-blue-500">#</th>
-                                <th rowspan="2" class="py-4 px-6 text-sm font-semibold tracking-wider text-center align-middle border-r border-blue-500">Tahun</th>
-                                <th colspan="3" class="py-2 px-6 text-sm font-semibold tracking-wider text-center border-b border-r border-blue-500">Tingkat</th>
-                                <th rowspan="2" class="py-4 px-6 text-sm font-semibold tracking-wider text-center align-middle border-r border-blue-500">Total</th>
-                                <th rowspan="2" class="py-4 px-6 text-sm font-semibold tracking-wider text-center align-middle">Aksi</th>
+                            <tr class="bg-slate-50/50 border-b border-slate-100">
+                                <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider w-12 text-center align-middle border-r border-slate-200/60">No</th>
+                                <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle border-r border-slate-200/60">Tahun</th>
+                                <th colspan="3" class="py-2 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center border-b border-r border-slate-200/60">Tingkat</th>
+                                <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle border-r border-slate-200/60">Total</th>
+                                <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle">Aksi</th>
                             </tr>
-                            <tr class="bg-blue-600 text-white">
-                                <th class="py-2 px-6 text-sm font-semibold tracking-wider text-center border-r border-blue-500">Regional</th>
-                                <th class="py-2 px-6 text-sm font-semibold tracking-wider text-center border-r border-blue-500">Nasional</th>
-                                <th class="py-2 px-6 text-sm font-semibold tracking-wider text-center border-r border-blue-500">Internasional</th>
+                            <tr class="bg-slate-50/50 border-b border-slate-100">
+                                <th class="py-2 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center border-r border-slate-200/60">Regional</th>
+                                <th class="py-2 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center border-r border-slate-200/60">Nasional</th>
+                                <th class="py-2 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center border-r border-slate-200/60">Internasional</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 bg-white">
                             @forelse($prestasis as $index => $prestasi)
                             <tr class="hover:bg-slate-50/50 transition-colors">
                                 <td class="py-4 px-6 text-sm text-slate-500 text-center border-r border-slate-100">{{ $prestasis->firstItem() + $index }}</td>
-                                <td class="py-4 px-6 text-center font-medium text-slate-800 border-r border-slate-100">{{ $prestasi->tahun }}</td>
-                                <td class="py-4 px-6 text-center text-slate-600 border-r border-slate-100">{{ $prestasi->regional }}</td>
-                                <td class="py-4 px-6 text-center text-slate-600 border-r border-slate-100">{{ $prestasi->nasional }}</td>
-                                <td class="py-4 px-6 text-center text-slate-600 border-r border-slate-100">{{ $prestasi->internasional }}</td>
-                                <td class="py-4 px-6 text-center font-semibold text-slate-800 border-r border-slate-100">{{ $prestasi->regional + $prestasi->nasional + $prestasi->internasional }}</td>
+                                <td class="py-4 px-6 text-center font-medium text-slate-900 border-r border-slate-100">{{ $prestasi->tahun }}</td>
+                                <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->regional }}</td>
+                                <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->nasional }}</td>
+                                <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->internasional }}</td>
+                                <td class="py-4 px-6 text-center font-semibold text-slate-900 border-r border-slate-100">{{ $prestasi->regional + $prestasi->nasional + $prestasi->internasional }}</td>
                                 <td class="py-4 px-6 text-center">
                                     <div class="flex justify-center gap-2">
                                         <button @click="editData = {{ json_encode($prestasi) }}; showEditModal = true" class="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Edit">
