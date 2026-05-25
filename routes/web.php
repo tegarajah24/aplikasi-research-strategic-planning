@@ -53,9 +53,8 @@ Route::middleware([
     })->name('pengguna');
 
     // Modul Kerja Sama
-    Route::get('/kerjasama', function () {
-        return view('kerjasama.index');
-    })->name('kerjasama');
+    Route::post('/kerjasama/import', [App\Http\Controllers\KerjasamaController::class, 'import'])->name('kerjasama.import');
+    Route::resource('kerjasama', App\Http\Controllers\KerjasamaController::class)->except(['create', 'show', 'edit']);
 
     // Modul Dosen
     Route::get('/dosen', function () {
