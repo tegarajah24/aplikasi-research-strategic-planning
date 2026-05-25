@@ -20,13 +20,13 @@
     <style>
         /* ── Custom Calendar Styles ── */
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-        .cal-day  { min-height: 100px; }
+        .cal-day  { min-height: 64px; display: flex; flex-direction: column; justify-content: space-between; }
 
         .event-pill {
-            font-size: 11px;
-            line-height: 1.2;
-            padding: 2px 6px;
-            border-radius: 4px;
+            font-size: 10px;
+            line-height: 1.15;
+            padding: 1px 4px;
+            border-radius: 3px;
             cursor: pointer;
             transition: opacity .15s, transform .1s;
             white-space: nowrap;
@@ -58,8 +58,8 @@
             background: #2563eb;
             color: #fff;
             border-radius: 50%;
-            width: 26px;
-            height: 26px;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -113,8 +113,8 @@
                     <select id="filter-tahun" class="filter-select" onchange="applyFilters()">
                         <option value="">Semua Tahun</option>
                         <option value="2024">2024</option>
-                        <option value="2025" selected>2025</option>
-                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2026" selected>2026</option>
                     </select>
 
                     <select id="filter-bidang" class="filter-select" onchange="applyFilters()">
@@ -408,6 +408,118 @@
             target: '2 MOU ditandatangani',
             dokumen: 'Draft MOU.docx'
         },
+        {
+            id: 9,
+            title: 'Penyusunan Proposal Hibah DIKTI',
+            program: 'Hibah Internal',
+            bidang: 'Penelitian',
+            start: '2026-05-12',
+            end:   '2026-05-15',
+            pj: 'Dr. Ahmad Fauzi',
+            status: 'done',
+            anggaran: 'Rp 30.000.000',
+            indikator: 'Tersusunnya proposal hibah berskala nasional DIKTI',
+            target: '3 proposal disubmit ke portal BIMA',
+            dokumen: 'Panduan BIMA 2026.pdf · Draft Proposal.docx'
+        },
+        {
+            id: 10,
+            title: 'Monitoring dan Evaluasi Penelitian Internal',
+            program: 'Hibah Internal',
+            bidang: 'Penelitian',
+            start: '2026-05-24',
+            end:   '2026-05-26',
+            pj: 'Siti Rahayu, M.Pd',
+            status: 'running',
+            anggaran: 'Rp 4.000.000',
+            indikator: 'Terlaksananya monev tengah tahun untuk 15 judul penelitian',
+            target: '15 laporan kemajuan dievaluasi, laporan monev selesai',
+            dokumen: 'Instrumen Monev.pdf · Jadwal Monev.xlsx'
+        },
+        {
+            id: 11,
+            title: 'Workshop Penulisan Jurnal Scopus',
+            program: 'Publikasi',
+            bidang: 'Penelitian',
+            start: '2026-05-28',
+            end:   '2026-05-29',
+            pj: 'Rina Agustina, M.Kom',
+            status: 'upcoming',
+            anggaran: 'Rp 10.000.000',
+            indikator: 'Peningkatan publikasi ilmiah di jurnal internasional terindeks Scopus',
+            target: '20 dosen peserta, minimal 3 paper submit',
+            dokumen: 'Materi Workshop.zip · Template Jurnal.docx'
+        },
+        {
+            id: 12,
+            title: 'Audit Mutu Internal Akademik',
+            program: 'Pengembangan SDM',
+            bidang: 'Akademik',
+            start: '2026-05-05',
+            end:   '2026-05-08',
+            pj: 'Budi Santoso, M.T',
+            status: 'done',
+            anggaran: 'Rp 5.500.000',
+            indikator: 'Terlaksananya audit mutu akademik di tingkat program studi',
+            target: '5 program studi diaudit, laporan AMI 2026 selesai',
+            dokumen: 'Instrumen Audit.xlsx · SK Auditor.pdf'
+        },
+        {
+            id: 13,
+            title: 'Kunjungan Kerjasama Luar Negeri',
+            program: 'Kemitraan',
+            bidang: 'Kemahasiswaan',
+            start: '2026-05-20',
+            end:   '2026-05-22',
+            pj: 'Dr. Ahmad Fauzi',
+            status: 'late',
+            anggaran: 'Rp 45.000.000',
+            indikator: 'MoA implementasi student exchange dengan universitas mitra',
+            target: '1 naskah MoA disepakati dan ditandatangani',
+            dokumen: 'Draft MoA.docx · Rencana Kunjungan.pdf'
+        },
+        {
+            id: 14,
+            title: 'Sosialisasi KKN Tematik 2026',
+            program: 'Kemitraan',
+            bidang: 'Pengabdian',
+            start: '2026-06-05',
+            end:   '2026-06-05',
+            pj: 'Rina Agustina, M.Kom',
+            status: 'upcoming',
+            anggaran: 'Rp 3.000.000',
+            indikator: 'Pembekalan mahasiswa sebelum terjun ke lokasi KKN',
+            target: '150 mahasiswa terdaftar pembekalan KKN',
+            dokumen: 'Materi KKN 2026.pdf · Buku Panduan.pdf'
+        },
+        {
+            id: 15,
+            title: 'FGD Penyusunan Visi Misi Fakultas',
+            program: 'Pengembangan SDM',
+            bidang: 'Akademik',
+            start: '2026-06-12',
+            end:   '2026-06-14',
+            pj: 'Budi Santoso, M.T',
+            status: 'upcoming',
+            anggaran: 'Rp 7.500.000',
+            indikator: 'Terumuskannya draf visi keilmuan dan misi fakultas yang baru',
+            target: '1 dokumen draf visi misi, dihadiri 40 peserta stakeholder',
+            dokumen: 'Undangan Stakeholder.pdf · Draf Kuesioner.docx'
+        },
+        {
+            id: 16,
+            title: 'Submit Laporan Kinerja Dosen (LKD)',
+            program: 'Pengembangan SDM',
+            bidang: 'Akademik',
+            start: '2026-05-25',
+            end:   '2026-05-27',
+            pj: 'Siti Rahayu, M.Pd',
+            status: 'running',
+            anggaran: 'Rp 0',
+            indikator: 'Seluruh dosen tetap melaporkan kinerja di SISTER',
+            target: '100% dosen tetap selesai submit LKD',
+            dokumen: 'Panduan SISTER LKD.pdf'
+        },
     ];
 
     // ── State ────────────────────────────────────────────────────
@@ -449,7 +561,7 @@
         ['filter-tahun','filter-bidang','filter-program','filter-pj'].forEach(id => {
             document.getElementById(id).value = '';
         });
-        document.getElementById('filter-tahun').value = '2025';
+        document.getElementById('filter-tahun').value = '2026';
         applyFilters();
     }
 
@@ -471,7 +583,7 @@
         // empty leading cells
         for (let i = 0; i < firstDay; i++) {
             body.insertAdjacentHTML('beforeend',
-                `<div class="cal-day border-b border-r border-slate-100/70 bg-slate-50/40 p-1 min-h-[100px]"></div>`);
+                `<div class="cal-day border-b border-r border-slate-100/70 bg-slate-50/40 p-1 min-h-[64px]"></div>`);
         }
 
         for (let d = 1; d <= daysCount; d++) {
@@ -492,11 +604,11 @@
             }
 
             body.insertAdjacentHTML('beforeend', `
-                <div class="cal-day ${isToday ? 'today-cell bg-blue-50/40' : ''} border-b border-r border-slate-100/70 p-1.5 overflow-hidden">
-                    <div class="flex justify-end mb-1">
-                        <span class="day-num text-xs font-semibold ${isToday ? 'text-white' : 'text-slate-500'} w-6 h-6 flex items-center justify-center">${d}</span>
+                <div class="cal-day ${isToday ? 'today-cell bg-blue-50/40' : ''} border-b border-r border-slate-100/70 p-1 overflow-hidden">
+                    <div class="flex justify-end">
+                        <span class="day-num text-[10px] font-bold ${isToday ? 'text-white' : 'text-slate-400'} w-5 h-5 flex items-center justify-center">${d}</span>
                     </div>
-                    <div class="space-y-0.5">${evHtml}</div>
+                    <div class="w-full mt-auto space-y-0.5">${evHtml}</div>
                 </div>`);
         }
 
@@ -505,7 +617,7 @@
         const remaining  = (Math.ceil(totalCells / 7) * 7) - totalCells;
         for (let i = 0; i < remaining; i++) {
             body.insertAdjacentHTML('beforeend',
-                `<div class="cal-day border-b border-r border-slate-100/70 bg-slate-50/40 p-1 min-h-[100px]"></div>`);
+                `<div class="cal-day border-b border-r border-slate-100/70 bg-slate-50/40 p-1 min-h-[64px]"></div>`);
         }
     }
 
