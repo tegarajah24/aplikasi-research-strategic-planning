@@ -9,7 +9,7 @@ Laravel 12 + Jetstream Livewire + Flux UI
 
 ## UI & Design System (Flux UI)
 
-Aplikasi menggunakan **Flux UI style modern admin dashboard** dengan prinsip:
+Aplikasi menggunakan **Flux UI style modern** dengan prinsip:
 
 * Clean & structured interface (bukan sekadar minimal)
 * UI harus memiliki visual hierarchy yang jelas
@@ -46,39 +46,6 @@ UI harus:
 
 ---
 
-## Component Design Rules
-
-### Cards
-
-* Gunakan card-based design dengan variasi ukuran (small / medium / large)
-* Setiap card wajib memiliki:
-  - visual hierarchy (title → value → description)
-  - icon atau indicator
-  - accent highlight (border/top bar/side strip)
-  - hover interaction (translate + shadow elevation)
-
-### Interaction
-
-* Hover wajib memberikan feedback visual:
-  - shadow meningkat (shadow-sm → shadow-md)
-  - sedikit naik (translate-y-[-2px] atau [-3px])
-* Transition smooth (200–300ms)
-
----
-
-## Layout Principles
-
-* Gunakan grid system untuk layout utama
-* Hindari layout full vertical stack tanpa grouping
-* Dashboard harus dibagi minimal:
-
-1. Header section (title + context)
-2. Stats grid section (cards)
-3. Main content section (2 columns)
-   - left: primary content
-   - right: secondary actions/info
-
----
 
 ## Struktur Module
 
