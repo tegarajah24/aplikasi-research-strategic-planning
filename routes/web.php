@@ -83,8 +83,6 @@ Route::middleware([
     })->name('buku');
 
     // Modul Artikel
-    Route::get('/artikel', function () {
-        return view('artikel.index');
-    })->name('artikel');
+    Route::resource('artikel', App\Http\Controllers\ArtikelController::class)->except(['create', 'show', 'edit']);
 
 });
