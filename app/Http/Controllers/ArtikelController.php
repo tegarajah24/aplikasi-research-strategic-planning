@@ -76,4 +76,40 @@ class ArtikelController extends Controller
 
         return redirect()->route('artikel.index')->with('success', 'Artikel berhasil dihapus.');
     }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file_import' => 'required|mimes:csv,txt|max:2048',
+        ]);
+
+        $file = $request->file('file_import');
+        $handle = fopen($file->getPathname(), "r");
+        
+        $header = true;
+        $count = 0;
+        
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            if ($header) {
+                $header = false;
+                continue;
+            }
+            
+            // Format yang diharapkan: Judul, Penulis, Tahun, Penerbit, DOI
+            if (count($data) >= 4) {
+                Artikel::create([
+                    'judul' => $data[0] ?? '',
+                    'penulis' => $data[1] ?? '',
+                    'tahun' => (int)($data[2] ?? date('Y')),
+                    'penerbit' => $data[3] ?? '',
+                    'doi' => $data[4] ?? null,
+                ]);
+                $count++;
+            }
+        }
+        
+        fclose($handle);
+
+        return redirect()->route('artikel.index')->with('success', "$count Artikel berhasil diimport.");
+    }
 }
