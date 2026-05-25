@@ -102,4 +102,9 @@ Route::middleware([
         return view('master-data.program.index');
     })->name('program');
 
+    // Master Data – Renstra
+    Route::get('/renstra', function () {
+        return view('master-data.renstra.index');
+    })->name('renstra');
+
 });
