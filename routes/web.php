@@ -73,9 +73,8 @@ Route::middleware([
     })->name('prestasi-non-akademik');
 
     // Modul HKI
-    Route::get('/hki', function () {
-        return view('hki.index');
-    })->name('hki');
+    Route::post('/hki/import', [App\Http\Controllers\HkiController::class, 'import'])->name('hki.import');
+    Route::resource('hki', App\Http\Controllers\HkiController::class)->except(['create', 'show', 'edit']);
 
     // Modul Buku
     Route::post('/buku/import', [App\Http\Controllers\BukuController::class, 'import'])->name('buku.import');
