@@ -62,11 +62,12 @@
 
         {{-- Akademik & Riset Accordion --}}
         @php
+            $isRkt = request()->is('rkt*');
             $isRenop = request()->is('renop*');
             $isHki = request()->is('hki*');
             $isBuku = request()->is('buku*');
             $isArtikel = request()->is('artikel*');
-            $isAkademikRisetActive = $isRenop || $isHki || $isBuku || $isArtikel;
+            $isAkademikRisetActive = $isRkt || $isRenop || $isHki || $isBuku || $isArtikel;
         @endphp
         <div class="relative">
             <details class="group cursor-pointer" {{ $isAkademikRisetActive ? 'open' : '' }}>
@@ -108,6 +109,24 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
                         </svg>
                         <span>Renop</span>
+                    </a>
+
+                    {{-- RKT --}}
+                    <a href="/rkt"
+                       class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
+                              transition-all duration-150
+                              {{ $isRkt
+                                   ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/30'
+                                   : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}"
+                       aria-current="{{ $isRkt ? 'page' : 'false' }}">
+                        @if($isRkt)
+                            <span class="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[2px] bg-blue-300 rounded-full"></span>
+                        @endif
+                        <svg class="w-4 h-4 flex-shrink-0 {{ $isRkt ? 'text-blue-200' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
+                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"/>
+                        </svg>
+                        <span>Rencana Kegiatan Tahunan (RKT)</span>
                     </a>
 
                     {{-- HKI --}}
