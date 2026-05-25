@@ -62,13 +62,11 @@
 
         {{-- Akademik & Riset Accordion --}}
         @php
-            $isPenelitian = request()->is('penelitian*');
-            $isPengabmas = request()->is('pengabmas*');
             $isRenop = request()->is('renop*');
             $isHki = request()->is('hki*');
             $isBuku = request()->is('buku*');
             $isArtikel = request()->is('artikel*');
-            $isAkademikRisetActive = $isPenelitian || $isPengabmas || $isRenop || $isHki || $isBuku || $isArtikel;
+            $isAkademikRisetActive = $isRenop || $isHki || $isBuku || $isArtikel;
         @endphp
         <div class="relative">
             <details class="group cursor-pointer" {{ $isAkademikRisetActive ? 'open' : '' }}>
@@ -93,41 +91,6 @@
                 </summary>
 
                 <div class="mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
-                    {{-- Penelitian --}}
-                    <a href="/penelitian"
-                       class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
-                              transition-all duration-150
-                              {{ $isPenelitian
-                                   ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/30'
-                                   : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}"
-                       aria-current="{{ $isPenelitian ? 'page' : 'false' }}">
-                        @if($isPenelitian)
-                            <span class="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[2px] bg-blue-300 rounded-full"></span>
-                        @endif
-                        <svg class="w-4 h-4 flex-shrink-0 {{ $isPenelitian ? 'text-blue-200' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
-                        </svg>
-                        <span>Penelitian</span>
-                    </a>
-
-                    {{-- Pengabmas --}}
-                    <a href="/pengabmas"
-                       class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
-                              transition-all duration-150
-                              {{ $isPengabmas
-                                   ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/30'
-                                   : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}"
-                       aria-current="{{ $isPengabmas ? 'page' : 'false' }}">
-                        @if($isPengabmas)
-                            <span class="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[2px] bg-blue-300 rounded-full"></span>
-                        @endif
-                        <svg class="w-4 h-4 flex-shrink-0 {{ $isPengabmas ? 'text-blue-200' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
-                        </svg>
-                        <span>Pengabmas</span>
-                    </a>
 
                     {{-- Renop --}}
                     <a href="/renop"
