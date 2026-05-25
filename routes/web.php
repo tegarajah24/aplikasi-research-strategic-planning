@@ -97,4 +97,9 @@ Route::middleware([
         return view('master-data.bidang.index');
     })->name('bidang');
 
+    // Master Data – Program
+    Route::get('/program', function () {
+        return view('master-data.program.index');
+    })->name('program');
+
 });
