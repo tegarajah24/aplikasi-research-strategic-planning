@@ -62,9 +62,9 @@ Route::middleware([
     })->name('dosen');
 
     // Modul Prestasi Akademik
-    Route::get('/prestasi-akademik', function () {
-        return view('prestasi-akademik.index');
-    })->name('prestasi-akademik');
+    Route::post('/prestasi-akademik/import', [App\Http\Controllers\PrestasiAkademikController::class, 'import'])->name('prestasi-akademik.import');
+    Route::get('/prestasi-akademik/export', [App\Http\Controllers\PrestasiAkademikController::class, 'export'])->name('prestasi-akademik.export');
+    Route::resource('prestasi-akademik', App\Http\Controllers\PrestasiAkademikController::class)->except(['create', 'show', 'edit']);
 
     // Modul Prestasi Non-Akademik
     Route::get('/prestasi-non-akademik', function () {
