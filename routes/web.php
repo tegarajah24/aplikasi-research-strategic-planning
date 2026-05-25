@@ -83,8 +83,7 @@ Route::middleware([
     })->name('buku');
 
     // Modul Artikel
-    Route::get('/artikel', function () {
-        return view('artikel.index');
-    })->name('artikel');
+    Route::post('/artikel/import', [App\Http\Controllers\ArtikelController::class, 'import'])->name('artikel.import');
+    Route::resource('artikel', App\Http\Controllers\ArtikelController::class)->except(['create', 'show', 'edit']);
 
 });
