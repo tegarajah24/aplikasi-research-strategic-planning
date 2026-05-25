@@ -2,6 +2,17 @@
 {{-- RSP-UHB Sidebar Partial                                        --}}
 {{-- Usage: @include('layouts.sidebar')  in app.blade.php           --}}
 {{-- ─────────────────────────────────────────────────────────────── --}}
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    #sidebar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    #sidebar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style>
 
 {{-- Mobile Backdrop --}}
 <div id="sidebar-backdrop"
