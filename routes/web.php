@@ -43,9 +43,9 @@ Route::middleware([
     Route::resource('fakultas', App\Http\Controllers\FakultasController::class)->except(['create', 'show', 'edit']);
 
     // Modul Prodi
-    Route::get('/prodi', function () {
-        return view('prodi.index');
-    })->name('prodi');
+    Route::post('/prodi/import', [App\Http\Controllers\ProdiController::class, 'import'])->name('prodi.import');
+    Route::get('/prodi/export', [App\Http\Controllers\ProdiController::class, 'export'])->name('prodi.export');
+    Route::resource('prodi', App\Http\Controllers\ProdiController::class)->except(['create', 'show', 'edit']);
 
     // Modul Pengguna
     Route::get('/pengguna', function () {
