@@ -173,8 +173,7 @@
 
                 {{-- Eyebrow badge --}}
                 <div class="inline-flex items-center gap-2 rounded-full bg-blue-50 border border-blue-100 px-4 py-1.5 mb-8">
-                    <span class="live-badge text-xs font-semibold text-blue-700">Sistem Aktif</span>
-                    <span class="text-xs text-slate-400 font-medium">Semester Genap 2025/2026</span>
+                    <span class="text-xs text-blue-700 font-semibold">Semester Genap 2025/2026</span>
                 </div>
 
                 {{-- Headline --}}
