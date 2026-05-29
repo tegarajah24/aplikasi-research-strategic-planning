@@ -147,13 +147,10 @@
                             Dashboard
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Masuk</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                               class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-blue-600/25 hover:bg-blue-700 hover:shadow-blue-600/40 transition-all duration-200">
-                                Daftar
-                            </a>
-                        @endif
+                        <a href="{{ route('login') }}"
+                           class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-blue-600/25 hover:bg-blue-700 hover:shadow-blue-600/40 transition-all duration-200">
+                            Masuk
+                        </a>
                     @endauth
                 @endif
             </div>
@@ -202,17 +199,11 @@
                     @else
                         <a href="{{ route('login') }}"
                            class="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-7 py-3.5 text-sm font-semibold text-white shadow-md shadow-blue-600/30 hover:bg-blue-700 hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all duration-200">
-                            Mulai Sekarang
+                            Masuk ke Sistem
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
                             </svg>
                         </a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                               class="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-white border border-slate-200 px-7 py-3.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-200">
-                                Daftar Akun
-                            </a>
-                        @endif
                     @endauth
                 </div>
             </div>
