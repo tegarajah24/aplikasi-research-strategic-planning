@@ -44,7 +44,7 @@
     <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto" aria-label="Navigasi utama">
 
         {{-- Section: Utama --}}
-        <p class="px-3 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500 select-none">
+        <p class="px-3 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none">
             Menu Utama
         </p>
 
@@ -410,7 +410,7 @@
 
         {{-- Divider + Section: Kemitraan & Prestasi --}}
         <div class="!mt-4 !mb-1 border-t border-slate-800/60"></div>
-        <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500 select-none">
+        <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none">
             Kemitraan & Prestasi
         </p>
 
@@ -496,57 +496,30 @@
 
         {{-- Divider + Section: Pengguna --}}
         <div class="!mt-4 !mb-1 border-t border-slate-800/60"></div>
-        <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500 select-none">
+        <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none">
             Pengguna & Akses
         </p>
 
-        {{-- Pengguna Accordion --}}
+        {{-- Manajemen User --}}
         @php
             $isPengguna = request()->is('pengguna*');
-            $isPenggunaActive = $isPengguna;
         @endphp
-        <div class="relative">
-            <details class="group cursor-pointer" {{ $isPenggunaActive ? 'open' : '' }}>
-                <summary class="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
-                                transition-all duration-150
-                                {{ $isPenggunaActive
-                                     ? 'text-white bg-slate-800/50'
-                                     : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}
-                                list-none [&::-webkit-details-marker]:hidden">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isPenggunaActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
-                        </svg>
-                        <span>Pengguna</span>
-                    </div>
-                    <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-90"
-                         fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-                    </svg>
-                </summary>
-
-                <div class="mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
-                    {{-- Manajemen User --}}
-                    <a href="/pengguna"
-                       class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
-                              transition-all duration-150
-                              {{ $isPengguna
-                                   ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/30'
-                                   : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}"
-                       aria-current="{{ $isPengguna ? 'page' : 'false' }}">
-                        @if($isPengguna)
-                            <span class="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[2px] bg-blue-300 rounded-full"></span>
-                        @endif
-                        <svg class="w-4 h-4 flex-shrink-0 {{ $isPengguna ? 'text-blue-200' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
-                        </svg>
-                        <span>Manajemen User</span>
-                    </a>
-                </div>
-            </details>
-        </div>
+        <a href="/pengguna"
+           class="group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+                  transition-all duration-150
+                  {{ $isPengguna
+                       ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/30'
+                       : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}"
+           aria-current="{{ $isPengguna ? 'page' : 'false' }}">
+            @if($isPengguna)
+                <span class="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] bg-blue-300 rounded-full"></span>
+            @endif
+            <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isPengguna ? 'text-blue-200' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
+                 fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
+            </svg>
+            <span>Manajemen User</span>
+        </a>
 
     </nav>
 
