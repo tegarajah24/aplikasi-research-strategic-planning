@@ -6,13 +6,6 @@
                 <p class="text-sm text-slate-400 mt-0.5">Bank Data Sasaran, Strategi, dan Program Tahunan</p>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="copyPreviousYear()"
-                    class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition shadow-sm">
-                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75"/>
-                    </svg>
-                    Copy Tahun Sebelumnya
-                </button>
                 <button onclick="openModal()"
                     class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition shadow-sm"
                     style="background:#0ea5e9">
@@ -108,10 +101,18 @@
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="relative">
+                            <select id="filter-fakultas" onchange="renderTree()"
+                                class="appearance-none border border-slate-200 rounded-xl pl-9 pr-8 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-sky-400 cursor-pointer bg-white">
+                                <option value="Semua">Semua Fakultas/Prodi</option>
+                                <option value="FIS">FIS (Fakultas Ilmu Sosial)</option>
+                                <option value="FST">FST (Fakultas Sains dan Teknologi)</option>
+                                <option value="FKES">FKES (Fakultas Kesehatan)</option>
+                            </select>
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+                        </div>
+                        <div class="relative">
                             <select id="filter-tahun" onchange="renderTree()"
                                 class="appearance-none border border-slate-200 rounded-xl pl-9 pr-8 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-sky-400 cursor-pointer bg-white">
-                                <option value="2026">Tahun 2026</option>
-                                <option value="2025">Tahun 2025</option>
                             </select>
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
                         </div>
@@ -154,11 +155,21 @@
             <div class="px-6 py-5 space-y-5 max-h-[75vh] overflow-y-auto bg-slate-50/30">
                 <input type="hidden" id="edit-id">
 
-                {{-- Tahun --}}
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tahun Periode <span class="text-red-500">*</span></label>
-                    <input id="f-tahun" type="number" min="2000" max="2100" placeholder="2026"
-                        class="w-32 border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition">
+                {{-- Tahun & Fakultas --}}
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tahun Periode <span class="text-red-500">*</span></label>
+                        <input id="f-tahun" type="number" min="2000" max="2100" placeholder="2026"
+                            class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Fakultas / Prodi <span class="text-red-500">*</span></label>
+                        <select id="f-fakultas" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition">
+                            <option value="FIS">FIS (Fakultas Ilmu Sosial)</option>
+                            <option value="FST">FST (Fakultas Sains dan Teknologi)</option>
+                            <option value="FKES">FKES (Fakultas Kesehatan)</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm space-y-4">
@@ -237,44 +248,143 @@
     // ── Dummy Data ──────────────────────────────────────────────────
     // Format flat, nanti digroup saat render
     let renstraData = [
+        // === TAHUN 2026 ===
+        // FIS
         {
-            id: 1, tahun: 2026,
-            sasaranKode: 'SS1', sasaranNama: 'Meningkatkan kualitas penelitian dosen',
-            strategiKode: 'STR1', strategiNama: 'Mendorong penelitian kolaboratif nasional & internasional',
-            programKode: 'PT1', programNama: 'Program peningkatan publikasi ilmiah bereputasi'
+            id: 1, tahun: 2026, fakultas: 'FIS',
+            sasaranKode: 'SS1-FIS', sasaranNama: 'Meningkatkan Publikasi Kajian Sosial',
+            strategiKode: 'STR1', strategiNama: 'Mendorong Riset Desa Binaan',
+            programKode: 'PT1', programNama: 'Program Hibah Penelitian Dosen FIS'
         },
         {
-            id: 2, tahun: 2026,
-            sasaranKode: 'SS1', sasaranNama: 'Meningkatkan kualitas penelitian dosen',
-            strategiKode: 'STR1', strategiNama: 'Mendorong penelitian kolaboratif nasional & internasional',
-            programKode: 'PT2', programNama: 'Program hibah penelitian internal bersaing'
+            id: 2, tahun: 2026, fakultas: 'FIS',
+            sasaranKode: 'SS1-FIS', sasaranNama: 'Meningkatkan Publikasi Kajian Sosial',
+            strategiKode: 'STR1', strategiNama: 'Mendorong Riset Desa Binaan',
+            programKode: 'PT2', programNama: 'Program Seminar Nasional Ilmu Sosial'
+        },
+        // FST
+        {
+            id: 3, tahun: 2026, fakultas: 'FST',
+            sasaranKode: 'SS2-FST', sasaranNama: 'Meningkatkan Publikasi Jurnal Internasional',
+            strategiKode: 'STR2', strategiNama: 'Akselerasi Paten Teknologi',
+            programKode: 'PT3', programNama: 'Program Pendampingan HKI FST'
         },
         {
-            id: 3, tahun: 2026,
-            sasaranKode: 'SS1', sasaranNama: 'Meningkatkan kualitas penelitian dosen',
-            strategiKode: 'STR2', strategiNama: 'Peningkatan perolehan HKI dan Paten',
-            programKode: 'PT3', programNama: 'Program pendampingan drafting paten'
+            id: 4, tahun: 2026, fakultas: 'FST',
+            sasaranKode: 'SS2-FST', sasaranNama: 'Meningkatkan Publikasi Jurnal Internasional',
+            strategiKode: 'STR3', strategiNama: 'Meningkatkan Kemitraan Industri',
+            programKode: 'PT4', programNama: 'Program Magang Riset Industri'
         },
+        // FKES
         {
-            id: 4, tahun: 2026,
-            sasaranKode: 'SS2', sasaranNama: 'Peningkatan Mutu Tata Kelola dan SDM',
-            strategiKode: 'STR3', strategiNama: 'Meningkatkan kualifikasi pendidikan dosen',
-            programKode: 'PT4', programNama: 'Program beasiswa studi lanjut S3'
+            id: 5, tahun: 2026, fakultas: 'FKES',
+            sasaranKode: 'SS3-FKES', sasaranNama: 'Peningkatan Mutu Riset Kesehatan Masyarakat',
+            strategiKode: 'STR4', strategiNama: 'Kolaborasi Riset Rumah Sakit',
+            programKode: 'PT5', programNama: 'Program Kemitraan RSUD'
         },
-        // Data 2025 (untuk fitur copy)
+
+        // === TAHUN 2025 ===
+        // FIS
         {
-            id: 5, tahun: 2025,
-            sasaranKode: 'SS1', sasaranNama: 'Meningkatkan kualitas penelitian dosen',
-            strategiKode: 'STR1', strategiNama: 'Mendorong penelitian kolaboratif nasional & internasional',
-            programKode: 'PT1', programNama: 'Program peningkatan publikasi ilmiah'
+            id: 6, tahun: 2025, fakultas: 'FIS',
+            sasaranKode: 'SS4-FIS', sasaranNama: 'Meningkatkan Kapasitas Peneliti Pemula',
+            strategiKode: 'STR5', strategiNama: 'Workshop Metodologi Kualitatif',
+            programKode: 'PT6', programNama: 'Program Pelatihan Dosen Muda FIS'
+        },
+        // FST
+        {
+            id: 7, tahun: 2025, fakultas: 'FST',
+            sasaranKode: 'SS5-FST', sasaranNama: 'Meningkatkan Publikasi Nasional',
+            strategiKode: 'STR6', strategiNama: 'Mendorong Jurnal Sinta 2',
+            programKode: 'PT7', programNama: 'Program Insentif Sinta FST'
+        },
+        // FKES
+        {
+            id: 8, tahun: 2025, fakultas: 'FKES',
+            sasaranKode: 'SS6-FKES', sasaranNama: 'Peningkatan Standar Lab Kesehatan',
+            strategiKode: 'STR7', strategiNama: 'Sertifikasi Laboran',
+            programKode: 'PT8', programNama: 'Program Hibah Alat Lab FKES'
+        },
+
+        // === TAHUN 2024 ===
+        // FIS
+        {
+            id: 9, tahun: 2024, fakultas: 'FIS',
+            sasaranKode: 'SS7-FIS', sasaranNama: 'Penguatan Kerjasama Desa',
+            strategiKode: 'STR8', strategiNama: 'Program Desa Binaan Berkelanjutan',
+            programKode: 'PT9', programNama: 'Pendanaan Pengabdian FIS'
+        },
+        // FST
+        {
+            id: 10, tahun: 2024, fakultas: 'FST',
+            sasaranKode: 'SS8-FST', sasaranNama: 'Kolaborasi Riset Internasional',
+            strategiKode: 'STR9', strategiNama: 'MOU Universitas Luar Negeri',
+            programKode: 'PT10', programNama: 'Program Visiting Scholar'
+        },
+        // FKES
+        {
+            id: 11, tahun: 2024, fakultas: 'FKES',
+            sasaranKode: 'SS9-FKES', sasaranNama: 'Pencegahan Stunting Nasional',
+            strategiKode: 'STR10', strategiNama: 'Kampanye Gizi Seimbang',
+            programKode: 'PT11', programNama: 'Program Intervensi Gizi FKES'
+        },
+
+        // === TAHUN 2023 ===
+        // FIS
+        {
+            id: 12, tahun: 2023, fakultas: 'FIS',
+            sasaranKode: 'SS10-FIS', sasaranNama: 'Digitalisasi Data Demografi',
+            strategiKode: 'STR11', strategiNama: 'Pelatihan Analisis Data',
+            programKode: 'PT12', programNama: 'Workshop Big Data FIS'
+        },
+        // FST
+        {
+            id: 13, tahun: 2023, fakultas: 'FST',
+            sasaranKode: 'SS11-FST', sasaranNama: 'Pengembangan Teknologi Tepat Guna',
+            strategiKode: 'STR12', strategiNama: 'Kompetisi Inovasi Mahasiswa',
+            programKode: 'PT13', programNama: 'Hibah Inovasi FST'
+        },
+        // FKES
+        {
+            id: 14, tahun: 2023, fakultas: 'FKES',
+            sasaranKode: 'SS12-FKES', sasaranNama: 'Edukasi Kesehatan Reproduksi',
+            strategiKode: 'STR13', strategiNama: 'Penyuluhan Remaja',
+            programKode: 'PT14', programNama: 'Program Kemitraan Sekolah'
+        },
+
+        // === TAHUN 2022 ===
+        // FIS
+        {
+            id: 15, tahun: 2022, fakultas: 'FIS',
+            sasaranKode: 'SS13-FIS', sasaranNama: 'Meningkatkan Literasi Politik',
+            strategiKode: 'STR14', strategiNama: 'Diskusi Publik dan Seminar',
+            programKode: 'PT15', programNama: 'Program Seminar Pemilu'
+        },
+        // FST
+        {
+            id: 16, tahun: 2022, fakultas: 'FST',
+            sasaranKode: 'SS14-FST', sasaranNama: 'Riset Energi Terbarukan',
+            strategiKode: 'STR15', strategiNama: 'Pembentukan Pusat Studi Energi',
+            programKode: 'PT16', programNama: 'Pendanaan Pusat Studi FST'
+        },
+        // FKES
+        {
+            id: 17, tahun: 2022, fakultas: 'FKES',
+            sasaranKode: 'SS15-FKES', sasaranNama: 'Mitigasi Penyakit Tropis',
+            strategiKode: 'STR16', strategiNama: 'Riset Epidemiologi',
+            programKode: 'PT17', programNama: 'Hibah Riset Penyakit Menular'
         }
     ];
 
     let deleteTargetId = null;
 
     // ── Data Processing (Grouping for Tree View) ────────────────────
-    function getGroupedData(tahun) {
-        const filtered = renstraData.filter(d => d.tahun == tahun);
+    function getGroupedData(tahun, fakultas) {
+        const filtered = renstraData.filter(d => {
+            let matchTahun = d.tahun == tahun;
+            let matchFakultas = (fakultas === 'Semua') ? true : d.fakultas === fakultas;
+            return matchTahun && matchFakultas;
+        });
         const grouped = {};
         
         filtered.forEach(row => {
@@ -306,7 +416,8 @@
     // ── UI Rendering ─────────────────────────────────────────────────
     function renderTree() {
         const tahun = document.getElementById('filter-tahun').value;
-        const data = getGroupedData(tahun);
+        const fakultas = document.getElementById('filter-fakultas').value;
+        const data = getGroupedData(tahun, fakultas);
         const container = document.getElementById('tree-container');
         const emptyState = document.getElementById('empty-state');
         
@@ -411,6 +522,7 @@
             if (row) {
                 document.getElementById('modal-title-text').textContent = 'Edit Data RENSTRA';
                 document.getElementById('f-tahun').value = row.tahun;
+                document.getElementById('f-fakultas').value = row.fakultas || 'FST';
                 document.getElementById('f-sasaran-kode').value = row.sasaranKode;
                 document.getElementById('f-sasaran-nama').value = row.sasaranNama;
                 document.getElementById('f-strategi-kode').value = row.strategiKode;
@@ -422,7 +534,10 @@
             document.getElementById('modal-title-text').textContent = 'Tambah Data RENSTRA';
             document.getElementById('f-tahun').value = document.getElementById('filter-tahun').value || new Date().getFullYear();
             
-            // Clear inputs except year
+            let currentFilterFakultas = document.getElementById('filter-fakultas').value;
+            document.getElementById('f-fakultas').value = (currentFilterFakultas === 'Semua') ? 'FST' : currentFilterFakultas;
+            
+            // Clear inputs except year and fakultas
             ['sasaran-kode','sasaran-nama','strategi-kode','strategi-nama','program-kode','program-nama'].forEach(f => {
                 document.getElementById('f-' + f).value = '';
             });
@@ -441,6 +556,7 @@
         const id = document.getElementById('edit-id').value;
         const row = {
             tahun: parseInt(document.getElementById('f-tahun').value),
+            fakultas: document.getElementById('f-fakultas').value,
             sasaranKode: document.getElementById('f-sasaran-kode').value.trim(),
             sasaranNama: document.getElementById('f-sasaran-nama').value.trim(),
             strategiKode: document.getElementById('f-strategi-kode').value.trim(),
@@ -452,7 +568,7 @@
         const errEl = document.getElementById('form-error');
         
         // Basic Validation
-        if (!row.tahun || !row.sasaranKode || !row.sasaranNama || !row.strategiKode || !row.strategiNama || !row.programKode || !row.programNama) {
+        if (!row.tahun || !row.fakultas || !row.sasaranKode || !row.sasaranNama || !row.strategiKode || !row.strategiNama || !row.programKode || !row.programNama) {
             errEl.textContent = 'Semua field wajib diisi lengkap untuk menjaga struktur hierarki.';
             errEl.classList.remove('hidden');
             return;
@@ -470,17 +586,8 @@
         
         closeModal();
         
-        // Update filter dropdown to show the year if not exists
-        const select = document.getElementById('filter-tahun');
-        let exists = Array.from(select.options).some(opt => opt.value == row.tahun);
-        if (!exists) {
-            const opt = document.createElement('option');
-            opt.value = row.tahun;
-            opt.textContent = `Tahun ${row.tahun}`;
-            select.appendChild(opt);
-        }
-        select.value = row.tahun;
-        
+        populateTahunFilter();
+        document.getElementById('filter-tahun').value = row.tahun;
         renderTree();
     }
 
@@ -509,34 +616,27 @@
         }
     }
 
-    // ── Copy Previous Year ───────────────────────────────────────────
-    function copyPreviousYear() {
-        const currYear = parseInt(document.getElementById('filter-tahun').value);
-        const prevYear = currYear - 1;
+    // ── Populate Dynamic Year Filter ────────────────────────────────
+    function populateTahunFilter() {
+        const select = document.getElementById('filter-tahun');
+        const currentSelected = select.value;
+        const years = [...new Set(renstraData.map(d => d.tahun))].sort((a, b) => b - a);
         
-        const prevData = renstraData.filter(d => d.tahun === prevYear);
-        if (prevData.length === 0) {
-            alert(`Tidak ada data RENSTRA pada tahun ${prevYear} untuk dicopy.`);
-            return;
+        select.innerHTML = '';
+        if (years.length === 0) {
+            const currentYear = new Date().getFullYear();
+            select.innerHTML = `<option value="${currentYear}">Tahun ${currentYear}</option>`;
+        } else {
+            years.forEach(yr => {
+                const opt = document.createElement('option');
+                opt.value = yr;
+                opt.textContent = `Tahun ${yr}`;
+                select.appendChild(opt);
+            });
         }
         
-        if (confirm(`Copy ${prevData.length} data RENSTRA dari tahun ${prevYear} ke ${currYear}?`)) {
-            let maxId = Math.max(0, ...renstraData.map(d=>d.id));
-            
-            // Avoid duplicate copy if already copied (simple check)
-            const existingCurr = renstraData.filter(d => d.tahun === currYear);
-            
-            prevData.forEach(row => {
-                // Check if program already exists in current year
-                const exists = existingCurr.some(c => c.programKode === row.programKode && c.strategiKode === row.strategiKode);
-                if (!exists) {
-                    maxId++;
-                    const newRow = { ...row, id: maxId, tahun: currYear };
-                    renstraData.push(newRow);
-                }
-            });
-            
-            renderTree();
+        if (currentSelected && Array.from(select.options).some(opt => opt.value == currentSelected)) {
+            select.value = currentSelected;
         }
     }
 
@@ -545,6 +645,7 @@
         if (e.key === 'Escape') { closeModal(); closeDelModal(); }
     });
 
+    populateTahunFilter();
     renderTree();
     </script>
 </x-app-layout>
