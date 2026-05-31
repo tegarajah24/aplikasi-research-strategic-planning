@@ -27,16 +27,6 @@ Route::middleware([
         return view('pengabmas.index');
     })->name('pengabmas');
 
-    // Modul Renop
-    Route::get('/renop', function () {
-        return view('renop.index');
-    })->name('renop');
-
-    // Modul Bidang Keahlian
-    Route::get('/bidang-keahlian', function () {
-        return view('bidang-keahlian.index');
-    })->name('bidang-keahlian');
-
     // Modul Fakultas
     Route::post('/fakultas/import', [App\Http\Controllers\FakultasController::class, 'import'])->name('fakultas.import');
     Route::get('/fakultas/export', [App\Http\Controllers\FakultasController::class, 'export'])->name('fakultas.export');

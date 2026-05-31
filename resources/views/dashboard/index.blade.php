@@ -68,21 +68,6 @@
                         </div>
                     </div>
 
-                    {{-- Renop --}}
-                    <div class="dash-card bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-                        <div class="h-1 bg-amber-500"></div>
-                        <div class="p-5">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
-                                </div>
-                                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+2</span>
-                            </div>
-                            <p class="text-2xl font-bold text-slate-800 tracking-tight">17</p>
-                            <p class="text-xs text-slate-400 mt-1">Total Renop</p>
-                        </div>
-                    </div>
-
                     {{-- Dosen Aktif --}}
                     <div class="dash-card bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
                         <div class="h-1 bg-teal-500"></div>
@@ -124,9 +109,6 @@
                                 ['module'=>'pengabmas','color'=>'violet', 'title'=>'Pengabmas selesai divalidasi',
                                  'desc'=>'Pelatihan Literasi Digital bagi Masyarakat Desa Karangsari',
                                  'author'=>'Siti Rahayu, M.Pd','time'=>'5 jam lalu'],
-                                ['module'=>'renop','color'=>'amber', 'title'=>'Renop periode baru dibuat',
-                                 'desc'=>'Rencana Operasional Bidang Riset Tahun 2026/2027',
-                                 'author'=>'Admin RSP-UHB','time'=>'Kemarin'],
                                 ['module'=>'penelitian','color'=>'blue', 'title'=>'Penelitian diperbarui',
                                  'desc'=>'Optimasi Algoritma K-Means untuk Pengelompokan Data Mahasiswa',
                                  'author'=>'Budi Hartono, M.T','time'=>'2 hari lalu'],
@@ -188,11 +170,6 @@
                                     <svg class="w-3.5 h-3.5 opacity-40" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
                                 </a>
 
-                                <a href="/renop" class="action-link flex items-center gap-3 px-4 py-3 rounded-xl bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-200 text-slate-600 hover:text-amber-700 text-sm font-medium hover:shadow-sm hover:shadow-amber-500/10">
-                                    <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
-                                    <span class="flex-1">Renop</span>
-                                    <svg class="w-3.5 h-3.5 opacity-40" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-                                </a>
                             </div>
                         </div>
 

@@ -75,12 +75,11 @@
         @php
             $isFakultas = request()->is('fakultas*');
             $isProdi = request()->is('prodi*');
-            $isBidangKeahlian = request()->is('bidang-keahlian*');
             $isDosen = request()->is('dosen*');
             $isBidang = request()->is('bidang') || request()->is('bidang/*');
             $isProgram = request()->is('program*');
             $isRenstra = request()->is('renstra*');
-            $isMasterDataActive = $isFakultas || $isProdi || $isBidangKeahlian || $isDosen || $isBidang || $isProgram || $isRenstra;
+            $isMasterDataActive = $isFakultas || $isProdi || $isDosen || $isBidang || $isProgram || $isRenstra;
         @endphp
         <div class="relative">
             <details class="group cursor-pointer" {{ $isMasterDataActive ? 'open' : '' }}>
@@ -139,24 +138,6 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
                         </svg>
                         <span>Prodi</span>
-                    </a>
-
-                    {{-- Bidang Keahlian --}}
-                    <a href="/bidang-keahlian"
-                       class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
-                              transition-all duration-150
-                              {{ $isBidangKeahlian
-                                   ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/30'
-                                   : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}"
-                       aria-current="{{ $isBidangKeahlian ? 'page' : 'false' }}">
-                        @if($isBidangKeahlian)
-                            <span class="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[2px] bg-blue-300 rounded-full"></span>
-                        @endif
-                        <svg class="w-4 h-4 flex-shrink-0 {{ $isBidangKeahlian ? 'text-blue-200' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 003.182 0l5.178-5.178a2.25 2.25 0 000-3.182l-9.581-9.581A2.25 2.25 0 009.568 3zM6 6h.008v.008H6V6z"/>
-                        </svg>
-                        <span>Bidang Keahlian</span>
                     </a>
 
                     {{-- Dosen --}}
@@ -235,11 +216,10 @@
         </div>
         {{-- Akademik & Riset Accordion --}}
         @php
-            $isRenop = request()->is('renop*');
             $isHki = request()->is('hki*');
             $isBuku = request()->is('buku*');
             $isArtikel = request()->is('artikel*');
-            $isAkademikRisetActive = $isRenop || $isHki || $isBuku || $isArtikel;
+            $isAkademikRisetActive = $isHki || $isBuku || $isArtikel;
         @endphp
         <div class="relative">
             <details class="group cursor-pointer" {{ $isAkademikRisetActive ? 'open' : '' }}>
@@ -264,24 +244,6 @@
                 </summary>
 
                 <div class="mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
-
-                    {{-- Renop --}}
-                    <a href="/renop"
-                       class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
-                              transition-all duration-150
-                              {{ $isRenop
-                                   ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/30'
-                                   : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}"
-                       aria-current="{{ $isRenop ? 'page' : 'false' }}">
-                        @if($isRenop)
-                            <span class="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[2px] bg-blue-300 rounded-full"></span>
-                        @endif
-                        <svg class="w-4 h-4 flex-shrink-0 {{ $isRenop ? 'text-blue-200' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
-                        </svg>
-                        <span>Renop</span>
-                    </a>
 
                     {{-- HKI --}}
                     <a href="/hki"
