@@ -82,5 +82,9 @@ Route::middleware([
     // Modul Artikel
     Route::post('/artikel/import', [App\Http\Controllers\ArtikelController::class, 'import'])->name('artikel.import');
     Route::resource('artikel', App\Http\Controllers\ArtikelController::class)->except(['create', 'show', 'edit']);
+    // Modul Kegiatan Penelitian (RKT)
+    Route::resource('rkt/kegiatan', App\Http\Controllers\KegiatanController::class)
+        ->except(['create', 'show', 'edit'])
+        ->names('kegiatan');
 
 });

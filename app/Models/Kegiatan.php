@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Kegiatan extends Model
+{
+    protected $table = 'kegiatans';
+
+    protected $fillable = [
+        'kode_kegiatan',
+        'nama_kegiatan',
+        'indikator_kinerja',
+        'target_kegiatan',
+        'penanggung_jawab',
+        'waktu_pelaksanaan',
+        'tahun_akademik',
+        'kebutuhan_anggaran',
+        'status',
+        'catatan',
+    ];
+
+    /**
+     * Status label mapping
+     */
+    public function getStatusLabelAttribute(): string
+    {
+        return match($this->status) {
+            'perencanaan' => 'Perencanaan',
+            'berjalan'    => 'Berjalan',
+            'selesai'     => 'Selesai',
+            'tertunda'    => 'Tertunda',
+            default       => 'Tidak Diketahui',
+        };
+    }
+
+    /**
+     * Status color class mapping (Tailwind)
+     */
+    public function getStatusColorAttribute(): string
+    {
+        return match($this->status) {
+            'perencanaan' => 'blue',
+            'berjalan'    => 'amber',
+            'selesai'     => 'emerald',
+            'tertunda'    => 'rose',
+            default       => 'slate',
+        };
+    }
+}
