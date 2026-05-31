@@ -87,11 +87,7 @@ Route::middleware([
         ->except(['create', 'show', 'edit'])
         ->names('kegiatan');
 
-    // Modul RKT
-    Route::get('/rkt/kegiatan', function () {
-        return view('rkt.kegiatan.index');
-    })->name('rkt.kegiatan');
-
+    // Modul Kalender RKT
     Route::get('/rkt/kalender', function () {
         return view('rkt.kalender.index');
     })->name('rkt.kalender');
