@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PrestasiNonAkademik;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\PrestasiNonAkademik;
 
 class PrestasiNonAkademikController extends Controller
 {
