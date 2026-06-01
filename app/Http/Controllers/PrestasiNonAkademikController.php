@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PrestasiAkademik;
+use App\Models\PrestasiNonAkademik;
 use Illuminate\Http\Request;
 
-class PrestasiAkademikController extends Controller
+class PrestasiNonAkademikController extends Controller
 {
     public function index(Request $request)
     {
-        $query = PrestasiAkademik::query();
+        $query = PrestasiNonAkademik::query();
 
         // Calculate totals for widgets
-        $totalRegional = PrestasiAkademik::sum('regional');
-        $totalNasional = PrestasiAkademik::sum('nasional');
-        $totalInternasional = PrestasiAkademik::sum('internasional');
+        $totalRegional = PrestasiNonAkademik::sum('regional');
+        $totalNasional = PrestasiNonAkademik::sum('nasional');
+        $totalInternasional = PrestasiNonAkademik::sum('internasional');
         
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
@@ -22,7 +22,7 @@ class PrestasiAkademikController extends Controller
         }
 
         $prestasis = $query->orderBy('tahun', 'desc')->paginate(10);
-        return view('prestasi-akademik.index', compact('prestasis', 'totalRegional', 'totalNasional', 'totalInternasional'));
+        return view('prestasi-non-akademik.index', compact('prestasis', 'totalRegional', 'totalNasional', 'totalInternasional'));
     }
 
     public function store(Request $request)
@@ -37,12 +37,12 @@ class PrestasiAkademikController extends Controller
             'internasional' => 'required|integer|min:0',
         ]);
 
-        PrestasiAkademik::create($validated);
+        PrestasiNonAkademik::create($validated);
 
-        return redirect()->route('prestasi-akademik.index')->with('success', 'Data Prestasi Akademik berhasil ditambahkan.');
+        return redirect()->route('prestasi-non-akademik.index')->with('success', 'Data Prestasi Non-Akademik berhasil ditambahkan.');
     }
 
-    public function update(Request $request, PrestasiAkademik $prestasiAkademik)
+    public function update(Request $request, PrestasiNonAkademik $prestasi_non_akademik)
     {
         $validated = $request->validate([
             'tahun' => 'required|integer',
@@ -54,15 +54,15 @@ class PrestasiAkademikController extends Controller
             'internasional' => 'required|integer|min:0',
         ]);
 
-        $prestasiAkademik->update($validated);
+        $prestasi_non_akademik->update($validated);
 
-        return redirect()->route('prestasi-akademik.index')->with('success', 'Data Prestasi Akademik berhasil diperbarui.');
+        return redirect()->route('prestasi-non-akademik.index')->with('success', 'Data Prestasi Non-Akademik berhasil diperbarui.');
     }
 
-    public function destroy(PrestasiAkademik $prestasiAkademik)
+    public function destroy(PrestasiNonAkademik $prestasi_non_akademik)
     {
-        $prestasiAkademik->delete();
-        return redirect()->route('prestasi-akademik.index')->with('success', 'Data Prestasi Akademik berhasil dihapus.');
+        $prestasi_non_akademik->delete();
+        return redirect()->route('prestasi-non-akademik.index')->with('success', 'Data Prestasi Non-Akademik berhasil dihapus.');
     }
 
     public function import(Request $request)
@@ -83,18 +83,19 @@ class PrestasiAkademikController extends Controller
                 continue;
             }
             
-            // Format: Tahun, Regional, Nasional, Internasional
-            if (count($data) >= 4) {
+            // Format: Tahun, Nama Mahasiswa, Prodi, Fakultas, Regional, Nasional, Internasional
+            if (count($data) >= 7) {
                 $tahun = (int)($data[0] ?? 0);
                 if ($tahun > 0) {
-                    PrestasiAkademik::updateOrCreate(
-                        ['tahun' => $tahun],
-                        [
-                            'regional' => (int)($data[1] ?? 0),
-                            'nasional' => (int)($data[2] ?? 0),
-                            'internasional' => (int)($data[3] ?? 0),
-                        ]
-                    );
+                    PrestasiNonAkademik::create([
+                        'tahun' => $tahun,
+                        'nama_mahasiswa' => $data[1] ?? null,
+                        'prodi' => $data[2] ?? null,
+                        'fakultas' => $data[3] ?? null,
+                        'regional' => (int)($data[4] ?? 0),
+                        'nasional' => (int)($data[5] ?? 0),
+                        'internasional' => (int)($data[6] ?? 0),
+                    ]);
                     $count++;
                 }
             }
@@ -102,13 +103,13 @@ class PrestasiAkademikController extends Controller
         
         fclose($handle);
 
-        return redirect()->route('prestasi-akademik.index')->with('success', "$count Data Rekapitulasi Prestasi Akademik berhasil diimport/diperbarui.");
+        return redirect()->route('prestasi-non-akademik.index')->with('success', "$count Data Prestasi Non-Akademik berhasil diimport/diperbarui.");
     }
     
     public function export()
     {
-        $prestasis = PrestasiAkademik::orderBy('tahun', 'desc')->get();
-        $fileName = 'rekap_prestasi_akademik.csv';
+        $prestasis = PrestasiNonAkademik::orderBy('tahun', 'desc')->get();
+        $fileName = 'data_prestasi_non_akademik.csv';
         $headers = array(
             "Content-type"        => "text/csv",
             "Content-Disposition" => "attachment; filename=$fileName",
