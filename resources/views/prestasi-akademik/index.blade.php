@@ -124,6 +124,9 @@
                             <tr class="bg-slate-50/50 border-b border-slate-100">
                                 <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider w-12 text-center align-middle border-r border-slate-200/60">No</th>
                                 <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle border-r border-slate-200/60">Tahun</th>
+                                <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle border-r border-slate-200/60">Mahasiswa</th>
+                                <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle border-r border-slate-200/60">Prodi</th>
+                                <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle border-r border-slate-200/60">Fakultas</th>
                                 <th colspan="3" class="py-2 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center border-b border-r border-slate-200/60">Tingkat</th>
                                 <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle border-r border-slate-200/60">Total</th>
                                 <th rowspan="2" class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle">Aksi</th>
@@ -139,6 +142,9 @@
                             <tr class="hover:bg-slate-50/50 transition-colors">
                                 <td class="py-4 px-6 text-sm text-slate-500 text-center border-r border-slate-100">{{ $prestasis->firstItem() + $index }}</td>
                                 <td class="py-4 px-6 text-center font-medium text-slate-900 border-r border-slate-100">{{ $prestasi->tahun }}</td>
+                                <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->nama_mahasiswa ?? '-' }}</td>
+                                <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->prodi ?? '-' }}</td>
+                                <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->fakultas ?? '-' }}</td>
                                 <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->regional }}</td>
                                 <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->nasional }}</td>
                                 <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->internasional }}</td>
@@ -164,7 +170,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="7" class="py-12 px-6 text-center">
+                                <td colspan="10" class="py-12 px-6 text-center">
                                     <div class="flex flex-col items-center justify-center">
                                         <div class="bg-slate-50 rounded-full p-3 mb-3">
                                             <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -209,6 +215,18 @@
                                         <div>
                                             <label class="block text-sm font-medium text-slate-700">Tahun</label>
                                             <input type="number" name="tahun" value="{{ date('Y') }}" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700">Nama Mahasiswa</label>
+                                            <input type="text" name="nama_mahasiswa" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Nama Mahasiswa">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700">Prodi</label>
+                                            <input type="text" name="prodi" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Program Studi">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700">Fakultas</label>
+                                            <input type="text" name="fakultas" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Fakultas">
                                         </div>
                                         <div>
                                             <label class="block text-sm font-medium text-slate-700">Jumlah Regional</label>
@@ -259,6 +277,18 @@
                                         <div>
                                             <label class="block text-sm font-medium text-slate-700">Tahun</label>
                                             <input type="number" name="tahun" x-model="editData.tahun" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700">Nama Mahasiswa</label>
+                                            <input type="text" name="nama_mahasiswa" x-model="editData.nama_mahasiswa" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Nama Mahasiswa">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700">Prodi</label>
+                                            <input type="text" name="prodi" x-model="editData.prodi" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Program Studi">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700">Fakultas</label>
+                                            <input type="text" name="fakultas" x-model="editData.fakultas" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Fakultas">
                                         </div>
                                         <div>
                                             <label class="block text-sm font-medium text-slate-700">Jumlah Regional</label>

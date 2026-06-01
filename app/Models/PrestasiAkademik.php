@@ -10,6 +10,9 @@ class PrestasiAkademik extends Model
 
     protected $fillable = [
         'tahun',
+        'nama_mahasiswa',
+        'prodi',
+        'fakultas',
         'regional',
         'nasional',
         'internasional',

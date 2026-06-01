@@ -28,7 +28,10 @@ class PrestasiAkademikController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'tahun' => 'required|integer|unique:prestasi_akademiks,tahun',
+            'tahun' => 'required|integer',
+            'nama_mahasiswa' => 'nullable|string|max:255',
+            'prodi' => 'nullable|string|max:255',
+            'fakultas' => 'nullable|string|max:255',
             'regional' => 'required|integer|min:0',
             'nasional' => 'required|integer|min:0',
             'internasional' => 'required|integer|min:0',
@@ -42,7 +45,10 @@ class PrestasiAkademikController extends Controller
     public function update(Request $request, PrestasiAkademik $prestasiAkademik)
     {
         $validated = $request->validate([
-            'tahun' => 'required|integer|unique:prestasi_akademiks,tahun,' . $prestasiAkademik->id,
+            'tahun' => 'required|integer',
+            'nama_mahasiswa' => 'nullable|string|max:255',
+            'prodi' => 'nullable|string|max:255',
+            'fakultas' => 'nullable|string|max:255',
             'regional' => 'required|integer|min:0',
             'nasional' => 'required|integer|min:0',
             'internasional' => 'required|integer|min:0',
@@ -111,7 +117,7 @@ class PrestasiAkademikController extends Controller
             "Expires"             => "0"
         );
 
-        $columns = array('Tahun', 'Regional', 'Nasional', 'Internasional', 'Total');
+        $columns = array('Tahun', 'Nama Mahasiswa', 'Prodi', 'Fakultas', 'Regional', 'Nasional', 'Internasional', 'Total');
 
         $callback = function() use($prestasis, $columns) {
             $file = fopen('php://output', 'w');
@@ -119,12 +125,15 @@ class PrestasiAkademikController extends Controller
 
             foreach ($prestasis as $item) {
                 $row['Tahun']  = $item->tahun;
+                $row['Nama Mahasiswa'] = $item->nama_mahasiswa;
+                $row['Prodi'] = $item->prodi;
+                $row['Fakultas'] = $item->fakultas;
                 $row['Regional']    = $item->regional;
                 $row['Nasional']    = $item->nasional;
                 $row['Internasional']  = $item->internasional;
                 $row['Total']  = $item->regional + $item->nasional + $item->internasional;
 
-                fputcsv($file, array($row['Tahun'], $row['Regional'], $row['Nasional'], $row['Internasional'], $row['Total']));
+                fputcsv($file, array($row['Tahun'], $row['Nama Mahasiswa'], $row['Prodi'], $row['Fakultas'], $row['Regional'], $row['Nasional'], $row['Internasional'], $row['Total']));
             }
 
             fclose($file);
