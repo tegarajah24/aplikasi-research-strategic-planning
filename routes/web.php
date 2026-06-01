@@ -62,9 +62,9 @@ Route::middleware([
     Route::resource('prestasi-akademik', App\Http\Controllers\PrestasiAkademikController::class)->except(['create', 'show', 'edit']);
 
     // Modul Prestasi Non-Akademik
-    Route::get('/prestasi-non-akademik', function () {
-        return view('prestasi-non-akademik.index');
-    })->name('prestasi-non-akademik');
+    Route::post('/prestasi-non-akademik/import', [App\Http\Controllers\PrestasiNonAkademikController::class, 'import'])->name('prestasi-non-akademik.import');
+    Route::get('/prestasi-non-akademik/export', [App\Http\Controllers\PrestasiNonAkademikController::class, 'export'])->name('prestasi-non-akademik.export');
+    Route::resource('prestasi-non-akademik', App\Http\Controllers\PrestasiNonAkademikController::class)->except(['create', 'show', 'edit']);
 
     // Modul HKI
     Route::post('/hki/import', [App\Http\Controllers\HkiController::class, 'import'])->name('hki.import');
