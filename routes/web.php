@@ -33,29 +33,19 @@ Route::middleware([
     })->name('dashboard');
 
     // Modul Penelitian
-    Route::get('/penelitian', function () {
-        return view('penelitian.index');
-    })->name('penelitian');
+    Route::get('/penelitian', [App\Http\Controllers\PenelitianController::class, 'index'])->name('penelitian');
 
     // Modul Pengabmas
-    Route::get('/pengabmas', function () {
-        return view('pengabmas.index');
-    })->name('pengabmas');
+    Route::get('/pengabmas', [App\Http\Controllers\PengabmasController::class, 'index'])->name('pengabmas');
+
+    // Modul Pengguna
+    Route::get('/pengguna', [App\Http\Controllers\UserController::class, 'index'])->name('pengguna');
 
     // Modul Fakultas
-    Route::post('/fakultas/import', [App\Http\Controllers\FakultasController::class, 'import'])->name('fakultas.import');
-    Route::get('/fakultas/export', [App\Http\Controllers\FakultasController::class, 'export'])->name('fakultas.export');
     Route::resource('fakultas', App\Http\Controllers\FakultasController::class)->except(['create', 'show', 'edit']);
 
     // Modul Prodi
-    Route::post('/prodi/import', [App\Http\Controllers\ProdiController::class, 'import'])->name('prodi.import');
-    Route::get('/prodi/export', [App\Http\Controllers\ProdiController::class, 'export'])->name('prodi.export');
     Route::resource('prodi', App\Http\Controllers\ProdiController::class)->except(['create', 'show', 'edit']);
-
-    // Modul Pengguna
-    Route::get('/pengguna', function () {
-        return view('pengguna.index');
-    })->name('pengguna');
 
     // Modul Kerja Sama
     Route::post('/kerjasama/import', [App\Http\Controllers\KerjasamaController::class, 'import'])->name('kerjasama.import');
@@ -98,18 +88,12 @@ Route::middleware([
     })->name('rkt.kalender');
 
     // Master Data – Bidang
-    Route::get('/bidang', function () {
-        return view('master-data.bidang.index');
-    })->name('bidang');
+    Route::get('/bidang', [App\Http\Controllers\BidangController::class, 'index'])->name('bidang');
 
     // Master Data – Program
-    Route::get('/program', function () {
-        return view('master-data.program.index');
-    })->name('program');
+    Route::get('/program', [App\Http\Controllers\ProgramController::class, 'index'])->name('program');
 
     // Master Data – Renstra
-    Route::get('/renstra', function () {
-        return view('master-data.renstra.index');
-    })->name('renstra');
+    Route::get('/renstra', [App\Http\Controllers\RenstraController::class, 'index'])->name('renstra');
 
 });
