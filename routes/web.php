@@ -38,14 +38,14 @@ Route::middleware([
     })->name('bidang-keahlian');
 
     // Modul Fakultas
-    Route::get('/fakultas', function () {
-        return view('fakultas.index');
-    })->name('fakultas');
+    Route::post('/fakultas/import', [App\Http\Controllers\FakultasController::class, 'import'])->name('fakultas.import');
+    Route::get('/fakultas/export', [App\Http\Controllers\FakultasController::class, 'export'])->name('fakultas.export');
+    Route::resource('fakultas', App\Http\Controllers\FakultasController::class)->except(['create', 'show', 'edit']);
 
     // Modul Prodi
-    Route::get('/prodi', function () {
-        return view('prodi.index');
-    })->name('prodi');
+    Route::post('/prodi/import', [App\Http\Controllers\ProdiController::class, 'import'])->name('prodi.import');
+    Route::get('/prodi/export', [App\Http\Controllers\ProdiController::class, 'export'])->name('prodi.export');
+    Route::resource('prodi', App\Http\Controllers\ProdiController::class)->except(['create', 'show', 'edit']);
 
     // Modul Pengguna
     Route::get('/pengguna', function () {
@@ -86,5 +86,29 @@ Route::middleware([
     Route::resource('rkt/kegiatan', App\Http\Controllers\KegiatanController::class)
         ->except(['create', 'show', 'edit'])
         ->names('kegiatan');
+
+    // Modul RKT
+    Route::get('/rkt/kegiatan', function () {
+        return view('rkt.kegiatan.index');
+    })->name('rkt.kegiatan');
+
+    Route::get('/rkt/kalender', function () {
+        return view('rkt.kalender.index');
+    })->name('rkt.kalender');
+
+    // Master Data – Bidang
+    Route::get('/bidang', function () {
+        return view('master-data.bidang.index');
+    })->name('bidang');
+
+    // Master Data – Program
+    Route::get('/program', function () {
+        return view('master-data.program.index');
+    })->name('program');
+
+    // Master Data – Renstra
+    Route::get('/renstra', function () {
+        return view('master-data.renstra.index');
+    })->name('renstra');
 
 });
