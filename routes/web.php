@@ -14,7 +14,22 @@ Route::middleware([
 
     // Dashboard utama
     Route::get('/dashboard', function () {
-        return view('dashboard.index');
+        $stats = [
+            ['label' => 'Fakultas',           'count' => \App\Models\Fakultas::count(),            'color' => 'blue',    'icon' => 'building'],
+            ['label' => 'Prodi',              'count' => \App\Models\Prodi::count(),               'color' => 'indigo',  'icon' => 'academic'],
+            ['label' => 'Kerja Sama',         'count' => \App\Models\Kerjasama::count(),           'color' => 'cyan',    'icon' => 'handshake'],
+            ['label' => 'Dosen',              'count' => \App\Models\Penelitian::distinct('ketua')->count('ketua'),'color' => 'teal', 'icon' => 'users'],
+            ['label' => 'Prestasi Akademik',  'count' => \App\Models\PrestasiAkademik::count(),    'color' => 'amber',   'icon' => 'trophy'],
+            ['label' => 'Prestasi Non-Akademik','count' => 0,                                      'color' => 'orange',  'icon' => 'star'],
+            ['label' => 'HKI',                'count' => \App\Models\Hki::count(),                 'color' => 'rose',    'icon' => 'shield'],
+            ['label' => 'Buku',               'count' => \App\Models\Buku::count(),                'color' => 'pink',    'icon' => 'book'],
+            ['label' => 'Artikel',            'count' => \App\Models\Artikel::count(),             'color' => 'fuchsia', 'icon' => 'document'],
+            ['label' => 'Bidang',             'count' => \App\Models\Bidang::count(),              'color' => 'red',     'icon' => 'tag'],
+            ['label' => 'Program',            'count' => \App\Models\Program::count(),             'color' => 'violet',  'icon' => 'folder'],
+            ['label' => 'Kegiatan RKT',       'count' => \App\Models\Kegiatan::count(),            'color' => 'emerald', 'icon' => 'clipboard'],
+        ];
+
+        return view('dashboard.index', compact('stats'));
     })->name('dashboard');
 
     // Modul Penelitian
