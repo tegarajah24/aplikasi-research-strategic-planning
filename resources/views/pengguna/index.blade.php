@@ -43,70 +43,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
             {{-- ── Role Information Cards ── --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {{-- Admin --}}
-                <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm relative overflow-hidden group">
-                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-blue-50 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out z-0"></div>
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-slate-800">Admin</h3>
-                                <p class="text-[11px] text-slate-500 font-medium">Akses Penuh / Superuser</p>
-                            </div>
-                        </div>
-                        <ul class="text-[11px] text-slate-500 space-y-1.5 pl-1 font-medium">
-                            <li class="flex items-center gap-1.5"><svg class="w-3 h-3 text-blue-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Kelola master data (Bidang, Program, Renstra)</li>
-                            <li class="flex items-center gap-1.5"><svg class="w-3 h-3 text-blue-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Kelola seluruh pengguna & aktivitas</li>
-                            <li class="flex items-center gap-1.5"><svg class="w-3 h-3 text-blue-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Export seluruh laporan RKT</li>
-                        </ul>
-                    </div>
-                </div>
 
-                {{-- Operator --}}
-                <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm relative overflow-hidden group">
-                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-purple-50 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out z-0"></div>
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125"/></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-slate-800">Operator</h3>
-                                <p class="text-[11px] text-slate-500 font-medium">Staff / Dosen Pengelola</p>
-                            </div>
-                        </div>
-                        <ul class="text-[11px] text-slate-500 space-y-1.5 pl-1 font-medium">
-                            <li class="flex items-center gap-1.5"><svg class="w-3 h-3 text-purple-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Input & edit data kegiatan RKT</li>
-                            <li class="flex items-center gap-1.5"><svg class="w-3 h-3 text-purple-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Lihat laporan kegiatan</li>
-                            <li class="flex items-center gap-1.5 text-slate-400"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> <em>Tidak dapat mengelola user</em></li>
-                        </ul>
-                    </div>
-                </div>
-
-                {{-- Viewer --}}
-                <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm relative overflow-hidden group">
-                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-amber-50 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out z-0"></div>
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-slate-800">Viewer</h3>
-                                <p class="text-[11px] text-slate-500 font-medium">Pimpinan / Dekan</p>
-                            </div>
-                        </div>
-                        <ul class="text-[11px] text-slate-500 space-y-1.5 pl-1 font-medium">
-                            <li class="flex items-center gap-1.5"><svg class="w-3 h-3 text-amber-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Monitoring dashboard & laporan</li>
-                            <li class="flex items-center gap-1.5"><svg class="w-3 h-3 text-amber-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Melihat detail seluruh kegiatan</li>
-                            <li class="flex items-center gap-1.5 text-slate-400"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> <em>Hanya akses baca (Read-only)</em></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
             {{-- ── Main Layout (Table + Audit Log) ── --}}
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

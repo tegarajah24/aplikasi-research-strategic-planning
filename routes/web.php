@@ -14,43 +14,38 @@ Route::middleware([
 
     // Dashboard utama
     Route::get('/dashboard', function () {
-        return view('dashboard.index');
+        $stats = [
+            ['label' => 'Fakultas',           'count' => \App\Models\Fakultas::count(),            'color' => 'blue',    'icon' => 'building'],
+            ['label' => 'Prodi',              'count' => \App\Models\Prodi::count(),               'color' => 'indigo',  'icon' => 'academic'],
+            ['label' => 'Kerja Sama',         'count' => \App\Models\Kerjasama::count(),           'color' => 'cyan',    'icon' => 'handshake'],
+            ['label' => 'Dosen',              'count' => \App\Models\Penelitian::distinct('ketua')->count('ketua'),'color' => 'teal', 'icon' => 'users'],
+            ['label' => 'Prestasi Akademik',  'count' => \App\Models\PrestasiAkademik::count(),    'color' => 'amber',   'icon' => 'trophy'],
+            ['label' => 'Prestasi Non-Akademik','count' => 0,                                      'color' => 'orange',  'icon' => 'star'],
+            ['label' => 'HKI',                'count' => \App\Models\Hki::count(),                 'color' => 'rose',    'icon' => 'shield'],
+            ['label' => 'Buku',               'count' => \App\Models\Buku::count(),                'color' => 'pink',    'icon' => 'book'],
+            ['label' => 'Artikel',            'count' => \App\Models\Artikel::count(),             'color' => 'fuchsia', 'icon' => 'document'],
+            ['label' => 'Bidang',             'count' => \App\Models\Bidang::count(),              'color' => 'red',     'icon' => 'tag'],
+            ['label' => 'Program',            'count' => \App\Models\Program::count(),             'color' => 'violet',  'icon' => 'folder'],
+            ['label' => 'Kegiatan RKT',       'count' => \App\Models\Kegiatan::count(),            'color' => 'emerald', 'icon' => 'clipboard'],
+        ];
+
+        return view('dashboard.index', compact('stats'));
     })->name('dashboard');
 
     // Modul Penelitian
-    Route::get('/penelitian', function () {
-        return view('penelitian.index');
-    })->name('penelitian');
+    Route::get('/penelitian', [App\Http\Controllers\PenelitianController::class, 'index'])->name('penelitian');
 
     // Modul Pengabmas
-    Route::get('/pengabmas', function () {
-        return view('pengabmas.index');
-    })->name('pengabmas');
+    Route::get('/pengabmas', [App\Http\Controllers\PengabmasController::class, 'index'])->name('pengabmas');
 
-    // Modul Renop
-    Route::get('/renop', function () {
-        return view('renop.index');
-    })->name('renop');
-
-    // Modul Bidang Keahlian
-    Route::get('/bidang-keahlian', function () {
-        return view('bidang-keahlian.index');
-    })->name('bidang-keahlian');
+    // Modul Pengguna
+    Route::get('/pengguna', [App\Http\Controllers\UserController::class, 'index'])->name('pengguna');
 
     // Modul Fakultas
-    Route::post('/fakultas/import', [App\Http\Controllers\FakultasController::class, 'import'])->name('fakultas.import');
-    Route::get('/fakultas/export', [App\Http\Controllers\FakultasController::class, 'export'])->name('fakultas.export');
     Route::resource('fakultas', App\Http\Controllers\FakultasController::class)->except(['create', 'show', 'edit']);
 
     // Modul Prodi
-    Route::post('/prodi/import', [App\Http\Controllers\ProdiController::class, 'import'])->name('prodi.import');
-    Route::get('/prodi/export', [App\Http\Controllers\ProdiController::class, 'export'])->name('prodi.export');
     Route::resource('prodi', App\Http\Controllers\ProdiController::class)->except(['create', 'show', 'edit']);
-
-    // Modul Pengguna
-    Route::get('/pengguna', function () {
-        return view('pengguna.index');
-    })->name('pengguna');
 
     // Modul Kerja Sama
     Route::post('/kerjasama/import', [App\Http\Controllers\KerjasamaController::class, 'import'])->name('kerjasama.import');
@@ -87,28 +82,18 @@ Route::middleware([
         ->except(['create', 'show', 'edit'])
         ->names('kegiatan');
 
-    // Modul RKT
-    Route::get('/rkt/kegiatan', function () {
-        return view('rkt.kegiatan.index');
-    })->name('rkt.kegiatan');
-
+    // Modul Kalender RKT
     Route::get('/rkt/kalender', function () {
         return view('rkt.kalender.index');
     })->name('rkt.kalender');
 
     // Master Data – Bidang
-    Route::get('/bidang', function () {
-        return view('master-data.bidang.index');
-    })->name('bidang');
+    Route::get('/bidang', [App\Http\Controllers\BidangController::class, 'index'])->name('bidang');
 
     // Master Data – Program
-    Route::get('/program', function () {
-        return view('master-data.program.index');
-    })->name('program');
+    Route::get('/program', [App\Http\Controllers\ProgramController::class, 'index'])->name('program');
 
     // Master Data – Renstra
-    Route::get('/renstra', function () {
-        return view('master-data.renstra.index');
-    })->name('renstra');
+    Route::get('/renstra', [App\Http\Controllers\RenstraController::class, 'index'])->name('renstra');
 
 });

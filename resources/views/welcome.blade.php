@@ -216,9 +216,6 @@
                 <span class="flex items-center gap-2 rounded-full bg-white border border-slate-200 shadow-sm px-4 py-2 text-xs font-semibold text-violet-700">
                     <span class="w-2 h-2 rounded-full bg-violet-500"></span>Pengabmas
                 </span>
-                <span class="flex items-center gap-2 rounded-full bg-white border border-slate-200 shadow-sm px-4 py-2 text-xs font-semibold text-amber-700">
-                    <span class="w-2 h-2 rounded-full bg-amber-500"></span>Renop
-                </span>
                 <span class="flex items-center gap-2 rounded-full bg-white border border-slate-200 shadow-sm px-4 py-2 text-xs font-semibold" style="color: #0f766e;">
                     <span class="w-2 h-2 rounded-full" style="background-color: #14b8a6;"></span>HKI & Publikasi
                 </span>
@@ -253,13 +250,6 @@
                     </div>
                 </div>
 
-                <div class="stat-card text-center p-6 rounded-2xl bg-amber-50 border border-amber-100">
-                    <div class="text-3xl font-extrabold text-amber-700 tracking-tight">17</div>
-                    <div class="text-xs font-semibold text-amber-600 mt-1 uppercase tracking-wide">Renop Aktif</div>
-                    <div class="flex items-center justify-center gap-1 mt-2">
-                        <span class="text-[10px] text-emerald-600 font-semibold bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded-full">+2 baru</span>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -397,17 +387,6 @@
                             </div>
                         </div>
 
-                        <div class="flex items-start gap-4 p-4 rounded-xl bg-amber-50 border border-amber-100">
-                            <div class="w-9 h-9 rounded-lg bg-amber-500 flex items-center justify-center flex-shrink-0 shadow-sm shadow-amber-500/30">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-bold text-slate-800">Modul Renop Fakultas & Prodi</h4>
-                                <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">Penyusunan dan monitoring Rencana Operasional per-unit kerja dengan indikator capaian yang terukur.</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -434,15 +413,6 @@
                         <div class="text-xs font-semibold text-violet-600 mt-0.5">Pengabmas</div>
                     </div>
 
-                    <div class="module-card module-card-amber feature-card bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm col-span-2">
-                        <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center mb-4 border border-amber-100">
-                            <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
-                            </svg>
-                        </div>
-                        <div class="text-2xl font-extrabold text-slate-800">17</div>
-                        <div class="text-xs font-semibold text-amber-600 mt-0.5">Renop</div>
-                    </div>
 
                 </div>
             </div>
