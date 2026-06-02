@@ -52,9 +52,8 @@ Route::middleware([
     Route::resource('kerjasama', App\Http\Controllers\KerjasamaController::class)->except(['create', 'show', 'edit']);
 
     // Modul Dosen
-    Route::get('/dosen', function () {
-        return view('dosen.index');
-    })->name('dosen');
+    Route::post('/dosen/import', [App\Http\Controllers\DosenController::class, 'import'])->name('dosen.import');
+    Route::resource('dosen', App\Http\Controllers\DosenController::class)->except(['create', 'show', 'edit']);
 
     // Modul Prestasi Akademik
     Route::post('/prestasi-akademik/import', [App\Http\Controllers\PrestasiAkademikController::class, 'import'])->name('prestasi-akademik.import');
