@@ -67,7 +67,7 @@
                     ];
                     $routeMap = [
                         'Fakultas' => 'fakultas.index', 'Prodi' => 'prodi.index', 'Kerja Sama' => 'kerjasama.index',
-                        'Dosen' => 'dosen', 'Prestasi Akademik' => 'prestasi-akademik.index',
+                        'Dosen' => 'dosen.index', 'Prestasi Akademik' => 'prestasi-akademik.index',
                         'Prestasi Non-Akademik' => 'pengguna', 'HKI' => 'hki.index',
                         'Buku' => 'buku.index', 'Artikel' => 'artikel.index',
                         'Bidang' => 'bidang', 'Program' => 'program', 'Kegiatan RKT' => 'kegiatan.index',
