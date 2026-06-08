@@ -5,19 +5,21 @@
     </h2>
 </x-slot>
 
-<div class="py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
-            @include('dosen._flash')
+<div x-data="dosenPage()" @open-create-modal.window="showCreateModal = true">
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+                @include('dosen._flash')
 
-            @include('dosen._toolbar')
+                @include('dosen._toolbar')
 
-            @include('dosen._table')
+                @include('dosen._table')
+            </div>
         </div>
     </div>
-</div>
 
-@include('dosen.modals.create-edit')
+    @include('dosen.modals.create-edit')
+</div>
 
 <script>
 document.addEventListener('alpine:init', () => {

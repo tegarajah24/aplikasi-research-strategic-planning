@@ -5,19 +5,21 @@
     </h2>
 </x-slot>
 
-<div class="py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
-            @include('prodi._flash')
+<div x-data="prodiPage()" @open-create-modal.window="showCreateModal = true">
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+                @include('prodi._flash')
 
-            @include('prodi._toolbar')
+                @include('prodi._toolbar')
 
-            @include('prodi._table')
+                @include('prodi._table')
+            </div>
         </div>
     </div>
-</div>
 
-@include('prodi.modals.create-edit')
+    @include('prodi.modals.create-edit')
+</div>
 
 <script>
 document.addEventListener('alpine:init', () => {
