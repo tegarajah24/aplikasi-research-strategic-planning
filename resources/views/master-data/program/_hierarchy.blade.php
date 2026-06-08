@@ -1,0 +1,12 @@
+<div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+        <div>
+            <h3 class="text-sm font-bold text-slate-700">Program per Bidang</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Distribusi & hierarki</p>
+        </div>
+        <button onclick="collapseAll()" class="text-[11px] font-medium transition-colors" style="color:#7c3aed">Tutup Semua</button>
+    </div>
+    <div id="hier-tree" class="px-4 py-3 space-y-1 max-h-[300px] overflow-y-auto">
+        {{-- JS rendered --}}
+    </div>
+</div>
