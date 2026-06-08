@@ -17,7 +17,9 @@
         </div>
     </x-slot>
 
-    @include('rkt.kalender.css')
+    <style>
+        @include('rkt.kalender.css')
+    </style>
 
     <div class="py-6 min-h-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
