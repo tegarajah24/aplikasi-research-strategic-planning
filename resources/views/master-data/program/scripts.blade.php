@@ -354,13 +354,13 @@ function openModal(id = null) {
             prev.classList.remove('hidden');
         }
     }
-    document.getElementById('prog-modal').classList.remove('hidden');
+    document.getElementById('prog-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
     setTimeout(() => document.getElementById('f-nama').focus(), 100);
 }
 
 function closeModal() {
-    document.getElementById('prog-modal').classList.add('hidden');
+    document.getElementById('prog-modal').classList.add('modal-closed');
     document.body.style.overflow = '';
 }
 
@@ -411,11 +411,11 @@ function deleteProgram(id) {
     if (!p) return;
     deleteTargetId = id;
     document.getElementById('del-name').textContent = `"${p.nama}" akan dihapus.`;
-    document.getElementById('del-modal').classList.remove('hidden');
+    document.getElementById('del-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
 }
 function closeDelModal() {
-    document.getElementById('del-modal').classList.add('hidden');
+    document.getElementById('del-modal').classList.add('modal-closed');
     document.body.style.overflow = '';
     deleteTargetId = null;
 }

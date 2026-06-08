@@ -14,8 +14,24 @@
     .trow:hover { background:#f8fafc; }
 
     /* modals */
-    #prog-modal,#del-modal,#detail-drawer { transition:opacity .2s; }
-    #prog-modal.hidden,#del-modal.hidden { display:none; }
+    #prog-modal,#detail-drawer { transition:opacity .2s; }
+    #prog-modal.modal-closed { opacity:0; visibility:hidden; pointer-events:none; }
+    #prog-modal:not(.modal-closed) { opacity:1; visibility:visible; pointer-events:all; }
+    #prog-modal > .modal-panel {
+        transform: scale(0.92) translateY(12px);
+        transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    #prog-modal:not(.modal-closed) > .modal-panel {
+        transform: scale(1) translateY(0);
+    }
+    #del-modal { transition: opacity .25s ease, visibility .25s ease; }
+    #del-modal.modal-closed { opacity:0; visibility:hidden; pointer-events:none; }
+    #del-modal:not(.modal-closed) { opacity:1; visibility:visible; pointer-events:all; }
+    #del-modal > .modal-panel {
+        transform: scale(0.92) translateY(12px);
+        transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    #del-modal:not(.modal-closed) > .modal-panel { transform: scale(1) translateY(0); }
 
     /* search */
     .search-wrap input {

@@ -206,13 +206,13 @@ function openModal(id = null) {
             document.getElementById('f-status').value    = b.status;
         }
     }
-    document.getElementById('bidang-modal').classList.remove('hidden');
+    document.getElementById('bidang-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
     setTimeout(() => document.getElementById('f-kode').focus(), 100);
 }
 
 function closeModal() {
-    document.getElementById('bidang-modal').classList.add('hidden');
+    document.getElementById('bidang-modal').classList.add('modal-closed');
     document.body.style.overflow = '';
 }
 
@@ -255,12 +255,12 @@ function deleteBidang(id) {
     if (!b) return;
     deleteTargetId = id;
     document.getElementById('del-name').textContent = `"${b.nama}" akan dihapus.`;
-    document.getElementById('del-modal').classList.remove('hidden');
+    document.getElementById('del-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
 }
 
 function closeDelModal() {
-    document.getElementById('del-modal').classList.add('hidden');
+    document.getElementById('del-modal').classList.add('modal-closed');
     document.body.style.overflow = '';
     deleteTargetId = null;
 }

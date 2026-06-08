@@ -24,8 +24,20 @@
     .hier-body { overflow: hidden; transition: max-height .25s ease; }
 
     /* ── Modal ── */
-    #bidang-modal { transition: opacity .2s; }
-    #bidang-modal.hidden { display: none; }
+    #bidang-modal { transition: opacity .25s ease, visibility .25s ease; }
+    #bidang-modal.modal-closed {
+        opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    #bidang-modal:not(.modal-closed) {
+        opacity: 1; visibility: visible; pointer-events: all;
+    }
+    #bidang-modal > .modal-panel {
+        transform: scale(0.92) translateY(12px);
+        transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    #bidang-modal:not(.modal-closed) > .modal-panel {
+        transform: scale(1) translateY(0);
+    }
 
     /* ── Table row hover ── */
     .trow { transition: background .12s; }
@@ -42,6 +54,22 @@
         transition: border-color .15s;
     }
     .search-wrap input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.12); }
+
+    /* ── Delete Modal ── */
+    #del-modal { transition: opacity .25s ease, visibility .25s ease; }
+    #del-modal.modal-closed {
+        opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    #del-modal:not(.modal-closed) {
+        opacity: 1; visibility: visible; pointer-events: all;
+    }
+    #del-modal > .modal-panel {
+        transform: scale(0.92) translateY(12px);
+        transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    #del-modal:not(.modal-closed) > .modal-panel {
+        transform: scale(1) translateY(0);
+    }
 
     /* ── Animated count ── */
     @keyframes countUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }

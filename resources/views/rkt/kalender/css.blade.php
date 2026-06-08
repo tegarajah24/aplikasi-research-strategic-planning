@@ -24,10 +24,14 @@
 .ev-late       { background:#fee2e2; color:#991b1b; border-left:3px solid #ef4444; }
 
 /* detail modal */
-#ev-modal {
-    transition: opacity .2s;
+#ev-modal { transition: opacity .25s ease, visibility .25s ease; }
+#ev-modal.modal-closed { opacity:0; visibility:hidden; pointer-events:none; }
+#ev-modal:not(.modal-closed) { opacity:1; visibility:visible; pointer-events:all; }
+#ev-modal > .modal-panel {
+    transform: scale(0.92) translateY(12px);
+    transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-#ev-modal.hidden { display:none; }
+#ev-modal:not(.modal-closed) > .modal-panel { transform: scale(1) translateY(0); }
 
 /* scrollbar hide on month body */
 .cal-body::-webkit-scrollbar { display:none; }

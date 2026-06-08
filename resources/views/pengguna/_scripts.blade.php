@@ -16,7 +16,7 @@ function openCreateModal() {
     document.getElementById('pwd-hint').style.display = 'none';
     document.querySelector('input[name="status"][value="Aktif"]').checked = true;
     document.getElementById('form-error').classList.add('hidden');
-    document.getElementById('user-modal').classList.remove('hidden');
+    document.getElementById('user-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
 }
 
@@ -37,12 +37,12 @@ function openEditModal(id) {
     document.getElementById('pwd-hint').style.display = '';
     document.querySelector(`input[name="status"][value="${user.status}"]`).checked = true;
     document.getElementById('form-error').classList.add('hidden');
-    document.getElementById('user-modal').classList.remove('hidden');
+    document.getElementById('user-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
-    document.getElementById('user-modal').classList.add('hidden');
+    document.getElementById('user-modal').classList.add('modal-closed');
     document.body.style.overflow = '';
 }
 
@@ -52,12 +52,12 @@ function openResetModal(id) {
     if (!user) return;
     document.getElementById('reset-name').textContent = `Reset password untuk: ${user.name}`;
     document.getElementById('reset-form').action = `/pengguna/${user.id}/reset-password`;
-    document.getElementById('reset-modal').classList.remove('hidden');
+    document.getElementById('reset-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
 }
 
 function closeResetModal() {
-    document.getElementById('reset-modal').classList.add('hidden');
+    document.getElementById('reset-modal').classList.add('modal-closed');
     document.body.style.overflow = '';
 }
 

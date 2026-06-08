@@ -1,6 +1,6 @@
-<div id="del-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+<div id="del-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="closeDelModal()"></div>
-    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm z-10 p-6">
+    <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-sm z-10 p-6">
         <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
                 <x-icon name="warning" class="w-5 h-5 text-red-500" />

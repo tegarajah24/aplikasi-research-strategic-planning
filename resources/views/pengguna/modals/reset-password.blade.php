@@ -1,6 +1,6 @@
-<div id="reset-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+<div id="reset-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="closeResetModal()"></div>
-    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm z-10 p-6">
+    <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-sm z-10 p-6">
         <form id="reset-form" method="POST">
             @csrf
             <div class="flex items-center gap-3 mb-4">

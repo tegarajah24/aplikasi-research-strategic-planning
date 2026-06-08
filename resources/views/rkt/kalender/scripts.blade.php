@@ -164,12 +164,12 @@ function openModal(id) {
     badge.textContent = cfg.label;
     badge.className   = 'text-xs font-semibold mb-1.5 inline-block px-2.5 py-0.5 rounded-full ' + cfg.badge;
 
-    document.getElementById('ev-modal').classList.remove('hidden');
+    document.getElementById('ev-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
-    document.getElementById('ev-modal').classList.add('hidden');
+    document.getElementById('ev-modal').classList.add('modal-closed');
     document.body.style.overflow = '';
 }
 
