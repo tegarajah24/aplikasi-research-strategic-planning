@@ -1,19 +1,28 @@
-<x-app-layout>
-    <x-slot name="header">
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+     <?php $__env->slot('header', null, []); ?> 
         <div class="flex items-center justify-between flex-wrap gap-3">
             <div>
                 <h1 class="text-xl font-bold text-slate-800 leading-tight">Dashboard</h1>
                 <p class="text-sm text-slate-400 mt-0.5">Selamat datang kembali — ringkasan sistem RSP-UHB</p>
             </div>
             <div class="flex items-center gap-3">
-                <span class="text-xs text-slate-400 hidden sm:block">{{ now()->translatedFormat('l, d F Y') }}</span>
+                <span class="text-xs text-slate-400 hidden sm:block"><?php echo e(now()->translatedFormat('l, d F Y')); ?></span>
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-[11px] font-medium border border-emerald-100">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     Online
                 </span>
             </div>
         </div>
-    </x-slot>
+     <?php $__env->endSlot(); ?>
 
     <style>
         .dash-card {
@@ -34,9 +43,9 @@
     <div class="py-8 min-h-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
-            {{-- ════════════════ STATS GRID ════════════════ --}}
+            
             <section>
-                @php
+                <?php
                     $colorMap = [
                         'blue'    => ['bg' => 'bg-blue-50',    'text' => 'text-blue-600',    'bar' => 'bg-blue-500'],
                         'indigo'  => ['bg' => 'bg-indigo-50',  'text' => 'text-indigo-600',  'bar' => 'bg-indigo-500'],
@@ -72,34 +81,35 @@
                         'Buku' => 'buku.index', 'Artikel' => 'artikel.index',
                         'Bidang' => 'bidang.index', 'Program' => 'program.index', 'Kegiatan RKT' => 'kegiatan.index',
                     ];
-                @endphp
+                ?>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                    @foreach($stats as $stat)
-                        @php $c = $colorMap[$stat['color']] ?? $colorMap['blue']; @endphp
-                        <a href="{{ route($routeMap[$stat['label']]) }}"
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $stats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php $c = $colorMap[$stat['color']] ?? $colorMap['blue']; ?>
+                        <a href="<?php echo e(route($routeMap[$stat['label']])); ?>"
                            class="dash-card group bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden block">
-                            <div class="h-1 {{ $c['bar'] }}"></div>
+                            <div class="h-1 <?php echo e($c['bar']); ?>"></div>
                             <div class="p-4">
                                 <div class="flex items-center justify-between mb-3">
-                                    <div class="w-9 h-9 rounded-xl {{ $c['bg'] }} flex items-center justify-center">
-                                        <svg class="w-4.5 h-4.5 {{ $c['text'] }}" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                                            {!! $iconMap[$stat['icon']] ?? '' !!}
+                                    <div class="w-9 h-9 rounded-xl <?php echo e($c['bg']); ?> flex items-center justify-center">
+                                        <svg class="w-4.5 h-4.5 <?php echo e($c['text']); ?>" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                                            <?php echo $iconMap[$stat['icon']] ?? ''; ?>
+
                                         </svg>
                                     </div>
                                 </div>
-                                <p class="text-2xl font-bold text-slate-800 tracking-tight">{{ $stat['count'] }}</p>
-                                <p class="text-[11px] text-slate-400 mt-1 leading-tight">{{ $stat['label'] }}</p>
+                                <p class="text-2xl font-bold text-slate-800 tracking-tight"><?php echo e($stat['count']); ?></p>
+                                <p class="text-[11px] text-slate-400 mt-1 leading-tight"><?php echo e($stat['label']); ?></p>
                             </div>
                         </a>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
             </section>
 
-            {{-- ════════════════ MAIN CONTENT (2-COL) ════════════════ --}}
+            
             <section>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                    {{-- LEFT: Activity Feed --}}
+                    
                     <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-sm">
                         <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
                             <div>
@@ -110,55 +120,55 @@
                         </div>
 
                         <div class="p-6 space-y-1">
-                            @php
+                            <?php
                             $activities = [
                                 ['module'=>'aktivitas','color'=>'amber', 'title'=>'Belum ada aktivitas terbaru',
                                  'desc'=>'Sistem berjalan normal.',
                                  'author'=>'','time'=>''],
                             ];
-                            @endphp
+                            ?>
 
-                            @foreach($activities as $act)
-                            @php
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $activities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $act): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php
                                 $dotMap   = ['blue'=>'bg-blue-500','violet'=>'bg-violet-500','amber'=>'bg-amber-500'];
                                 $badgeBg  = ['blue'=>'bg-blue-50 text-blue-600 border-blue-100','violet'=>'bg-violet-50 text-violet-600 border-violet-100','amber'=>'bg-amber-50 text-amber-600 border-amber-100'];
-                            @endphp
+                            ?>
                             <div class="flex gap-4 group">
-                                {{-- Timeline line + dot --}}
+                                
                                 <div class="flex flex-col items-center pt-1.5">
-                                    <div class="w-2.5 h-2.5 rounded-full {{ $dotMap[$act['color']] }} ring-4 ring-white flex-shrink-0"></div>
-                                    @if(!$loop->last)
+                                    <div class="w-2.5 h-2.5 rounded-full <?php echo e($dotMap[$act['color']]); ?> ring-4 ring-white flex-shrink-0"></div>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!$loop->last): ?>
                                     <div class="w-px flex-1 bg-slate-100 mt-1"></div>
-                                    @endif
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                 </div>
-                                {{-- Content --}}
+                                
                                 <div class="flex-1 pb-6 last:pb-0">
                                     <div class="rounded-xl px-4 py-3 hover:bg-slate-50/80 transition-colors duration-150 -ml-1">
                                         <div class="flex items-center gap-2 flex-wrap">
-                                            <p class="text-[13px] font-semibold text-slate-700">{{ $act['title'] }}</p>
-                                            <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-md border {{ $badgeBg[$act['color']] }}">{{ ucfirst($act['module']) }}</span>
-                                            <span class="text-[11px] text-slate-400 ml-auto flex-shrink-0">{{ $act['time'] }}</span>
+                                            <p class="text-[13px] font-semibold text-slate-700"><?php echo e($act['title']); ?></p>
+                                            <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-md border <?php echo e($badgeBg[$act['color']]); ?>"><?php echo e(ucfirst($act['module'])); ?></span>
+                                            <span class="text-[11px] text-slate-400 ml-auto flex-shrink-0"><?php echo e($act['time']); ?></span>
                                         </div>
-                                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">{{ $act['desc'] }}</p>
-                                        <p class="text-[11px] text-slate-400 mt-1.5">{{ $act['author'] }}</p>
+                                        <p class="text-xs text-slate-500 mt-1 leading-relaxed"><?php echo e($act['desc']); ?></p>
+                                        <p class="text-[11px] text-slate-400 mt-1.5"><?php echo e($act['author']); ?></p>
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                         </div>
                     </div>
 
-                    {{-- RIGHT: Actions + Info --}}
+                    
                     <div class="space-y-5">
 
-                        {{-- Quick Actions --}}
+                        
                         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm">
                             <div class="px-5 py-4 border-b border-slate-100">
                                 <h2 class="text-sm font-semibold text-slate-700">Aksi Cepat</h2>
                             </div>
                             <div class="p-4 space-y-2">
-                                <a href="{{ route('kegiatan.index') }}" class="action-link flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium shadow-sm hover:shadow-md hover:shadow-emerald-600/20">
+                                <a href="<?php echo e(route('kegiatan.index')); ?>" class="action-link flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium shadow-sm hover:shadow-md hover:shadow-emerald-600/20">
                                     <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
                                     <span class="flex-1">Kegiatan RKT</span>
                                     <svg class="w-3.5 h-3.5 opacity-60" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
@@ -166,7 +176,7 @@
                             </div>
                         </div>
 
-                        {{-- System Info --}}
+                        
                         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 space-y-4">
                             <h2 class="text-sm font-semibold text-slate-700">Informasi Sistem</h2>
 
@@ -193,4 +203,14 @@
 
         </div>
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php /**PATH C:\laragon\www\aplikasi-research-strategic-planning\resources\views/dashboard/index.blade.php ENDPATH**/ ?>

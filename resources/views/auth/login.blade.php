@@ -431,8 +431,6 @@
 
                 {{-- Feature pills --}}
                 <div class="feature-pills">
-                    <span class="feature-pill"><span class="feature-pill-dot"></span>Penelitian</span>
-                    <span class="feature-pill"><span class="feature-pill-dot"></span>Pengabmas</span>
                     <span class="feature-pill"><span class="feature-pill-dot"></span>HKI &amp; Publikasi</span>
                     <span class="feature-pill"><span class="feature-pill-dot"></span>Kerja Sama</span>
                 </div>

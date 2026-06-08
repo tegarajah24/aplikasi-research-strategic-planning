@@ -203,12 +203,6 @@
 
             {{-- Hero visual — module pills --}}
             <div class="mt-16 flex flex-wrap items-center justify-center gap-3">
-                <span class="flex items-center gap-2 rounded-full bg-white border border-slate-200 shadow-sm px-4 py-2 text-xs font-semibold text-blue-700">
-                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>Penelitian
-                </span>
-                <span class="flex items-center gap-2 rounded-full bg-white border border-slate-200 shadow-sm px-4 py-2 text-xs font-semibold text-violet-700">
-                    <span class="w-2 h-2 rounded-full bg-violet-500"></span>Pengabmas
-                </span>
                 <span class="flex items-center gap-2 rounded-full bg-white border border-slate-200 shadow-sm px-4 py-2 text-xs font-semibold" style="color: #0f766e;">
                     <span class="w-2 h-2 rounded-full" style="background-color: #14b8a6;"></span>HKI & Publikasi
                 </span>
@@ -226,22 +220,6 @@
     <section id="stats" class="bg-white border-y border-slate-200/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-
-                <div class="stat-card text-center p-6 rounded-2xl bg-blue-50 border border-blue-100">
-                    <div class="text-3xl font-extrabold text-blue-700 tracking-tight">48</div>
-                    <div class="text-xs font-semibold text-blue-600 mt-1 uppercase tracking-wide">Penelitian</div>
-                    <div class="flex items-center justify-center gap-1 mt-2">
-                        <span class="text-[10px] text-emerald-600 font-semibold bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded-full">+6 baru</span>
-                    </div>
-                </div>
-
-                <div class="stat-card text-center p-6 rounded-2xl bg-violet-50 border border-violet-100">
-                    <div class="text-3xl font-extrabold text-violet-700 tracking-tight">32</div>
-                    <div class="text-xs font-semibold text-violet-600 mt-1 uppercase tracking-wide">Pengabmas</div>
-                    <div class="flex items-center justify-center gap-1 mt-2">
-                        <span class="text-[10px] text-emerald-600 font-semibold bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded-full">+4 baru</span>
-                    </div>
-                </div>
 
             </div>
         </div>
@@ -375,8 +353,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold text-slate-800">Modul Penelitian & Pengabmas</h4>
-                                <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">Pengelolaan data penelitian, pengabdian masyarakat, HKI, buku, dan publikasi ilmiah dosen.</p>
+                                <h4 class="text-sm font-bold text-slate-800">Modul Riset & Inovasi</h4>
+                                <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">Pengelolaan HKI, buku, publikasi ilmiah dosen, dan pengembangan inovasi akademik.</p>
                             </div>
                         </div>
 
@@ -386,24 +364,24 @@
                 {{-- Right: module cards --}}
                 <div class="mt-12 lg:mt-0 grid grid-cols-2 gap-4">
 
-                    <div class="module-card module-card-blue feature-card bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4 border border-blue-100">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+                    <div class="module-card feature-card bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
+                        <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center mb-4 border border-rose-100">
+                            <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
                             </svg>
                         </div>
-                        <div class="text-2xl font-extrabold text-slate-800">48</div>
-                        <div class="text-xs font-semibold text-blue-600 mt-0.5">Penelitian</div>
+                        <div class="text-2xl font-extrabold text-slate-800">HKI</div>
+                        <div class="text-xs font-semibold text-rose-600 mt-0.5">Hak Kekayaan Intelektual</div>
                     </div>
 
-                    <div class="module-card module-card-violet feature-card bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
-                        <div class="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center mb-4 border border-violet-100">
-                            <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+                    <div class="module-card feature-card bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm">
+                        <div class="w-10 h-10 rounded-xl bg-fuchsia-50 flex items-center justify-center mb-4 border border-fuchsia-100">
+                            <svg class="w-5 h-5 text-fuchsia-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
                             </svg>
                         </div>
-                        <div class="text-2xl font-extrabold text-slate-800">32</div>
-                        <div class="text-xs font-semibold text-violet-600 mt-0.5">Pengabmas</div>
+                        <div class="text-2xl font-extrabold text-slate-800">Publikasi</div>
+                        <div class="text-xs font-semibold text-fuchsia-600 mt-0.5">Buku & Artikel Ilmiah</div>
                     </div>
 
 

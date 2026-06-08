@@ -18,7 +18,7 @@ Route::middleware([
             ['label' => 'Fakultas',           'count' => \App\Models\Fakultas::count(),            'color' => 'blue',    'icon' => 'building'],
             ['label' => 'Prodi',              'count' => \App\Models\Prodi::count(),               'color' => 'indigo',  'icon' => 'academic'],
             ['label' => 'Kerja Sama',         'count' => \App\Models\Kerjasama::count(),           'color' => 'cyan',    'icon' => 'handshake'],
-            ['label' => 'Dosen',              'count' => \App\Models\Penelitian::distinct('ketua')->count('ketua'),'color' => 'teal', 'icon' => 'users'],
+            ['label' => 'Dosen',              'count' => \App\Models\Dosen::count(),'color' => 'teal', 'icon' => 'users'],
             ['label' => 'Prestasi Akademik',  'count' => \App\Models\PrestasiAkademik::count(),    'color' => 'amber',   'icon' => 'trophy'],
             ['label' => 'Prestasi Non-Akademik','count' => 0,                                      'color' => 'orange',  'icon' => 'star'],
             ['label' => 'HKI',                'count' => \App\Models\Hki::count(),                 'color' => 'rose',    'icon' => 'shield'],
@@ -31,12 +31,6 @@ Route::middleware([
 
         return view('dashboard.index', compact('stats'));
     })->name('dashboard');
-
-    // Modul Penelitian
-    Route::get('/penelitian', [App\Http\Controllers\PenelitianController::class, 'index'])->name('penelitian');
-
-    // Modul Pengabmas
-    Route::get('/pengabmas', [App\Http\Controllers\PengabmasController::class, 'index'])->name('pengabmas');
 
     // Modul Pengguna
     Route::get('/pengguna', [App\Http\Controllers\UserController::class, 'index'])->name('pengguna');
