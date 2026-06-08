@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bidang;
+use App\Models\Program;
+use App\Models\Kegiatan;
 use App\Http\Requests\StoreBidangRequest;
 use App\Http\Requests\UpdateBidangRequest;
 use Illuminate\Http\Request;
@@ -11,7 +13,7 @@ class BidangController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Bidang::withCount('programs');
+        $query = Bidang::with('programs.kegiatans');
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -29,10 +31,26 @@ class BidangController extends Controller
         $bidangs = $query->latest()->paginate(10)->withQueryString();
 
         $totalBidang   = Bidang::count();
-        $totalProgram  = \App\Models\Program::count();
-        $totalKegiatan = \App\Models\Kegiatan::count();
+        $totalProgram  = Program::count();
+        $totalKegiatan = Kegiatan::count();
 
-        $bidangList = Bidang::withCount('programs')->get();
+        $bidangList = Bidang::with('programs.kegiatans')->get()->map(function ($b) {
+            return [
+                'id'        => $b->id,
+                'kode'      => $b->kode_bidang,
+                'nama'      => $b->nama_bidang,
+                'deskripsi' => $b->deskripsi,
+                'status'    => $b->status,
+                'anggaran'  => $b->programs->sum('anggaran'),
+                'programs'  => $b->programs->map(function ($p) {
+                    return [
+                        'id'       => $p->id,
+                        'nama'     => $p->nama_program,
+                        'kegiatan' => $p->kegiatans->count(),
+                    ];
+                }),
+            ];
+        });
 
         return view('master-data.bidang.index', compact(
             'bidangs', 'totalBidang', 'totalProgram', 'totalKegiatan', 'bidangList'

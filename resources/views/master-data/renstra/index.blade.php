@@ -426,41 +426,45 @@
 
     function saveRenstra() {
         const id = document.getElementById('edit-id').value;
-        const row = {
-            tahun: parseInt(document.getElementById('f-tahun').value),
-            fakultas: document.getElementById('f-fakultas').value,
-            sasaranKode: document.getElementById('f-sasaran-kode').value.trim(),
-            sasaranNama: document.getElementById('f-sasaran-nama').value.trim(),
-            strategiKode: document.getElementById('f-strategi-kode').value.trim(),
-            strategiNama: document.getElementById('f-strategi-nama').value.trim(),
-            programKode: document.getElementById('f-program-kode').value.trim(),
-            programNama: document.getElementById('f-program-nama').value.trim(),
-        };
-        
+        const tahun = parseInt(document.getElementById('f-tahun').value);
+        const sasaranKode = document.getElementById('f-sasaran-kode').value.trim();
+        const sasaranNama = document.getElementById('f-sasaran-nama').value.trim();
+        const strategiKode = document.getElementById('f-strategi-kode').value.trim();
+        const strategiNama = document.getElementById('f-strategi-nama').value.trim();
+        const programKode = document.getElementById('f-program-kode').value.trim();
+        const programNama = document.getElementById('f-program-nama').value.trim();
+
         const errEl = document.getElementById('form-error');
-        
-        // Basic Validation
-        if (!row.tahun || !row.fakultas || !row.sasaranKode || !row.sasaranNama || !row.strategiKode || !row.strategiNama || !row.programKode || !row.programNama) {
-            errEl.textContent = 'Semua field wajib diisi lengkap untuk menjaga struktur hierarki.';
+
+        if (!tahun || !sasaranKode || !sasaranNama || !strategiNama || !programNama) {
+            errEl.textContent = 'Tahun, Sasaran, Strategi, dan Program Tahunan wajib diisi.';
             errEl.classList.remove('hidden');
             return;
         }
-        
-        if (id) {
-            const idx = renstraData.findIndex(d => d.id === parseInt(id));
-            if (idx !== -1) {
-                renstraData[idx] = { ...renstraData[idx], ...row };
-            }
-        } else {
-            row.id = Math.max(0, ...renstraData.map(d=>d.id)) + 1;
-            renstraData.push(row);
-        }
-        
-        closeModal();
-        
-        populateTahunFilter();
-        document.getElementById('filter-tahun').value = row.tahun;
-        renderTree();
+        errEl.classList.add('hidden');
+
+        const payload = {
+            kode: sasaranKode,
+            sasaran: sasaranNama,
+            strategi: strategiNama,
+            program_tahunan: programNama,
+            periode: tahun.toString(),
+        };
+
+        const url  = id ? '/renstra/' + id : '/renstra';
+        const method = id ? 'PUT' : 'POST';
+
+        fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(r => {
+            if (r.ok) { window.location.reload(); }
+            else { r.json().then(d => { errEl.textContent = d.message || 'Terjadi kesalahan'; errEl.classList.remove('hidden'); }); }
+        }).catch(() => {
+            errEl.textContent = 'Terjadi kesalahan koneksi.';
+            errEl.classList.remove('hidden');
+        });
     }
 
     function editRenstra(id) {
@@ -481,11 +485,14 @@
     }
 
     function confirmDelete() {
-        if (deleteTargetId !== null) {
-            renstraData = renstraData.filter(d => d.id !== deleteTargetId);
-            closeDelModal();
-            renderTree();
-        }
+        if (deleteTargetId === null) return;
+        fetch('/renstra/' + deleteTargetId, {
+            method: 'DELETE',
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
+        }).then(r => {
+            if (r.ok) { window.location.reload(); }
+        });
+        closeDelModal();
     }
 
     // ── Populate Dynamic Year Filter ────────────────────────────────

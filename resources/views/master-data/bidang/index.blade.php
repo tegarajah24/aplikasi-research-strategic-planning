@@ -287,61 +287,8 @@
     </div>
 
     <script>
-    // ── Dummy Data ──────────────────────────────────────────────────
-    let bidangData = [
-        {
-            id: 1, kode: 'BD-01', nama: 'Pendidikan',
-            deskripsi: 'Bidang yang mencakup seluruh kegiatan pengembangan kurikulum, pembelajaran, dan mutu akademik.',
-            status: 'Aktif',
-            anggaran: 185000000,
-            programs: [
-                { id: 101, nama: 'Pengembangan Kurikulum', kegiatan: 4 },
-                { id: 102, nama: 'Pelatihan Dosen', kegiatan: 3 },
-                { id: 103, nama: 'Audit Mutu Akademik', kegiatan: 2 },
-            ]
-        },
-        {
-            id: 2, kode: 'BD-02', nama: 'Penelitian dan Pengabdian',
-            deskripsi: 'Mencakup kegiatan penelitian ilmiah, pengabdian masyarakat, dan publikasi karya dosen.',
-            status: 'Aktif',
-            anggaran: 340000000,
-            programs: [
-                { id: 201, nama: 'Hibah Internal', kegiatan: 5 },
-                { id: 202, nama: 'Publikasi Ilmiah', kegiatan: 4 },
-                { id: 203, nama: 'Pengabdian Masyarakat', kegiatan: 3 },
-                { id: 204, nama: 'HKI & Paten', kegiatan: 2 },
-            ]
-        },
-        {
-            id: 3, kode: 'BD-03', nama: 'Kemahasiswaan',
-            deskripsi: 'Kegiatan pembinaan, pengembangan minat-bakat, dan kesejahteraan mahasiswa.',
-            status: 'Aktif',
-            anggaran: 120000000,
-            programs: [
-                { id: 301, nama: 'Organisasi Kemahasiswaan', kegiatan: 3 },
-                { id: 302, nama: 'Prestasi & Kompetisi', kegiatan: 6 },
-            ]
-        },
-        {
-            id: 4, kode: 'BD-04', nama: 'Kerjasama & Kemitraan',
-            deskripsi: 'Pengelolaan MOU, kerjasama dengan industri, pemerintah, dan lembaga internasional.',
-            status: 'Aktif',
-            anggaran: 95000000,
-            programs: [
-                { id: 401, nama: 'MOU Nasional', kegiatan: 3 },
-                { id: 402, nama: 'MOU Internasional', kegiatan: 2 },
-            ]
-        },
-        {
-            id: 5, kode: 'BD-05', nama: 'Tata Kelola & SDM',
-            deskripsi: 'Pengembangan sumber daya manusia, penguatan kelembagaan, dan tata kelola organisasi.',
-            status: 'Tidak Aktif',
-            anggaran: 60000000,
-            programs: [
-                { id: 501, nama: 'Pengembangan SDM', kegiatan: 4 },
-            ]
-        },
-    ];
+    // ── Data from Database ──────────────────────────────────────────
+    let bidangData = @json($bidangList);
 
     let deleteTargetId = null;
     const COLORS = ['#3b82f6','#6366f1','#8b5cf6','#10b981','#f59e0b'];
@@ -570,20 +517,20 @@
         }
         errEl.classList.add('hidden');
 
-        if (id) {
-            const idx = bidangData.findIndex(b => b.id === parseInt(id));
-            if (idx !== -1) {
-                bidangData[idx].kode      = kode;
-                bidangData[idx].nama      = nama;
-                bidangData[idx].deskripsi = desk;
-                bidangData[idx].status    = stat;
-            }
-        } else {
-            const newId = Math.max(...bidangData.map(b => b.id)) + 1;
-            bidangData.push({ id: newId, kode, nama, deskripsi: desk, status: stat, anggaran: 0, programs: [] });
-        }
-        closeModal();
-        renderAll();
+        const url  = id ? '/bidang/' + id : '/bidang';
+        const method = id ? 'PUT' : 'POST';
+
+        fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
+            body: JSON.stringify({ kode_bidang: kode, nama_bidang: nama, deskripsi: desk, status: stat })
+        }).then(r => {
+            if (r.ok) { window.location.reload(); }
+            else { r.json().then(d => { errEl.textContent = d.message || 'Terjadi kesalahan'; errEl.classList.remove('hidden'); }); }
+        }).catch(() => {
+            errEl.textContent = 'Terjadi kesalahan koneksi.';
+            errEl.classList.remove('hidden');
+        });
     }
 
     function editBidang(id) { openModal(id); }
@@ -606,9 +553,13 @@
 
     function confirmDelete() {
         if (deleteTargetId === null) return;
-        bidangData = bidangData.filter(b => b.id !== deleteTargetId);
+        fetch('/bidang/' + deleteTargetId, {
+            method: 'DELETE',
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
+        }).then(r => {
+            if (r.ok) { window.location.reload(); }
+        });
         closeDelModal();
-        renderAll();
     }
 
     // ── Init ─────────────────────────────────────────────────────────

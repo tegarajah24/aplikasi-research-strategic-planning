@@ -38,4 +38,38 @@ class RenstraController extends Controller
 
         return view('master-data.renstra.index', compact('renstras', 'flatRenstra'));
     }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'kode'            => 'nullable|string|max:20',
+            'sasaran'         => 'required|string|max:255',
+            'strategi'        => 'nullable|string|max:255',
+            'program_tahunan' => 'nullable|string|max:255',
+            'periode'         => 'nullable|string|max:10',
+        ]);
+
+        Renstra::create($validated);
+        return redirect()->route('renstra.index')->with('success', 'Data RENSTRA berhasil ditambahkan.');
+    }
+
+    public function update(Request $request, Renstra $renstra)
+    {
+        $validated = $request->validate([
+            'kode'            => 'nullable|string|max:20',
+            'sasaran'         => 'required|string|max:255',
+            'strategi'        => 'nullable|string|max:255',
+            'program_tahunan' => 'nullable|string|max:255',
+            'periode'         => 'nullable|string|max:10',
+        ]);
+
+        $renstra->update($validated);
+        return redirect()->route('renstra.index')->with('success', 'Data RENSTRA berhasil diperbarui.');
+    }
+
+    public function destroy(Renstra $renstra)
+    {
+        $renstra->delete();
+        return redirect()->route('renstra.index')->with('success', 'Data RENSTRA berhasil dihapus.');
+    }
 }

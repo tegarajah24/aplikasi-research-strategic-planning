@@ -87,12 +87,12 @@ Route::middleware([
     })->name('rkt.kalender');
 
     // Master Data – Bidang
-    Route::get('/bidang', [App\Http\Controllers\BidangController::class, 'index'])->name('bidang');
+    Route::resource('bidang', App\Http\Controllers\BidangController::class)->except(['create', 'show', 'edit']);
 
     // Master Data – Program
-    Route::get('/program', [App\Http\Controllers\ProgramController::class, 'index'])->name('program');
+    Route::resource('program', App\Http\Controllers\ProgramController::class)->except(['create', 'show', 'edit']);
 
     // Master Data – Renstra
-    Route::get('/renstra', [App\Http\Controllers\RenstraController::class, 'index'])->name('renstra');
+    Route::resource('renstra', App\Http\Controllers\RenstraController::class)->except(['create', 'show', 'edit']);
 
 });

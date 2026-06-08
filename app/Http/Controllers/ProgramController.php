@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Program;
 use App\Models\Bidang;
+use App\Models\Kegiatan;
 use App\Http\Requests\StoreProgramRequest;
 use App\Http\Requests\UpdateProgramRequest;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class ProgramController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Program::with('bidang')->withCount('kegiatans');
+        $query = Program::with('bidang', 'kegiatans');
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -33,12 +34,43 @@ class ProgramController extends Controller
         $programs = $query->latest()->paginate(10)->withQueryString();
 
         $totalProgram  = Program::count();
-        $totalKegiatan = \App\Models\Kegiatan::count();
+        $totalKegiatan = Kegiatan::count();
         $totalAnggaran = Program::sum('anggaran');
         $bidangs       = Bidang::withCount('programs')->get();
 
+        $bidangMaster = Bidang::all()->map(function ($b, $i) {
+            $colors = ['#3b82f6','#6366f1','#8b5cf6','#10b981','#f59e0b','#ef4444','#ec4899','#14b8a6'];
+            return [
+                'id'    => $b->id,
+                'no'    => $i + 1,
+                'nama'  => $b->nama_bidang,
+                'color' => $colors[$i % count($colors)],
+            ];
+        });
+
+        $programList = Program::with('bidang', 'kegiatans')->get()->map(function ($p) {
+            return [
+                'id'       => $p->id,
+                'bidangId' => $p->bidang_id,
+                'kode'     => $p->kode_program,
+                'nama'     => $p->nama_program,
+                'sasaran'  => $p->sasaran,
+                'strategi' => $p->strategi_renstra,
+                'rkt'      => $p->program_tahunan,
+                'anggaran' => $p->anggaran ?? 0,
+                'status'   => $p->status,
+                'kegiatan' => $p->kegiatans->map(function ($k) {
+                    return [
+                        'nama'    => $k->nama_kegiatan,
+                        'selesai' => $k->status === 'selesai',
+                        'anggaran'=> $k->kebutuhan_anggaran ? (int) filter_var($k->kebutuhan_anggaran, FILTER_SANITIZE_NUMBER_INT) : 0,
+                    ];
+                }),
+            ];
+        });
+
         return view('master-data.program.index', compact(
-            'programs', 'totalProgram', 'totalKegiatan', 'totalAnggaran', 'bidangs'
+            'programs', 'totalProgram', 'totalKegiatan', 'totalAnggaran', 'bidangs', 'bidangMaster', 'programList'
         ));
     }
 

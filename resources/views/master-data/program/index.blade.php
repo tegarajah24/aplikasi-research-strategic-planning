@@ -340,144 +340,9 @@
     </div>
 
     <script>
-    // ── Dummy Master Bidang ──────────────────────────────────────────
-    const bidangMaster = [
-        { id:1, no:1, nama:'Pendidikan',                 color:'#3b82f6' },
-        { id:2, no:2, nama:'Penelitian dan Pengabdian',  color:'#6366f1' },
-        { id:3, no:3, nama:'Kemahasiswaan',              color:'#8b5cf6' },
-        { id:4, no:4, nama:'Kerjasama & Kemitraan',      color:'#10b981' },
-        { id:5, no:5, nama:'Tata Kelola & SDM',          color:'#f59e0b' },
-    ];
-
-    // ── Dummy Program Data ────────────────────────────────────────────
-    let programData = [
-        // Pendidikan
-        { id:101, bidangId:1, kode:'1.1', nama:'Pengembangan Kurikulum Berbasis KKNI',
-          sasaran:'Kurikulum terintegrasi & relevan dengan industri',
-          strategi:'Peningkatan mutu akademik berkelanjutan',
-          rkt:'RKT 2026 — Prioritas A',
-          anggaran:75000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Workshop Revisi Kurikulum', selesai:true,  anggaran:20000000},
-            {nama:'FGD Industri & Akademisi',  selesai:true,  anggaran:15000000},
-            {nama:'Uji Coba Kurikulum Baru',   selesai:false, anggaran:25000000},
-            {nama:'Evaluasi & Pelaporan',       selesai:false, anggaran:15000000},
-          ]},
-        { id:102, bidangId:1, kode:'1.2', nama:'Pelatihan Metode Pembelajaran Aktif',
-          sasaran:'Dosen menguasai metode student-centered learning',
-          strategi:'Pengembangan kompetensi pendidik',
-          rkt:'RKT 2026 — Prioritas B',
-          anggaran:45000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Pelatihan PBL & Flipped Classroom', selesai:true,  anggaran:20000000},
-            {nama:'Simulasi Mengajar',                  selesai:false, anggaran:10000000},
-            {nama:'Evaluasi Peer Teaching',             selesai:false, anggaran:15000000},
-          ]},
-        { id:103, bidangId:1, kode:'1.3', nama:'Audit Mutu Akademik',
-          sasaran:'Skor akreditasi meningkat minimal 1 level',
-          strategi:'Penjaminan mutu internal & eksternal',
-          rkt:'RKT 2026 — Prioritas A',
-          anggaran:65000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Self Assessment Report', selesai:true,  anggaran:15000000},
-            {nama:'Visitasi Asesor',         selesai:false, anggaran:30000000},
-            {nama:'Tindak Lanjut Temuan',    selesai:false, anggaran:20000000},
-          ]},
-        // Penelitian
-        { id:201, bidangId:2, kode:'2.1', nama:'Hibah Penelitian Internal',
-          sasaran:'30 penelitian dosen per tahun terfasilitasi',
-          strategi:'Mendorong budaya riset & inovasi',
-          rkt:'RKT 2026 — Prioritas A',
-          anggaran:120000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Seleksi Proposal',         selesai:true,  anggaran:10000000},
-            {nama:'Monitoring Pelaksanaan',    selesai:true,  anggaran:15000000},
-            {nama:'Seminar Hasil',            selesai:true,  anggaran:20000000},
-            {nama:'Publikasi Jurnal',          selesai:false, anggaran:40000000},
-            {nama:'Laporan Akhir',            selesai:false, anggaran:35000000},
-          ]},
-        { id:202, bidangId:2, kode:'2.2', nama:'Peningkatan Publikasi Ilmiah',
-          sasaran:'50 artikel terindeks Scopus/WoS per tahun',
-          strategi:'Akselerasi output penelitian bereputasi',
-          rkt:'RKT 2026 — Prioritas A',
-          anggaran:95000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Workshop Academic Writing',   selesai:true,  anggaran:20000000},
-            {nama:'Bantuan APC Jurnal',          selesai:false, anggaran:50000000},
-            {nama:'Klinik Manuskrip',            selesai:false, anggaran:25000000},
-          ]},
-        { id:203, bidangId:2, kode:'2.3', nama:'Pengabdian Masyarakat Desa Binaan',
-          sasaran:'10 desa mitra mendapat pendampingan aktif',
-          strategi:'Tridarma — pengabdian berbasis riset',
-          rkt:'RKT 2026 — Prioritas B',
-          anggaran:80000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Pemetaan Kebutuhan Desa', selesai:true,  anggaran:15000000},
-            {nama:'Program Pelatihan',        selesai:true,  anggaran:30000000},
-            {nama:'Monitoring & Evaluasi',   selesai:false, anggaran:20000000},
-            {nama:'Laporan Pengabdian',      selesai:false, anggaran:15000000},
-          ]},
-        { id:204, bidangId:2, kode:'2.4', nama:'HKI & Paten Karya Dosen',
-          sasaran:'15 HKI / paten baru per tahun',
-          strategi:'Perlindungan kekayaan intelektual civitas',
-          rkt:'RKT 2026 — Prioritas C',
-          anggaran:45000000, status:'Tidak Aktif',
-          kegiatan:[
-            {nama:'Sosialisasi HKI', selesai:true,  anggaran:10000000},
-            {nama:'Pendampingan Pendaftaran', selesai:false, anggaran:35000000},
-          ]},
-        // Kemahasiswaan
-        { id:301, bidangId:3, kode:'3.1', nama:'Pembinaan Organisasi Kemahasiswaan',
-          sasaran:'BEM & UKM aktif & berprestasi',
-          strategi:'Penguatan karakter & kepemimpinan mahasiswa',
-          rkt:'RKT 2026 — Prioritas B',
-          anggaran:40000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Pelatihan Leadership',   selesai:true,  anggaran:15000000},
-            {nama:'Pendanaan Kegiatan UKM', selesai:false, anggaran:25000000},
-          ]},
-        { id:302, bidangId:3, kode:'3.2', nama:'Kompetisi & Prestasi Mahasiswa',
-          sasaran:'100+ mahasiswa berprestasi tingkat nasional',
-          strategi:'Fasilitasi pengembangan bakat & kompetisi',
-          rkt:'RKT 2026 — Prioritas A',
-          anggaran:80000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Seleksi Internal',     selesai:true,  anggaran:5000000},
-            {nama:'Pelatihan Intensif',   selesai:true,  anggaran:20000000},
-            {nama:'Pendanaan Kompetisi',  selesai:false, anggaran:35000000},
-            {nama:'Apresiasi Prestasi',   selesai:false, anggaran:20000000},
-          ]},
-        // Kerjasama
-        { id:401, bidangId:4, kode:'4.1', nama:'MOU Kerjasama Nasional',
-          sasaran:'25 MOU aktif dengan industri & pemerintah',
-          strategi:'Perluasan jaringan & ekosistem kemitraan',
-          rkt:'RKT 2026 — Prioritas B',
-          anggaran:35000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Penjajakan Mitra',   selesai:true,  anggaran:10000000},
-            {nama:'Penandatanganan MOU',selesai:false, anggaran:15000000},
-            {nama:'Implementasi MOU',   selesai:false, anggaran:10000000},
-          ]},
-        { id:402, bidangId:4, kode:'4.2', nama:'Kerjasama Internasional',
-          sasaran:'5 MOU internasional baru per tahun',
-          strategi:'Internasionalisasi kampus',
-          rkt:'RKT 2026 — Prioritas C',
-          anggaran:60000000, status:'Aktif',
-          kegiatan:[
-            {nama:'Identifikasi Mitra Luar Negeri', selesai:false, anggaran:20000000},
-            {nama:'Kunjungan & Negosiasi',          selesai:false, anggaran:40000000},
-          ]},
-        // Tata Kelola
-        { id:501, bidangId:5, kode:'5.1', nama:'Pengembangan SDM Non-Dosen',
-          sasaran:'90% tenaga kependidikan tersertifikasi',
-          strategi:'Peningkatan profesionalitas tenaga pendukung',
-          rkt:'RKT 2026 — Prioritas C',
-          anggaran:60000000, status:'Tidak Aktif',
-          kegiatan:[
-            {nama:'Training Kompetensi', selesai:false, anggaran:30000000},
-            {nama:'Sertifikasi',         selesai:false, anggaran:30000000},
-          ]},
-    ];
+    // ── Data from Database ──────────────────────────────────────────
+    const bidangMaster = @json($bidangMaster);
+    let programData = @json($programList);
 
     let deleteTargetId = null;
     let detailOpenId   = null;
@@ -854,15 +719,24 @@
         }
         errEl.classList.add('hidden');
 
-        if (id) {
-            const idx = programData.findIndex(p => p.id === parseInt(id));
-            if (idx !== -1) Object.assign(programData[idx], {bidangId,kode,nama,sasaran,strategi,rkt,anggaran,status});
-        } else {
-            const newId = Math.max(0,...programData.map(p=>p.id)) + 1;
-            programData.push({id:newId,bidangId,kode,nama,sasaran,strategi,rkt,anggaran,status,kegiatan:[]});
-        }
-        closeModal();
-        renderAll();
+        const url  = id ? '/program/' + id : '/program';
+        const method = id ? 'PUT' : 'POST';
+
+        fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
+            body: JSON.stringify({
+                bidang_id: bidangId, kode_program: kode, nama_program: nama,
+                deskripsi: '', sasaran: sasaran, strategi_renstra: strategi,
+                program_tahunan: rkt, anggaran: anggaran, status: status
+            })
+        }).then(r => {
+            if (r.ok) { window.location.reload(); }
+            else { r.json().then(d => { errEl.textContent = d.message || 'Terjadi kesalahan'; errEl.classList.remove('hidden'); }); }
+        }).catch(() => {
+            errEl.textContent = 'Terjadi kesalahan koneksi.';
+            errEl.classList.remove('hidden');
+        });
     }
 
     function editProgram(id) { closeDrawer(); setTimeout(()=>openModal(id),100); }
@@ -883,10 +757,14 @@
     }
     function confirmDelete() {
         if (deleteTargetId === null) return;
-        programData = programData.filter(p => p.id !== deleteTargetId);
+        fetch('/program/' + deleteTargetId, {
+            method: 'DELETE',
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
+        }).then(r => {
+            if (r.ok) { window.location.reload(); }
+        });
         closeDelModal();
         closeDrawer();
-        renderAll();
     }
 
     // ── Init ─────────────────────────────────────────────────────────
