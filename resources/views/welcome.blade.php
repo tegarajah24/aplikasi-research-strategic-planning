@@ -201,15 +201,6 @@
                 </div>
             </div>
 
-            {{-- Hero visual — module pills --}}
-            <div class="mt-16 flex flex-wrap items-center justify-center gap-3">
-                <span class="flex items-center gap-2 rounded-full bg-white border border-slate-200 shadow-sm px-4 py-2 text-xs font-semibold" style="color: #0f766e;">
-                    <span class="w-2 h-2 rounded-full" style="background-color: #14b8a6;"></span>HKI & Publikasi
-                </span>
-                <span class="flex items-center gap-2 rounded-full bg-white border border-slate-200 shadow-sm px-4 py-2 text-xs font-semibold" style="color: #047857;">
-                    <span class="w-2 h-2 rounded-full" style="background-color: #10b981;"></span>Kerja Sama
-                </span>
-            </div>
         </div>
     </section>
 
