@@ -65,18 +65,11 @@
                         'folder'     => '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>',
                         'clipboard'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/>',
                     ];
-                    $routeMap = [
-                        'Fakultas' => 'fakultas.index', 'Prodi' => 'prodi.index', 'Kerja Sama' => 'kerjasama.index',
-                        'Dosen' => 'dosen.index', 'Prestasi Akademik' => 'prestasi-akademik.index',
-                        'Prestasi Non-Akademik' => 'prestasi-non-akademik.index', 'HKI' => 'hki.index',
-                        'Buku' => 'buku.index', 'Artikel' => 'artikel.index',
-                        'Bidang' => 'bidang.index', 'Program' => 'program.index', 'Kegiatan RKT' => 'kegiatan.index',
-                    ];
                 @endphp
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
                     @foreach($stats as $stat)
                         @php $c = $colorMap[$stat['color']] ?? $colorMap['blue']; @endphp
-                        <a href="{{ route($routeMap[$stat['label']]) }}"
+                        <a href="{{ route($stat['route']) }}"
                            class="dash-card group bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden block">
                             <div class="h-1 {{ $c['bar'] }}"></div>
                             <div class="p-4">
@@ -106,46 +99,17 @@
                                 <h2 class="text-sm font-semibold text-slate-700">Aktivitas Terbaru</h2>
                                 <p class="text-[11px] text-slate-400 mt-0.5">Log perubahan terakhir pada sistem</p>
                             </div>
-                            <span class="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-slate-50 text-slate-400 border border-slate-100">Mei 2026</span>
+                            <span class="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-slate-50 text-slate-400 border border-slate-100">{{ now()->translatedFormat('F Y') }}</span>
                         </div>
 
-                        <div class="p-6 space-y-1">
-                            @php
-                            $activities = [
-                                ['module'=>'aktivitas','color'=>'amber', 'title'=>'Belum ada aktivitas terbaru',
-                                 'desc'=>'Sistem berjalan normal.',
-                                 'author'=>'','time'=>''],
-                            ];
-                            @endphp
-
-                            @foreach($activities as $act)
-                            @php
-                                $dotMap   = ['blue'=>'bg-blue-500','violet'=>'bg-violet-500','amber'=>'bg-amber-500'];
-                                $badgeBg  = ['blue'=>'bg-blue-50 text-blue-600 border-blue-100','violet'=>'bg-violet-50 text-violet-600 border-violet-100','amber'=>'bg-amber-50 text-amber-600 border-amber-100'];
-                            @endphp
-                            <div class="flex gap-4 group">
-                                {{-- Timeline line + dot --}}
-                                <div class="flex flex-col items-center pt-1.5">
-                                    <div class="w-2.5 h-2.5 rounded-full {{ $dotMap[$act['color']] }} ring-4 ring-white flex-shrink-0"></div>
-                                    @if(!$loop->last)
-                                    <div class="w-px flex-1 bg-slate-100 mt-1"></div>
-                                    @endif
-                                </div>
-                                {{-- Content --}}
-                                <div class="flex-1 pb-6 last:pb-0">
-                                    <div class="rounded-xl px-4 py-3 hover:bg-slate-50/80 transition-colors duration-150 -ml-1">
-                                        <div class="flex items-center gap-2 flex-wrap">
-                                            <p class="text-[13px] font-semibold text-slate-700">{{ $act['title'] }}</p>
-                                            <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-md border {{ $badgeBg[$act['color']] }}">{{ ucfirst($act['module']) }}</span>
-                                            <span class="text-[11px] text-slate-400 ml-auto flex-shrink-0">{{ $act['time'] }}</span>
-                                        </div>
-                                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">{{ $act['desc'] }}</p>
-                                        <p class="text-[11px] text-slate-400 mt-1.5">{{ $act['author'] }}</p>
-                                    </div>
-                                </div>
+                        <div class="p-6">
+                            <div class="text-center py-12">
+                                <svg class="w-14 h-14 mx-auto text-slate-200 mb-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <p class="text-sm font-semibold text-slate-500">Belum ada aktivitas terbaru</p>
+                                <p class="text-xs text-slate-400 mt-1">Sistem berjalan normal.</p>
                             </div>
-                            @endforeach
-
                         </div>
                     </div>
 
@@ -171,18 +135,18 @@
                             <h2 class="text-sm font-semibold text-slate-700">Informasi Sistem</h2>
 
                             <div class="space-y-3 text-xs">
-                                <div class="flex justify-between"><span class="text-slate-400">Semester</span><span class="font-medium text-slate-700">Genap 2025/2026</span></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Tahun Akademik</span><span class="font-medium text-slate-700">2025 / 2026</span></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Versi</span><span class="font-medium text-slate-500 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100">v1.0.0</span></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Semester</span><span class="font-medium text-slate-700">{{ $semester }} {{ $tahunAkademik }}</span></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Tahun Akademik</span><span class="font-medium text-slate-700">{{ $tahunAkademik }}</span></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Server</span><span class="font-medium text-slate-500 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100">{{ php_uname('s') }}</span></div>
                             </div>
 
                             <div class="pt-4 border-t border-slate-100">
                                 <div class="flex justify-between mb-2">
                                     <span class="text-xs text-slate-400">Kelengkapan Data</span>
-                                    <span class="text-xs font-semibold text-slate-600">78%</span>
+                                    <span class="text-xs font-semibold text-slate-600">{{ $dataCompleteness }}%</span>
                                 </div>
                                 <div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                                    <div class="h-full rounded-full bg-blue-500 transition-all duration-500" style="width: 78%"></div>
+                                    <div class="h-full rounded-full bg-blue-500 transition-all duration-500" style="width: {{ $dataCompleteness }}%"></div>
                                 </div>
                             </div>
                         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kerjasama;
+use App\Models\Prodi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,7 +21,8 @@ class KerjasamaController extends Controller
         }
 
         $kerjasamas = $query->latest()->paginate(10);
-        return view('kerjasama.index', compact('kerjasamas'));
+        $prodis = Prodi::orderBy('nama_prodi', 'asc')->get();
+        return view('kerjasama.index', compact('kerjasamas', 'prodis'));
     }
 
     public function store(Request $request)

@@ -40,7 +40,7 @@
                 </svg>
             </div>
             <p class="text-xs font-semibold text-amber-600/80 uppercase tracking-wider mb-1">Total Anggaran</p>
-            <p class="text-3xl font-bold text-amber-700">{{ $totalKegiatan }}</p>
+            <p class="text-3xl font-bold text-amber-700">{{ $totalAnggaran }}</p>
             <p class="text-xs text-amber-500/70 mt-1">Sumber anggaran aktif</p>
         </div>
     </div>

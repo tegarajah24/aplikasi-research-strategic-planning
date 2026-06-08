@@ -58,13 +58,9 @@
                                         <label class="block text-sm font-medium text-slate-700">Department</label>
                                         <select name="program_studi" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             <option value="">Select Department...</option>
-                                            <option value="Informatika (S1)">Informatika (S1)</option>
-                                            <option value="Sistem Informasi (S1)">Sistem Informasi (S1)</option>
-                                            <option value="Hukum (S1)">Hukum (S1)</option>
-                                            <option value="Manajemen (S1)">Manajemen (S1)</option>
-                                            <option value="Farmasi (S1)">Farmasi (S1)</option>
-                                            <option value="Keperawatan (S1)">Keperawatan (S1)</option>
-                                            <option value="Other">Other</option>
+                                            @foreach($prodis as $p)
+                                            <option value="{{ $p->nama_prodi }}">{{ $p->nama_prodi }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -151,13 +147,9 @@
                                         <label class="block text-sm font-medium text-slate-700">Department</label>
                                         <select name="program_studi" x-model="editData.program_studi" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             <option value="">Select Department...</option>
-                                            <option value="Informatika (S1)">Informatika (S1)</option>
-                                            <option value="Sistem Informasi (S1)">Sistem Informasi (S1)</option>
-                                            <option value="Hukum (S1)">Hukum (S1)</option>
-                                            <option value="Manajemen (S1)">Manajemen (S1)</option>
-                                            <option value="Farmasi (S1)">Farmasi (S1)</option>
-                                            <option value="Keperawatan (S1)">Keperawatan (S1)</option>
-                                            <option value="Other">Other</option>
+                                            @foreach($prodis as $p)
+                                            <option value="{{ $p->nama_prodi }}">{{ $p->nama_prodi }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

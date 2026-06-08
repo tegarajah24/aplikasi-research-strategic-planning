@@ -104,9 +104,9 @@
                             <select id="filter-fakultas" onchange="renderTree()"
                                 class="appearance-none border border-slate-200 rounded-xl pl-9 pr-8 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-sky-400 cursor-pointer bg-white">
                                 <option value="Semua">Semua Fakultas/Prodi</option>
-                                <option value="FIS">FIS (Fakultas Ilmu Sosial)</option>
-                                <option value="FST">FST (Fakultas Sains dan Teknologi)</option>
-                                <option value="FKES">FKES (Fakultas Kesehatan)</option>
+                                @foreach($fakultasList as $f)
+                                <option value="{{ $f->kode_fakultas }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
+                                @endforeach
                             </select>
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
                         </div>
@@ -165,9 +165,9 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">Fakultas / Prodi <span class="text-red-500">*</span></label>
                         <select id="f-fakultas" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition">
-                            <option value="FIS">FIS (Fakultas Ilmu Sosial)</option>
-                            <option value="FST">FST (Fakultas Sains dan Teknologi)</option>
-                            <option value="FKES">FKES (Fakultas Kesehatan)</option>
+                            @foreach($fakultasList as $f)
+                            <option value="{{ $f->kode_fakultas }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -394,7 +394,7 @@
             if (row) {
                 document.getElementById('modal-title-text').textContent = 'Edit Data RENSTRA';
                 document.getElementById('f-tahun').value = row.tahun;
-                document.getElementById('f-fakultas').value = row.fakultas || 'FST';
+                document.getElementById('f-fakultas').value = row.fakultas || document.getElementById('f-fakultas').options[0]?.value || '';
                 document.getElementById('f-sasaran-kode').value = row.sasaranKode;
                 document.getElementById('f-sasaran-nama').value = row.sasaranNama;
                 document.getElementById('f-strategi-kode').value = row.strategiKode;
@@ -407,7 +407,11 @@
             document.getElementById('f-tahun').value = document.getElementById('filter-tahun').value || new Date().getFullYear();
             
             let currentFilterFakultas = document.getElementById('filter-fakultas').value;
-            document.getElementById('f-fakultas').value = (currentFilterFakultas === 'Semua') ? 'FST' : currentFilterFakultas;
+            if (currentFilterFakultas === 'Semua') {
+                document.getElementById('f-fakultas').selectedIndex = 0;
+            } else {
+                document.getElementById('f-fakultas').value = currentFilterFakultas;
+            }
             
             // Clear inputs except year and fakultas
             ['sasaran-kode','sasaran-nama','strategi-kode','strategi-nama','program-kode','program-nama'].forEach(f => {

@@ -15,21 +15,30 @@ Route::middleware([
     // Dashboard utama
     Route::get('/dashboard', function () {
         $stats = [
-            ['label' => 'Fakultas',           'count' => \App\Models\Fakultas::count(),            'color' => 'blue',    'icon' => 'building'],
-            ['label' => 'Prodi',              'count' => \App\Models\Prodi::count(),               'color' => 'indigo',  'icon' => 'academic'],
-            ['label' => 'Kerja Sama',         'count' => \App\Models\Kerjasama::count(),           'color' => 'cyan',    'icon' => 'handshake'],
-            ['label' => 'Dosen',              'count' => \App\Models\Dosen::count(),'color' => 'teal', 'icon' => 'users'],
-            ['label' => 'Prestasi Akademik',  'count' => \App\Models\PrestasiAkademik::count(),    'color' => 'amber',   'icon' => 'trophy'],
-            ['label' => 'Prestasi Non-Akademik','count' => \App\Models\PrestasiNonAkademik::count(),'color' => 'orange',  'icon' => 'star'],
-            ['label' => 'HKI',                'count' => \App\Models\Hki::count(),                 'color' => 'rose',    'icon' => 'shield'],
-            ['label' => 'Buku',               'count' => \App\Models\Buku::count(),                'color' => 'pink',    'icon' => 'book'],
-            ['label' => 'Artikel',            'count' => \App\Models\Artikel::count(),             'color' => 'fuchsia', 'icon' => 'document'],
-            ['label' => 'Bidang',             'count' => \App\Models\Bidang::count(),              'color' => 'red',     'icon' => 'tag'],
-            ['label' => 'Program',            'count' => \App\Models\Program::count(),             'color' => 'violet',  'icon' => 'folder'],
-            ['label' => 'Kegiatan RKT',       'count' => \App\Models\Kegiatan::count(),            'color' => 'emerald', 'icon' => 'clipboard'],
+            ['label' => 'Fakultas',           'count' => \App\Models\Fakultas::count(),            'color' => 'blue',    'icon' => 'building',   'route' => 'fakultas.index'],
+            ['label' => 'Prodi',              'count' => \App\Models\Prodi::count(),               'color' => 'indigo',  'icon' => 'academic',  'route' => 'prodi.index'],
+            ['label' => 'Kerja Sama',         'count' => \App\Models\Kerjasama::count(),           'color' => 'cyan',    'icon' => 'handshake', 'route' => 'kerjasama.index'],
+            ['label' => 'Dosen',              'count' => \App\Models\Dosen::count(),               'color' => 'teal',    'icon' => 'users',     'route' => 'dosen.index'],
+            ['label' => 'Prestasi Akademik',  'count' => \App\Models\PrestasiAkademik::count(),    'color' => 'amber',   'icon' => 'trophy',    'route' => 'prestasi-akademik.index'],
+            ['label' => 'Prestasi Non-Akademik','count' => \App\Models\PrestasiNonAkademik::count(),'color' => 'orange', 'icon' => 'star',     'route' => 'prestasi-non-akademik.index'],
+            ['label' => 'HKI',                'count' => \App\Models\Hki::count(),                 'color' => 'rose',    'icon' => 'shield',   'route' => 'hki.index'],
+            ['label' => 'Buku',               'count' => \App\Models\Buku::count(),                'color' => 'pink',    'icon' => 'book',     'route' => 'buku.index'],
+            ['label' => 'Artikel',            'count' => \App\Models\Artikel::count(),             'color' => 'fuchsia', 'icon' => 'document', 'route' => 'artikel.index'],
+            ['label' => 'Bidang',             'count' => \App\Models\Bidang::count(),              'color' => 'red',     'icon' => 'tag',      'route' => 'bidang.index'],
+            ['label' => 'Program',            'count' => \App\Models\Program::count(),             'color' => 'violet',  'icon' => 'folder',   'route' => 'program.index'],
+            ['label' => 'Kegiatan RKT',       'count' => \App\Models\Kegiatan::count(),            'color' => 'emerald', 'icon' => 'clipboard','route' => 'kegiatan.index'],
         ];
 
-        return view('dashboard.index', compact('stats'));
+        $totalEntities = count($stats);
+        $filledEntities = collect($stats)->filter(fn($s) => $s['count'] > 0)->count();
+        $dataCompleteness = $totalEntities > 0 ? round($filledEntities / $totalEntities * 100) : 0;
+
+        $semester = now()->month >= 7 ? 'Ganjil' : 'Genap';
+        $tahunAkademik = now()->month >= 7
+            ? now()->year . ' / ' . (now()->year + 1)
+            : (now()->year - 1) . ' / ' . now()->year;
+
+        return view('dashboard.index', compact('stats', 'dataCompleteness', 'semester', 'tahunAkademik'));
     })->name('dashboard');
 
     // Modul Pengguna

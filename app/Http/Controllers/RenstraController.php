@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fakultas;
 use App\Models\Renstra;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,8 @@ class RenstraController extends Controller
 
         $renstras = $query->latest()->paginate(10)->withQueryString();
 
+        $fakultasList = Fakultas::orderBy('kode_fakultas', 'asc')->get();
+
         $flatRenstra = $renstras->map(function ($r) {
             return [
                 'id' => $r->id,
@@ -36,7 +39,7 @@ class RenstraController extends Controller
             ];
         })->toArray();
 
-        return view('master-data.renstra.index', compact('renstras', 'flatRenstra'));
+        return view('master-data.renstra.index', compact('renstras', 'flatRenstra', 'fakultasList'));
     }
 
     public function store(Request $request)

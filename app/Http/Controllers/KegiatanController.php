@@ -45,7 +45,7 @@ class KegiatanController extends Controller
         // Dashboard stats
         $totalKegiatan    = Kegiatan::count();
         $targetTercapai   = Kegiatan::where('status', 'selesai')->count();
-        $totalAnggaran    = Kegiatan::count(); // Placeholder: count of records with anggaran
+        $totalAnggaran    = Kegiatan::sum('kebutuhan_anggaran');
         $kegiatanAktif    = Kegiatan::where('status', 'berjalan')->count();
 
         // Options for filters

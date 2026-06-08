@@ -1,8 +1,5 @@
 <script>
 let usersFromDB = @json($users->items());
-let auditLogs = [
-    { id: 1, user: '{{ auth()->user()->name }}', action: 'mengakses halaman manajemen pengguna', target: '-', time: 'Baru saja', color: 'bg-sky-500' },
-];
 
 // ── Modal handlers ──
 function openCreateModal() {
@@ -64,32 +61,10 @@ function closeResetModal() {
     document.body.style.overflow = '';
 }
 
-// ── Audit Log (client-side, since we don't have audit log table) ──
+// ── Audit Log (placeholder, no audit log table yet) ──
 function renderAuditLog() {
     const container = document.getElementById('audit-log-container');
-    if (!auditLogs.length) {
-        container.innerHTML = `<div class="text-center py-10"><p class="text-sm text-slate-400">Belum ada aktivitas</p></div>`;
-        return;
-    }
-    container.innerHTML = auditLogs.map((log, index) => `
-        <div class="flex gap-4 group">
-            <div class="flex flex-col items-center pt-1.5">
-                <div class="w-2.5 h-2.5 rounded-full ${log.color} ring-4 ring-white shadow-sm flex-shrink-0 z-10"></div>
-                ${index !== auditLogs.length - 1 ? '<div class="w-px h-full bg-slate-100 mt-1"></div>' : ''}
-            </div>
-            <div class="pb-6">
-                <p class="text-xs text-slate-600 leading-relaxed">
-                    <span class="font-bold text-slate-800">${log.user}</span>
-                    ${log.action}
-                    <span class="font-medium text-slate-700">${log.target}</span>
-                </p>
-                <p class="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
-                    <x-icon name="clock" class="w-3 h-3" />
-                    ${log.time}
-                </p>
-            </div>
-        </div>
-    `).join('');
+    container.innerHTML = `<div class="text-center py-10"><p class="text-sm text-slate-400">Belum ada aktivitas</p></div>`;
 }
 
 document.addEventListener('keydown', e => {
