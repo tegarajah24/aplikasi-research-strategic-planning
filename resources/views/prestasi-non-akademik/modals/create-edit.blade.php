@@ -16,7 +16,12 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Tahun</label>
-                                    <input type="number" name="tahun" value="{{ date('Y') }}" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    <select name="tahun" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <option value="">Pilih Tahun</option>
+                                        @foreach(range(now()->year - 4, now()->year) as $y)
+                                        <option value="{{ $y }}" {{ $y == date('Y') ? 'selected' : '' }}>{{ $y }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Nama Mahasiswa</label>
@@ -88,7 +93,12 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Tahun</label>
-                                    <input type="number" name="tahun" x-model="editData.tahun" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    <select name="tahun" x-model="editData.tahun" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <option value="">Pilih Tahun</option>
+                                        @foreach(range(now()->year - 4, now()->year) as $y)
+                                        <option value="{{ $y }}">{{ $y }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Nama Mahasiswa</label>

@@ -29,7 +29,12 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Tahun Terbit</label>
-                                        <input type="number" name="tahun_terbit" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <select name="tahun_terbit" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <option value="">Pilih Tahun</option>
+                                            @foreach(range(now()->year - 4, now()->year) as $y)
+                                            <option value="{{ $y }}" {{ $y == date('Y') ? 'selected' : '' }}>{{ $y }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div>
@@ -90,7 +95,12 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Tahun Terbit</label>
-                                        <input type="number" name="tahun_terbit" x-model="editData.tahun_terbit" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <select name="tahun_terbit" x-model="editData.tahun_terbit" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <option value="">Pilih Tahun</option>
+                                            @foreach(range(now()->year - 4, now()->year) as $y)
+                                            <option value="{{ $y }}">{{ $y }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div>
