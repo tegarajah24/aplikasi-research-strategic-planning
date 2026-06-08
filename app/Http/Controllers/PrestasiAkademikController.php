@@ -27,7 +27,9 @@ class PrestasiAkademikController extends Controller
         }
 
         $prestasis = $query->orderBy('tahun', 'desc')->paginate(10);
-        return view('prestasi-akademik.index', compact('prestasis', 'totalRegional', 'totalNasional', 'totalInternasional'));
+        $prodiList = \App\Models\Prodi::orderBy('nama_prodi')->get();
+        $fakultasList = \App\Models\Fakultas::orderBy('nama_fakultas')->get();
+        return view('prestasi-akademik.index', compact('prestasis', 'totalRegional', 'totalNasional', 'totalInternasional', 'prodiList', 'fakultasList'));
     }
 
     public function store(Request $request)

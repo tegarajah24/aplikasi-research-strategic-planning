@@ -24,11 +24,21 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Prodi</label>
-                                    <input type="text" name="prodi" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Program Studi">
+                                    <select name="prodi" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <option value="">Pilih Prodi</option>
+                                        @foreach($prodiList as $p)
+                                        <option value="{{ $p->nama_prodi }}">{{ $p->kode_prodi }} — {{ $p->nama_prodi }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Fakultas</label>
-                                    <input type="text" name="fakultas" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Fakultas">
+                                    <select name="fakultas" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <option value="">Pilih Fakultas</option>
+                                        @foreach($fakultasList as $f)
+                                        <option value="{{ $f->nama_fakultas }}">{{ $f->kode_fakultas }} — {{ $f->nama_fakultas }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Jumlah Regional</label>
@@ -86,11 +96,21 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Prodi</label>
-                                    <input type="text" name="prodi" x-model="editData.prodi" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Program Studi">
+                                    <select name="prodi" x-model="editData.prodi" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <option value="">Pilih Prodi</option>
+                                        @foreach($prodiList as $p)
+                                        <option value="{{ $p->nama_prodi }}">{{ $p->kode_prodi }} — {{ $p->nama_prodi }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Fakultas</label>
-                                    <input type="text" name="fakultas" x-model="editData.fakultas" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Fakultas">
+                                    <select name="fakultas" x-model="editData.fakultas" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <option value="">Pilih Fakultas</option>
+                                        @foreach($fakultasList as $f)
+                                        <option value="{{ $f->nama_fakultas }}">{{ $f->kode_fakultas }} — {{ $f->nama_fakultas }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700">Jumlah Regional</label>
