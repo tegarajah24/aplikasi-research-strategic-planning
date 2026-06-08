@@ -2,6 +2,7 @@
 // ── Data from Database ──────────────────────────────────────────
 const bidangMaster = @json($bidangMaster);
 let programData = @json($programList);
+let canWriteProgram = @json(auth()->user()->canWrite('program'));
 
 let deleteTargetId = null;
 let detailOpenId   = null;
@@ -137,6 +138,7 @@ function renderTable() {
                 </span>
             </td>
             <td class="px-3 py-3 text-center">
+                ${canWriteProgram ? `
                 <div class="flex items-center justify-center gap-1">
                     <button onclick="event.stopPropagation();editProgram(${p.id})"
                         class="p-1.5 rounded-lg text-blue-500 hover:bg-blue-50 transition" title="Edit">
@@ -147,6 +149,7 @@ function renderTable() {
                         ${SVG.trash}
                     </button>
                 </div>
+                ` : ''}
             </td>
         </tr>`;
     }).join('');
@@ -304,6 +307,7 @@ function openDrawer(id) {
             </div>
         </div>
 
+        ${canWriteProgram ? `
         <!-- Actions -->
         <div class="flex gap-2 pt-2">
             <button onclick="editProgram(${p.id})"
@@ -311,6 +315,7 @@ function openDrawer(id) {
             <button onclick="deleteProgram(${p.id})"
                 class="px-4 py-2.5 rounded-xl text-sm font-semibold border border-red-100 text-red-500 hover:bg-red-50 transition">Hapus</button>
         </div>
+        ` : ''}
     `;
 
     document.getElementById('detail-drawer').classList.add('open');

@@ -77,6 +77,10 @@ class ProgramController extends Controller
 
     public function store(StoreProgramRequest $request)
     {
+        if (!auth()->user()->canWrite('program')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $program = Program::create($request->validated());
         ActivityLog::log('Menambahkan program', 'Program', $program->id, $program->nama_program);
         return redirect()->route('program.index')->with('success', 'Program berhasil ditambahkan.');
@@ -84,6 +88,10 @@ class ProgramController extends Controller
 
     public function update(UpdateProgramRequest $request, Program $program)
     {
+        if (!auth()->user()->canWrite('program')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $program->update($request->validated());
         ActivityLog::log('Memperbarui program', 'Program', $program->id, $program->nama_program);
         return redirect()->route('program.index')->with('success', 'Program berhasil diperbarui.');
@@ -91,6 +99,10 @@ class ProgramController extends Controller
 
     public function destroy(Program $program)
     {
+        if (!auth()->user()->canWrite('program')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         ActivityLog::log('Menghapus program', 'Program', $program->id, $program->nama_program);
         $program->delete();
         return redirect()->route('program.index')->with('success', 'Program berhasil dihapus.');

@@ -28,6 +28,10 @@ class KerjasamaController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('kerjasama')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'nomor_surat' => 'required|string|max:255',
             'tanggal' => 'required|date',
@@ -51,6 +55,10 @@ class KerjasamaController extends Controller
 
     public function update(Request $request, Kerjasama $kerjasama)
     {
+        if (!auth()->user()->canWrite('kerjasama')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'nomor_surat' => 'required|string|max:255',
             'tanggal' => 'required|date',
@@ -77,6 +85,10 @@ class KerjasamaController extends Controller
 
     public function destroy(Kerjasama $kerjasama)
     {
+        if (!auth()->user()->canWrite('kerjasama')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if ($kerjasama->file_path && Storage::disk('public')->exists($kerjasama->file_path)) {
             Storage::disk('public')->delete($kerjasama->file_path);
         }

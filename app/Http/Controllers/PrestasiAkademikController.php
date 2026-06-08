@@ -12,6 +12,10 @@ class PrestasiAkademikController extends Controller
     {
         $query = PrestasiAkademik::query();
 
+        if (auth()->user()->isKaprodi() && auth()->user()->prodi) {
+            $query->where('prodi', auth()->user()->prodi->nama_prodi);
+        }
+
         // Calculate totals for widgets
         $totalRegional = PrestasiAkademik::sum('regional');
         $totalNasional = PrestasiAkademik::sum('nasional');
@@ -28,6 +32,10 @@ class PrestasiAkademikController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('prestasi-akademik')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'tahun' => 'required|integer',
             'nama_mahasiswa' => 'nullable|string|max:255',
@@ -46,6 +54,10 @@ class PrestasiAkademikController extends Controller
 
     public function update(Request $request, PrestasiAkademik $prestasiAkademik)
     {
+        if (!auth()->user()->canWrite('prestasi-akademik')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'tahun' => 'required|integer',
             'nama_mahasiswa' => 'nullable|string|max:255',
@@ -64,6 +76,10 @@ class PrestasiAkademikController extends Controller
 
     public function destroy(PrestasiAkademik $prestasiAkademik)
     {
+        if (!auth()->user()->canWrite('prestasi-akademik')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         ActivityLog::log('Menghapus prestasi akademik', 'Prestasi Akademik', $prestasiAkademik->id, $prestasiAkademik->tahun);
         $prestasiAkademik->delete();
         return redirect()->route('prestasi-akademik.index')->with('success', 'Data Prestasi Akademik berhasil dihapus.');
@@ -71,6 +87,10 @@ class PrestasiAkademikController extends Controller
 
     public function import(Request $request)
     {
+        if (!auth()->user()->canWrite('prestasi-akademik')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'file_import' => 'required|mimes:csv,txt|max:2048',
         ]);
@@ -111,7 +131,11 @@ class PrestasiAkademikController extends Controller
     
     public function export()
     {
-        $prestasis = PrestasiAkademik::orderBy('tahun', 'desc')->get();
+        $query = PrestasiAkademik::query();
+        if (auth()->user()->isKaprodi() && auth()->user()->prodi) {
+            $query->where('prodi', auth()->user()->prodi->nama_prodi);
+        }
+        $prestasis = $query->orderBy('tahun', 'desc')->get();
         $fileName = 'rekap_prestasi_akademik.csv';
         $headers = array(
             "Content-type"        => "text/csv",

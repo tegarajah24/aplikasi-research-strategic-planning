@@ -28,6 +28,10 @@ class ArtikelController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('artikel')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'penulis' => 'required|string|max:255',
@@ -49,6 +53,10 @@ class ArtikelController extends Controller
 
     public function update(Request $request, Artikel $artikel)
     {
+        if (!auth()->user()->canWrite('artikel')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'penulis' => 'required|string|max:255',
@@ -73,6 +81,10 @@ class ArtikelController extends Controller
 
     public function destroy(Artikel $artikel)
     {
+        if (!auth()->user()->canWrite('artikel')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if ($artikel->file_path && Storage::disk('public')->exists($artikel->file_path)) {
             Storage::disk('public')->delete($artikel->file_path);
         }

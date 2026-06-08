@@ -37,6 +37,7 @@
                     @endif
                 </td>
                 <td class="py-4 px-6 text-right">
+                    @if(auth()->user()->canWrite('kerjasama'))
                     <div class="flex justify-end gap-2">
                         <button @click="editData = {{ json_encode($kerjasama) }}; showEditModal = true" class="p-1.5 text-white bg-amber-500 hover:bg-amber-600 rounded transition-colors shadow-sm" title="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -53,6 +54,7 @@
                             </button>
                         </form>
                     </div>
+                    @endif
                 </td>
             </tr>
             @empty

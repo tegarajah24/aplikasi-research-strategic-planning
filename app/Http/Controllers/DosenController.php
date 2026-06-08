@@ -13,6 +13,10 @@ class DosenController extends Controller
     {
         $query = Dosen::with('prodi');
 
+        if (auth()->user()->isKaprodi()) {
+            $query->where('prodi_id', auth()->user()->prodi_id);
+        }
+
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $query->where('nama_dosen', 'like', "%{$search}%")
@@ -30,6 +34,10 @@ class DosenController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('dosen')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'nidn'        => 'nullable|string|max:50|unique:dosens,nidn',
             'nama_dosen'  => 'required|string|max:255',
@@ -44,6 +52,10 @@ class DosenController extends Controller
 
     public function update(Request $request, Dosen $dosen)
     {
+        if (!auth()->user()->canWrite('dosen')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'nidn'        => 'nullable|string|max:50|unique:dosens,nidn,' . $dosen->id,
             'nama_dosen'  => 'required|string|max:255',
@@ -58,6 +70,10 @@ class DosenController extends Controller
 
     public function destroy(Dosen $dosen)
     {
+        if (!auth()->user()->canWrite('dosen')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         ActivityLog::log('Menghapus dosen', 'Dosen', $dosen->id, $dosen->nama_dosen);
         $dosen->delete();
         return redirect()->route('dosen.index')->with('success', 'Data Dosen berhasil dihapus.');
@@ -65,6 +81,10 @@ class DosenController extends Controller
 
     public function import(Request $request)
     {
+        if (!auth()->user()->canWrite('dosen')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'file_import' => 'required|mimes:csv,txt|max:2048',
         ]);

@@ -60,6 +60,10 @@ class BidangController extends Controller
 
     public function store(StoreBidangRequest $request)
     {
+        if (!auth()->user()->canWrite('bidang')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $bidang = Bidang::create($request->validated());
         ActivityLog::log('Menambahkan bidang', 'Bidang', $bidang->id, $bidang->nama_bidang);
         return redirect()->route('bidang.index')->with('success', 'Bidang berhasil ditambahkan.');
@@ -67,6 +71,10 @@ class BidangController extends Controller
 
     public function update(UpdateBidangRequest $request, Bidang $bidang)
     {
+        if (!auth()->user()->canWrite('bidang')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $bidang->update($request->validated());
         ActivityLog::log('Memperbarui bidang', 'Bidang', $bidang->id, $bidang->nama_bidang);
         return redirect()->route('bidang.index')->with('success', 'Bidang berhasil diperbarui.');
@@ -74,6 +82,10 @@ class BidangController extends Controller
 
     public function destroy(Bidang $bidang)
     {
+        if (!auth()->user()->canWrite('bidang')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         ActivityLog::log('Menghapus bidang', 'Bidang', $bidang->id, $bidang->nama_bidang);
         $bidang->delete();
         return redirect()->route('bidang.index')->with('success', 'Bidang berhasil dihapus.');

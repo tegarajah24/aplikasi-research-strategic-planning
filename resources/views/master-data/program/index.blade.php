@@ -5,12 +5,14 @@
                 <h1 class="text-xl font-bold text-slate-800 leading-tight">Master Data Program</h1>
                 <p class="text-sm text-slate-400 mt-0.5">Program — turunan Bidang, induk Kegiatan dalam RENSTRA/RKT</p>
             </div>
+            @if(auth()->user()->canWrite('program'))
             <button onclick="openModal()"
                 class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition shadow-sm"
                 style="background:#2563eb">
                 <x-icon name="plus" class="w-4 h-4" />
                 Tambah Program
             </button>
+            @endif
         </div>
     </x-slot>
 

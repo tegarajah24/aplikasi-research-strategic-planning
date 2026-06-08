@@ -9,6 +9,7 @@
         </div>
     </form>
 
+    @if(auth()->user()->canWrite('prodi'))
     <div class="flex items-center gap-3">
         <button @click="$dispatch('open-create-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg text-sm font-medium text-white hover:bg-indigo-700 transition-colors shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -17,4 +18,5 @@
             Tambah
         </button>
     </div>
+    @endif
 </div>

@@ -30,6 +30,7 @@
                 <td class="py-4 px-6 text-center text-slate-700 border-r border-slate-100">{{ $prestasi->internasional }}</td>
                 <td class="py-4 px-6 text-center font-semibold text-slate-900 border-r border-slate-100">{{ $prestasi->regional + $prestasi->nasional + $prestasi->internasional }}</td>
                 <td class="py-4 px-6 text-center">
+                    @if(auth()->user()->canWrite('prestasi-non-akademik'))
                     <div class="flex justify-center gap-2">
                         <button @click="editData = {{ json_encode($prestasi) }}; showEditModal = true" class="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -46,6 +47,7 @@
                             </button>
                         </form>
                     </div>
+                    @endif
                 </td>
             </tr>
             @empty

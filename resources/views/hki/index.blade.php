@@ -5,6 +5,7 @@
                 <h1 class="text-xl font-bold text-slate-800 leading-tight">HKI</h1>
                 <p class="text-sm text-slate-400 mt-0.5">Halaman manajemen Hak Kekayaan Intelektual</p>
             </div>
+            @if(auth()->user()->canWrite('hki'))
             <div class="flex items-center gap-3">
                 <button @click="$dispatch('open-import-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -19,6 +20,7 @@
                     Upload HKI
                 </button>
             </div>
+            @endif
         </div>
     </x-slot>
 

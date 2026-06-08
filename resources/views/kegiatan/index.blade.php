@@ -5,6 +5,7 @@
                 <h1 class="text-xl font-bold text-slate-800 leading-tight">Data Kegiatan Penelitian</h1>
                 <p class="text-sm text-slate-400 mt-0.5">Manajemen program kerja penelitian &amp; pengabdian masyarakat berdasarkan Renstra</p>
             </div>
+            @if(auth()->user()->canWrite('kegiatan'))
             <div class="flex items-center gap-2">
                 <button @click="$dispatch('open-create-modal')"
                     id="btn-tambah-kegiatan"
@@ -15,6 +16,7 @@
                     Tambah Kegiatan
                 </button>
             </div>
+            @endif
         </div>
     </x-slot>
 

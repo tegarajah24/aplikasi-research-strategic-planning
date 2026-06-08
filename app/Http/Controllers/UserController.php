@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
+use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -26,9 +27,11 @@ class UserController extends Controller
             $query->where('role', $request->role);
         }
 
-        $users = $query->latest()->paginate(10)->withQueryString();
+        $users = $query->with('prodi')->latest()->paginate(10)->withQueryString();
 
-        return view('pengguna.index', compact('users'));
+        $prodiList = Prodi::orderBy('nama_prodi')->get();
+
+        return view('pengguna.index', compact('users', 'prodiList'));
     }
 
     public function store(Request $request)
@@ -38,9 +41,14 @@ class UserController extends Controller
             'username' => 'required|string|max:255|unique:users,username',
             'email'    => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
-            'role'     => 'required|in:Admin,Operator,Viewer',
+            'role'     => 'required|in:Admin,Dekan,LPPM,Kaprodi',
             'status'   => 'required|in:Aktif,Nonaktif',
+            'prodi_id' => 'nullable|exists:prodis,id',
         ]);
+
+        if ($validated['role'] === 'Kaprodi' && !$validated['prodi_id']) {
+            return back()->withErrors(['prodi_id' => 'Prodi wajib dipilih untuk role Kaprodi.'])->withInput();
+        }
 
         $validated['password'] = Hash::make($validated['password']);
 
@@ -57,9 +65,14 @@ class UserController extends Controller
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'email'    => 'required|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
-            'role'     => 'required|in:Admin,Operator,Viewer',
+            'role'     => 'required|in:Admin,Dekan,LPPM,Kaprodi',
             'status'   => 'required|in:Aktif,Nonaktif',
+            'prodi_id' => 'nullable|exists:prodis,id',
         ]);
+
+        if ($validated['role'] === 'Kaprodi' && !$validated['prodi_id']) {
+            return back()->withErrors(['prodi_id' => 'Prodi wajib dipilih untuk role Kaprodi.'])->withInput();
+        }
 
         if ($request->filled('password')) {
             $validated['password'] = Hash::make($validated['password']);

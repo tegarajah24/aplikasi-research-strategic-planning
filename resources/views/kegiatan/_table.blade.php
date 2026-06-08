@@ -91,6 +91,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
                         </button>
+                        @if(auth()->user()->canWrite('kegiatan'))
                         <button type="button" id="btn-edit-{{ $kegiatan->id }}"
                             @click="editData = {{ json_encode($kegiatan->toArray()) }}; showEditModal = true"
                             class="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
@@ -111,6 +112,7 @@
                                 </svg>
                             </button>
                         </form>
+                        @endif
                     </div>
                 </td>
             </tr>

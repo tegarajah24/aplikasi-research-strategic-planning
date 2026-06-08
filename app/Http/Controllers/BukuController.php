@@ -26,6 +26,10 @@ class BukuController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('buku')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'penulis' => 'required|string|max:255',
@@ -47,6 +51,10 @@ class BukuController extends Controller
 
     public function update(Request $request, Buku $buku)
     {
+        if (!auth()->user()->canWrite('buku')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'penulis' => 'required|string|max:255',
@@ -71,6 +79,10 @@ class BukuController extends Controller
 
     public function destroy(Buku $buku)
     {
+        if (!auth()->user()->canWrite('buku')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if ($buku->file_path && Storage::disk('public')->exists($buku->file_path)) {
             Storage::disk('public')->delete($buku->file_path);
         }

@@ -17,6 +17,7 @@
                 <td class="py-4 px-6 text-sm text-slate-700 border-r border-slate-100">{{ $item->nama_dosen }}</td>
                 <td class="py-4 px-6 text-sm text-slate-700 border-r border-slate-100">{{ $item->prodi->nama_prodi ?? '-' }}</td>
                 <td class="py-4 px-6 text-center">
+                    @if(auth()->user()->canWrite('dosen'))
                     <div class="flex justify-center gap-2">
                         <button @click="editData = {{ json_encode($item) }}; showEditModal = true" class="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -33,6 +34,7 @@
                             </button>
                         </form>
                     </div>
+                    @endif
                 </td>
             </tr>
             @empty

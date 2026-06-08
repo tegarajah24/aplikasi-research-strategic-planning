@@ -46,6 +46,10 @@ class RenstraController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('renstra')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'kode'            => 'nullable|string|max:20',
             'sasaran'         => 'required|string|max:255',
@@ -62,6 +66,10 @@ class RenstraController extends Controller
 
     public function update(Request $request, Renstra $renstra)
     {
+        if (!auth()->user()->canWrite('renstra')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'kode'            => 'nullable|string|max:20',
             'sasaran'         => 'required|string|max:255',
@@ -78,6 +86,10 @@ class RenstraController extends Controller
 
     public function destroy(Renstra $renstra)
     {
+        if (!auth()->user()->canWrite('renstra')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         ActivityLog::log('Menghapus renstra', 'Renstra', $renstra->id, $renstra->sasaran);
         $renstra->delete();
         return redirect()->route('renstra.index')->with('success', 'Data RENSTRA berhasil dihapus.');

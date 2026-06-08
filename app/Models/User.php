@@ -35,6 +35,7 @@ class User extends Authenticatable
         'role',
         'status',
         'last_login_at',
+        'prodi_id',
     ];
 
     /**
@@ -69,5 +70,52 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function prodi()
+    {
+        return $this->belongsTo(Prodi::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'Admin';
+    }
+
+    public function isDekan(): bool
+    {
+        return $this->role === 'Dekan';
+    }
+
+    public function isLppm(): bool
+    {
+        return $this->role === 'LPPM';
+    }
+
+    public function isKaprodi(): bool
+    {
+        return $this->role === 'Kaprodi';
+    }
+
+    public function canWrite(string $module): bool
+    {
+        $permissions = [
+            'user'               => ['Admin'],
+            'fakultas'           => ['Admin'],
+            'prodi'              => ['Admin'],
+            'dosen'              => ['Admin', 'Kaprodi'],
+            'bidang'             => ['Admin', 'LPPM'],
+            'program'            => ['Admin', 'LPPM'],
+            'renstra'            => ['Admin', 'Dekan'],
+            'hki'                => ['Admin', 'LPPM', 'Kaprodi'],
+            'buku'               => ['Admin', 'LPPM', 'Kaprodi'],
+            'artikel'            => ['Admin', 'LPPM', 'Kaprodi'],
+            'kegiatan'           => ['Admin', 'LPPM', 'Kaprodi'],
+            'kerjasama'          => ['Admin', 'LPPM'],
+            'prestasi-akademik'  => ['Admin', 'Kaprodi'],
+            'prestasi-non-akademik' => ['Admin', 'Kaprodi'],
+        ];
+
+        return in_array($this->role, $permissions[$module] ?? []);
     }
 }

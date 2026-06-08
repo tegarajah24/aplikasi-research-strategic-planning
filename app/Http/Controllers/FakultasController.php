@@ -25,6 +25,10 @@ class FakultasController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('fakultas')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'kode_fakultas' => 'required|string|max:50|unique:fakultas,kode_fakultas',
             'nama_fakultas' => 'required|string|max:255',
@@ -39,6 +43,10 @@ class FakultasController extends Controller
 
     public function update(Request $request, Fakultas $fakulta)
     {
+        if (!auth()->user()->canWrite('fakultas')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         // Laravel's route-model binding might inject $fakulta because the resource name is 'fakultas'
         $validated = $request->validate([
             'kode_fakultas' => 'required|string|max:50|unique:fakultas,kode_fakultas,' . $fakulta->id,
@@ -54,6 +62,10 @@ class FakultasController extends Controller
 
     public function destroy(Fakultas $fakulta)
     {
+        if (!auth()->user()->canWrite('fakultas')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         ActivityLog::log('Menghapus fakultas', 'Fakultas', $fakulta->id, $fakulta->nama_fakultas);
         $fakulta->delete();
         return redirect()->route('fakultas.index')->with('success', 'Data Fakultas berhasil dihapus.');

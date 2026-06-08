@@ -4,7 +4,7 @@
         <form id="user-form" method="POST">
             @csrf
             <div id="form-method-edit" style="display:none">
-                @method('PUT')
+                <input type="hidden" name="_method" id="form-method-input" value="PUT" disabled>
             </div>
             <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
@@ -29,10 +29,20 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">Role <span class="text-red-500">*</span></label>
-                        <select id="f-role" name="role" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition cursor-pointer">
+                        <select id="f-role" name="role" onchange="toggleProdiField()" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition cursor-pointer">
                             <option value="Admin">Admin</option>
-                            <option value="Operator">Operator</option>
-                            <option value="Viewer">Viewer</option>
+                            <option value="Dekan">Dekan</option>
+                            <option value="LPPM">LPPM</option>
+                            <option value="Kaprodi">Kaprodi</option>
+                        </select>
+                    </div>
+                    <div id="prodi-field" class="hidden">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Program Studi <span class="text-red-500">*</span></label>
+                        <select id="f-prodi" name="prodi_id" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition cursor-pointer">
+                            <option value="">Pilih Prodi</option>
+                            @foreach($prodiList as $p)
+                            <option value="{{ $p->id }}">{{ $p->kode_prodi }} — {{ $p->nama_prodi }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

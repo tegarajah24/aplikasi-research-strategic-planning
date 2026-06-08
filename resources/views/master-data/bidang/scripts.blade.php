@@ -1,6 +1,7 @@
 <script>
 // ── Data from Database ──────────────────────────────────────────
 let bidangData = @json($bidangList);
+let canWriteBidang = @json(auth()->user()->canWrite('bidang'));
 
 let deleteTargetId = null;
 const COLORS = ['#3b82f6','#6366f1','#8b5cf6','#10b981','#f59e0b'];
@@ -93,6 +94,7 @@ function renderTable() {
                 <span class="inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${badgeCls}">${b.status}</span>
             </td>
             <td class="px-3 py-3 text-center">
+                ${canWriteBidang ? `
                 <div class="flex items-center justify-center gap-1">
                     <button onclick="event.stopPropagation(); editBidang(${b.id})"
                         class="p-1.5 rounded-lg text-blue-500 hover:bg-blue-50 transition" title="Edit">
@@ -103,6 +105,7 @@ function renderTable() {
                         ${SVG.trash}
                     </button>
                 </div>
+                ` : ''}
             </td>
         </tr>`;
     }).join('');

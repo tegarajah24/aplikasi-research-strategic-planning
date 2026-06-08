@@ -12,12 +12,13 @@
                         oninput="document.getElementById('search-form').submit()">
                 </form>
             </div>
-            <select name="role" form="search-form" onchange="document.getElementById('search-form').submit()" class="appearance-none border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-600 outline-none focus:border-sky-400 cursor-pointer">
-                <option value="">Semua Role</option>
-                <option value="Admin" {{ request('role') === 'Admin' ? 'selected' : '' }}>Admin</option>
-                <option value="Operator" {{ request('role') === 'Operator' ? 'selected' : '' }}>Operator</option>
-                <option value="Viewer" {{ request('role') === 'Viewer' ? 'selected' : '' }}>Viewer</option>
-            </select>
+                <select name="role" form="search-form" onchange="document.getElementById('search-form').submit()" class="appearance-none border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-600 outline-none focus:border-sky-400 cursor-pointer">
+                    <option value="">Semua Role</option>
+                    <option value="Admin" {{ request('role') === 'Admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="Dekan" {{ request('role') === 'Dekan' ? 'selected' : '' }}>Dekan</option>
+                    <option value="LPPM" {{ request('role') === 'LPPM' ? 'selected' : '' }}>LPPM</option>
+                    <option value="Kaprodi" {{ request('role') === 'Kaprodi' ? 'selected' : '' }}>Kaprodi</option>
+                </select>
         </div>
     </div>
 
@@ -46,6 +47,9 @@
                     <td class="px-4 py-4">
                         <div class="flex flex-col items-start gap-1.5">
                             <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold role-{{ strtolower($user->role) }}">{{ $user->role }}</span>
+                            @if($user->role === 'Kaprodi' && $user->prodi)
+                                <span class="text-[10px] text-slate-400">{{ $user->prodi->nama_prodi }}</span>
+                            @endif
                             <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold {{ $user->status === 'Aktif' ? 'badge-aktif' : 'badge-nonaktif' }}">
                                 <span class="w-1.5 h-1.5 rounded-full {{ $user->status === 'Aktif' ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
                                 {{ $user->status }}

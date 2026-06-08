@@ -69,6 +69,10 @@ class KegiatanController extends Controller
      */
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('kegiatan')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'kode_kegiatan'     => 'required|string|max:20',
             'nama_kegiatan'     => 'required|string|max:255',
@@ -96,6 +100,10 @@ class KegiatanController extends Controller
      */
     public function update(Request $request, Kegiatan $kegiatan)
     {
+        if (!auth()->user()->canWrite('kegiatan')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'kode_kegiatan'     => 'required|string|max:20',
             'nama_kegiatan'     => 'required|string|max:255',
@@ -123,6 +131,10 @@ class KegiatanController extends Controller
      */
     public function destroy(Kegiatan $kegiatan)
     {
+        if (!auth()->user()->canWrite('kegiatan')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         ActivityLog::log('Menghapus kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);
         $kegiatan->delete();
 

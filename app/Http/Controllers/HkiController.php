@@ -25,6 +25,10 @@ class HkiController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('hki')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'pencipta' => 'required|string|max:255',
@@ -45,6 +49,10 @@ class HkiController extends Controller
 
     public function update(Request $request, Hki $hki)
     {
+        if (!auth()->user()->canWrite('hki')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'pencipta' => 'required|string|max:255',
@@ -68,6 +76,10 @@ class HkiController extends Controller
 
     public function destroy(Hki $hki)
     {
+        if (!auth()->user()->canWrite('hki')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if ($hki->file_path && Storage::disk('public')->exists($hki->file_path)) {
             Storage::disk('public')->delete($hki->file_path);
         }

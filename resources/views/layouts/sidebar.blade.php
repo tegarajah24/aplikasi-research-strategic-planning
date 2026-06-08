@@ -100,6 +100,7 @@
 
                 <div class="mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
                     {{-- Fakultas --}}
+                    @if(auth()->user()->isAdmin() || auth()->user()->isDekan())
                     <a href="/fakultas"
                        class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
                               transition-all duration-150
@@ -116,8 +117,10 @@
                         </svg>
                         <span>Fakultas</span>
                     </a>
+                    @endif
 
                     {{-- Prodi --}}
+                    @if(auth()->user()->isAdmin() || auth()->user()->isDekan())
                     <a href="/prodi"
                        class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
                               transition-all duration-150
@@ -134,6 +137,7 @@
                         </svg>
                         <span>Prodi</span>
                     </a>
+                    @endif
 
                     {{-- Dosen --}}
                     <a href="/dosen"
@@ -154,6 +158,7 @@
                     </a>
 
                     {{-- Bidang --}}
+                    @if(auth()->user()->isAdmin() || auth()->user()->isLppm())
                     <a href="/bidang"
                        class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
                               transition-all duration-150
@@ -170,8 +175,10 @@
                         </svg>
                         <span>Bidang</span>
                     </a>
+                    @endif
 
                     {{-- Program --}}
+                    @if(auth()->user()->isAdmin() || auth()->user()->isLppm())
                     <a href="/program"
                        class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
                               transition-all duration-150
@@ -188,8 +195,10 @@
                         </svg>
                         <span>Program</span>
                     </a>
+                    @endif
 
                     {{-- RENSTRA --}}
+                    @if(auth()->user()->isAdmin() || auth()->user()->isDekan())
                     <a href="/renstra"
                        class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
                               transition-all duration-150
@@ -206,6 +215,7 @@
                         </svg>
                         <span>RENSTRA</span>
                     </a>
+                    @endif
                 </div>
             </details>
         </div>
@@ -373,6 +383,7 @@
 
         {{-- Kerja Sama / MOU --}}
         @php $isKerjasama = request()->is('kerjasama*'); @endphp
+        @if(auth()->user()->isAdmin() || auth()->user()->isDekan() || auth()->user()->isLppm())
         <a href="/kerjasama"
            class="group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                   transition-all duration-150
@@ -388,8 +399,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
             </svg>
-            <span>Kerja Sama / MOU</span>
-        </a>
+                        <span>Kerja Sama / MOU</span>
+                    </a>
+                    @endif
 
         {{-- Prestasi Accordion --}}
         @php
@@ -421,6 +433,7 @@
 
                 <div class="mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
                     {{-- Prestasi Akademik --}}
+                    @if(auth()->user()->isAdmin() || auth()->user()->isDekan() || auth()->user()->isKaprodi())
                     <a href="/prestasi-akademik"
                        class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
                               transition-all duration-150
@@ -433,8 +446,10 @@
                         @endif
                         <span>Akademik</span>
                     </a>
+                    @endif
 
                     {{-- Prestasi Non-Akademik --}}
+                    @if(auth()->user()->isAdmin() || auth()->user()->isDekan() || auth()->user()->isKaprodi())
                     <a href="/prestasi-non-akademik"
                        class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
                               transition-all duration-150
@@ -447,10 +462,12 @@
                         @endif
                         <span>Non-Akademik</span>
                     </a>
+                    @endif
                 </div>
             </details>
         </div>
 
+        @if(auth()->user()->isAdmin())
         {{-- Divider + Section: Pengguna --}}
         <div class="!mt-4 !mb-1 border-t border-slate-800/60"></div>
         <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none">
@@ -461,6 +478,7 @@
         @php
             $isPengguna = request()->is('pengguna*');
         @endphp
+        @if(auth()->user()->isAdmin())
         <a href="/pengguna"
            class="group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                   transition-all duration-150
@@ -475,8 +493,10 @@
                  fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
             </svg>
-            <span>Manajemen User</span>
-        </a>
+                    <span>Manajemen User</span>
+                </a>
+                @endif
+                @endif
 
     </nav>
 

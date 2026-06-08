@@ -30,6 +30,10 @@ class ProdiController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('prodi')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'kode_prodi'  => 'required|string|max:50|unique:prodis,kode_prodi',
             'nama_prodi'  => 'required|string|max:255',
@@ -44,6 +48,10 @@ class ProdiController extends Controller
 
     public function update(Request $request, Prodi $prodi)
     {
+        if (!auth()->user()->canWrite('prodi')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'kode_prodi'  => 'required|string|max:50|unique:prodis,kode_prodi,' . $prodi->id,
             'nama_prodi'  => 'required|string|max:255',
@@ -58,6 +66,10 @@ class ProdiController extends Controller
 
     public function destroy(Prodi $prodi)
     {
+        if (!auth()->user()->canWrite('prodi')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         ActivityLog::log('Menghapus prodi', 'Prodi', $prodi->id, $prodi->nama_prodi);
         $prodi->delete();
         return redirect()->route('prodi.index')->with('success', 'Data Program Studi berhasil dihapus.');

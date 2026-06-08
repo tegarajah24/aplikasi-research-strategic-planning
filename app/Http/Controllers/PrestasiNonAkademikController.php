@@ -13,6 +13,10 @@ class PrestasiNonAkademikController extends Controller
     {
         $query = PrestasiNonAkademik::query();
 
+        if (auth()->user()->isKaprodi() && auth()->user()->prodi) {
+            $query->where('prodi', auth()->user()->prodi->nama_prodi);
+        }
+
         // Calculate totals for widgets
         $totalRegional = PrestasiNonAkademik::sum('regional');
         $totalNasional = PrestasiNonAkademik::sum('nasional');
@@ -29,6 +33,10 @@ class PrestasiNonAkademikController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->canWrite('prestasi-non-akademik')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'tahun' => 'required|integer',
             'nama_mahasiswa' => 'nullable|string|max:255',
@@ -47,6 +55,10 @@ class PrestasiNonAkademikController extends Controller
 
     public function update(Request $request, PrestasiNonAkademik $prestasi_non_akademik)
     {
+        if (!auth()->user()->canWrite('prestasi-non-akademik')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'tahun' => 'required|integer',
             'nama_mahasiswa' => 'nullable|string|max:255',
@@ -65,6 +77,10 @@ class PrestasiNonAkademikController extends Controller
 
     public function destroy(PrestasiNonAkademik $prestasi_non_akademik)
     {
+        if (!auth()->user()->canWrite('prestasi-non-akademik')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         ActivityLog::log('Menghapus prestasi non-akademik', 'Prestasi Non-Akademik', $prestasi_non_akademik->id, $prestasi_non_akademik->tahun);
         $prestasi_non_akademik->delete();
         return redirect()->route('prestasi-non-akademik.index')->with('success', 'Data Prestasi Non-Akademik berhasil dihapus.');
@@ -72,6 +88,10 @@ class PrestasiNonAkademikController extends Controller
 
     public function import(Request $request)
     {
+        if (!auth()->user()->canWrite('prestasi-non-akademik')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'file_import' => 'required|mimes:csv,txt|max:2048',
         ]);
@@ -113,7 +133,11 @@ class PrestasiNonAkademikController extends Controller
     
     public function export()
     {
-        $prestasis = PrestasiNonAkademik::orderBy('tahun', 'desc')->get();
+        $query = PrestasiNonAkademik::query();
+        if (auth()->user()->isKaprodi() && auth()->user()->prodi) {
+            $query->where('prodi', auth()->user()->prodi->nama_prodi);
+        }
+        $prestasis = $query->orderBy('tahun', 'desc')->get();
         $fileName = 'data_prestasi_non_akademik.csv';
         $headers = array(
             "Content-type"        => "text/csv",
