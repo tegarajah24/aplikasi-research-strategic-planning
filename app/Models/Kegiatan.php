@@ -8,6 +8,11 @@ class Kegiatan extends Model
 {
     protected $table = 'kegiatans';
 
+    public function program()
+    {
+        return $this->belongsTo(Program::class);
+    }
+
     protected $fillable = [
         'kode_kegiatan',
         'nama_kegiatan',
@@ -15,10 +20,13 @@ class Kegiatan extends Model
         'target_kegiatan',
         'penanggung_jawab',
         'waktu_pelaksanaan',
+        'waktu_mulai',
+        'waktu_selesai',
         'tahun_akademik',
         'kebutuhan_anggaran',
         'status',
         'catatan',
+        'dokumen',
     ];
 
     /**

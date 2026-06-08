@@ -1,24 +1,4 @@
-const allEvents = [
-    { id: 1, title: 'Seminar Nasional Riset & Inovasi', program: 'Hibah Internal', bidang: 'Penelitian', start: '2025-06-03', end: '2025-06-05', pj: 'Dr. Ahmad Fauzi', status: 'upcoming', anggaran: 'Rp 25.000.000', indikator: 'Terlaksananya seminar dengan minimal 100 peserta dari berbagai institusi', target: '1 kegiatan seminar, 100 peserta, 20 paper terseleksi', dokumen: 'SK Pelaksanaan No. 012/UHB/2025 · Proposal Kegiatan.pdf' },
-    { id: 2, title: 'Workshop Penulisan Artikel Ilmiah', program: 'Publikasi', bidang: 'Penelitian', start: '2025-06-10', end: '2025-06-11', pj: 'Siti Rahayu, M.Pd', status: 'upcoming', anggaran: 'Rp 8.500.000', indikator: 'Peningkatan kemampuan penulisan artikel bereputasi internasional dosen', target: '30 dosen peserta, minimal 5 draft artikel siap submit', dokumen: 'TOR Workshop.pdf · Daftar Peserta.xlsx' },
-    { id: 3, title: 'Rapat Koordinasi LP3M Semester Gasal', program: 'Pengembangan SDM', bidang: 'Akademik', start: '2025-06-02', end: '2025-06-02', pj: 'Budi Santoso, M.T', status: 'running', anggaran: 'Rp 2.000.000', indikator: 'Tersusunnya program kerja LP3M semester gasal 2025/2026', target: '1 dokumen program kerja disepakati', dokumen: 'Agenda Rapat.pdf' },
-    { id: 4, title: 'Pengabdian Masyarakat Desa Binaan', program: 'Kemitraan', bidang: 'Pengabdian', start: '2025-06-15', end: '2025-06-20', pj: 'Rina Agustina, M.Kom', status: 'upcoming', anggaran: 'Rp 15.000.000', indikator: 'Peningkatan literasi digital masyarakat desa binaan', target: '50 warga terlatih, 1 laporan akhir, 1 artikel pengabmas', dokumen: 'Proposal Pengabmas.pdf · SK Pembimbing.pdf' },
-    { id: 5, title: 'Pelatihan Metodologi Penelitian', program: 'Pengembangan SDM', bidang: 'Penelitian', start: '2025-05-10', end: '2025-05-12', pj: 'Dr. Ahmad Fauzi', status: 'done', anggaran: 'Rp 12.000.000', indikator: 'Peningkatan kompetensi penelitian dosen muda', target: '25 dosen, sertifikat pelatihan, modul pelatihan', dokumen: 'Laporan Akhir Pelatihan.pdf · Daftar Hadir.xlsx' },
-    { id: 6, title: 'Penyusunan Laporan Tahunan LP3M', program: 'Pengembangan SDM', bidang: 'Akademik', start: '2025-05-01', end: '2025-05-31', pj: 'Budi Santoso, M.T', status: 'late', anggaran: 'Rp 3.500.000', indikator: 'Tersedianya laporan tahunan LP3M yang komprehensif dan tepat waktu', target: '1 dokumen laporan tahunan 2024/2025', dokumen: 'Draft Laporan v1.docx' },
-    { id: 7, title: 'Seleksi Hibah Penelitian Internal', program: 'Hibah Internal', bidang: 'Penelitian', start: '2025-06-25', end: '2025-06-27', pj: 'Siti Rahayu, M.Pd', status: 'upcoming', anggaran: 'Rp 5.000.000', indikator: 'Terseleksinya proposal penelitian terbaik untuk pendanaan internal', target: '10 proposal terseleksi, 5 didanai', dokumen: 'Panduan Hibah 2025.pdf · Form Penilaian.xlsx' },
-    { id: 8, title: 'MOU dengan Universitas Mitra', program: 'Kemitraan', bidang: 'Kemahasiswaan', start: '2025-06-18', end: '2025-06-18', pj: 'Rina Agustina, M.Kom', status: 'upcoming', anggaran: 'Rp 1.500.000', indikator: 'Terjalinnya kerjasama formal dengan universitas mitra', target: '2 MOU ditandatangani', dokumen: 'Draft MOU.docx' },
-    { id: 9, title: 'Penyusunan Proposal Hibah DIKTI', program: 'Hibah Internal', bidang: 'Penelitian', start: '2026-05-12', end: '2026-05-15', pj: 'Dr. Ahmad Fauzi', status: 'done', anggaran: 'Rp 30.000.000', indikator: 'Tersusunnya proposal hibah berskala nasional DIKTI', target: '3 proposal disubmit ke portal BIMA', dokumen: 'Panduan BIMA 2026.pdf · Draft Proposal.docx' },
-    { id: 10, title: 'Monitoring dan Evaluasi Penelitian Internal', program: 'Hibah Internal', bidang: 'Penelitian', start: '2026-05-24', end: '2026-05-26', pj: 'Siti Rahayu, M.Pd', status: 'running', anggaran: 'Rp 4.000.000', indikator: 'Terlaksananya monev tengah tahun untuk 15 judul penelitian', target: '15 laporan kemajuan dievaluasi, laporan monev selesai', dokumen: 'Instrumen Monev.pdf · Jadwal Monev.xlsx' },
-    { id: 11, title: 'Workshop Penulisan Jurnal Scopus', program: 'Publikasi', bidang: 'Penelitian', start: '2026-05-28', end: '2026-05-29', pj: 'Rina Agustina, M.Kom', status: 'upcoming', anggaran: 'Rp 10.000.000', indikator: 'Peningkatan publikasi ilmiah di jurnal internasional terindeks Scopus', target: '20 dosen peserta, minimal 3 paper submit', dokumen: 'Materi Workshop.zip · Template Jurnal.docx' },
-    { id: 12, title: 'Audit Mutu Internal Akademik', program: 'Pengembangan SDM', bidang: 'Akademik', start: '2026-05-05', end: '2026-05-08', pj: 'Budi Santoso, M.T', status: 'done', anggaran: 'Rp 5.500.000', indikator: 'Terlaksananya audit mutu akademik di tingkat program studi', target: '5 program studi diaudit, laporan AMI 2026 selesai', dokumen: 'Instrumen Audit.xlsx · SK Auditor.pdf' },
-    { id: 13, title: 'Kunjungan Kerjasama Luar Negeri', program: 'Kemitraan', bidang: 'Kemahasiswaan', start: '2026-05-20', end: '2026-05-22', pj: 'Dr. Ahmad Fauzi', status: 'late', anggaran: 'Rp 45.000.000', indikator: 'MoA implementasi student exchange dengan universitas mitra', target: '1 naskah MoA disepakati dan ditandatangani', dokumen: 'Draft MoA.docx · Rencana Kunjungan.pdf' },
-    { id: 14, title: 'Sosialisasi KKN Tematik 2026', program: 'Kemitraan', bidang: 'Pengabdian', start: '2026-06-05', end: '2026-06-05', pj: 'Rina Agustina, M.Kom', status: 'upcoming', anggaran: 'Rp 3.000.000', indikator: 'Pembekalan mahasiswa sebelum terjun ke lokasi KKN', target: '150 mahasiswa terdaftar pembekalan KKN', dokumen: 'Materi KKN 2026.pdf · Buku Panduan.pdf' },
-    { id: 15, title: 'FGD Penyusunan Visi Misi Fakultas', program: 'Pengembangan SDM', bidang: 'Akademik', start: '2026-06-12', end: '2026-06-14', pj: 'Budi Santoso, M.T', status: 'upcoming', anggaran: 'Rp 7.500.000', indikator: 'Terumuskannya draf visi keilmuan dan misi fakultas yang baru', target: '1 dokumen draf visi misi, dihadiri 40 peserta stakeholder', dokumen: 'Undangan Stakeholder.pdf · Draf Kuesioner.docx' },
-    { id: 16, title: 'Submit Laporan Kinerja Dosen (LKD)', program: 'Pengembangan SDM', bidang: 'Akademik', start: '2026-05-25', end: '2026-05-27', pj: 'Siti Rahayu, M.Pd', status: 'running', anggaran: 'Rp 0', indikator: 'Seluruh dosen tetap melaporkan kinerja di SISTER', target: '100% dosen tetap selesai submit LKD', dokumen: 'Panduan SISTER LKD.pdf' },
-];
-
-let currentDate = new Date();
-let filteredEvents = [...allEvents];
+const allEvents = @json($eventsData);
 
 const statusConfig = {
     done:     { cls:'ev-done',     label:'Selesai',      badge:'bg-emerald-100 text-emerald-700' },
@@ -29,6 +9,9 @@ const statusConfig = {
 
 const monthNames = ['Januari','Februari','Maret','April','Mei','Juni',
                     'Juli','Agustus','September','Oktober','November','Desember'];
+
+let currentDate = new Date();
+let filteredEvents = [...allEvents];
 
 function applyFilters() {
     const tahun  = document.getElementById('filter-tahun').value;
@@ -51,10 +34,10 @@ function applyFilters() {
 }
 
 function resetFilters() {
-    ['filter-tahun','filter-bidang','filter-program','filter-pj'].forEach(id => {
-        document.getElementById(id).value = '';
-    });
-    document.getElementById('filter-tahun').value = '2026';
+    document.getElementById('filter-tahun').value = '';
+    document.getElementById('filter-bidang').value = '';
+    document.getElementById('filter-program').value = '';
+    document.getElementById('filter-pj').value = '';
     applyFilters();
 }
 

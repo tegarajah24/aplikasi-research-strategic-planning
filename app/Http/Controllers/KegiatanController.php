@@ -75,10 +75,13 @@ class KegiatanController extends Controller
             'target_kegiatan'   => 'required|string|max:100',
             'penanggung_jawab'  => 'required|string|max:100',
             'waktu_pelaksanaan' => 'required|string|max:150',
+            'waktu_mulai'       => 'nullable|date',
+            'waktu_selesai'     => 'nullable|date',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|string|max:200',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
             'catatan'           => 'nullable|string',
+            'dokumen'           => 'nullable|string',
         ]);
 
         Kegiatan::create($validated);
@@ -98,10 +101,13 @@ class KegiatanController extends Controller
             'target_kegiatan'   => 'required|string|max:100',
             'penanggung_jawab'  => 'required|string|max:100',
             'waktu_pelaksanaan' => 'required|string|max:150',
+            'waktu_mulai'       => 'nullable|date',
+            'waktu_selesai'     => 'nullable|date',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|string|max:200',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
             'catatan'           => 'nullable|string',
+            'dokumen'           => 'nullable|string',
         ]);
 
         $kegiatan->update($validated);

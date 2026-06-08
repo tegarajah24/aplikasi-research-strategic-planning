@@ -7,33 +7,39 @@
 
         <select id="filter-tahun" class="filter-select" onchange="applyFilters()">
             <option value="">Semua Tahun</option>
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-            <option value="2026" selected>2026</option>
+            @php
+                $tahunList = $eventsData->pluck('start')->map(fn($d) => date('Y', strtotime($d)))->unique()->sort()->values();
+            @endphp
+            @foreach($tahunList as $t)
+                <option value="{{ $t }}">{{ $t }}</option>
+            @endforeach
         </select>
 
         <select id="filter-bidang" class="filter-select" onchange="applyFilters()">
             <option value="">Semua Bidang</option>
-            <option value="Penelitian">Penelitian</option>
-            <option value="Pengabdian">Pengabdian</option>
-            <option value="Akademik">Akademik</option>
-            <option value="Kemahasiswaan">Kemahasiswaan</option>
+            @foreach($bidangList as $b)
+                <option value="{{ $b->nama_bidang }}">{{ $b->nama_bidang }}</option>
+            @endforeach
         </select>
 
         <select id="filter-program" class="filter-select" onchange="applyFilters()">
             <option value="">Semua Program</option>
-            <option value="Hibah Internal">Hibah Internal</option>
-            <option value="Pengembangan SDM">Pengembangan SDM</option>
-            <option value="Publikasi">Publikasi</option>
-            <option value="Kemitraan">Kemitraan</option>
+            @php
+                $programList = $eventsData->pluck('program')->unique()->filter()->sort()->values();
+            @endphp
+            @foreach($programList as $p)
+                <option value="{{ $p }}">{{ $p }}</option>
+            @endforeach
         </select>
 
         <select id="filter-pj" class="filter-select" onchange="applyFilters()">
             <option value="">Semua PJ</option>
-            <option value="Dr. Ahmad Fauzi">Dr. Ahmad Fauzi</option>
-            <option value="Siti Rahayu, M.Pd">Siti Rahayu, M.Pd</option>
-            <option value="Budi Santoso, M.T">Budi Santoso, M.T</option>
-            <option value="Rina Agustina, M.Kom">Rina Agustina, M.Kom</option>
+            @php
+                $pjList = $eventsData->pluck('pj')->unique()->sort()->values();
+            @endphp
+            @foreach($pjList as $pj)
+                <option value="{{ $pj }}">{{ $pj }}</option>
+            @endforeach
         </select>
 
         <button onclick="resetFilters()" class="ml-auto text-xs text-blue-500 hover:text-blue-700 font-medium transition-colors">

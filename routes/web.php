@@ -20,7 +20,7 @@ Route::middleware([
             ['label' => 'Kerja Sama',         'count' => \App\Models\Kerjasama::count(),           'color' => 'cyan',    'icon' => 'handshake'],
             ['label' => 'Dosen',              'count' => \App\Models\Dosen::count(),'color' => 'teal', 'icon' => 'users'],
             ['label' => 'Prestasi Akademik',  'count' => \App\Models\PrestasiAkademik::count(),    'color' => 'amber',   'icon' => 'trophy'],
-            ['label' => 'Prestasi Non-Akademik','count' => 0,                                      'color' => 'orange',  'icon' => 'star'],
+            ['label' => 'Prestasi Non-Akademik','count' => \App\Models\PrestasiNonAkademik::count(),'color' => 'orange',  'icon' => 'star'],
             ['label' => 'HKI',                'count' => \App\Models\Hki::count(),                 'color' => 'rose',    'icon' => 'shield'],
             ['label' => 'Buku',               'count' => \App\Models\Buku::count(),                'color' => 'pink',    'icon' => 'book'],
             ['label' => 'Artikel',            'count' => \App\Models\Artikel::count(),             'color' => 'fuchsia', 'icon' => 'document'],
@@ -34,6 +34,10 @@ Route::middleware([
 
     // Modul Pengguna
     Route::get('/pengguna', [App\Http\Controllers\UserController::class, 'index'])->name('pengguna');
+    Route::post('/pengguna', [App\Http\Controllers\UserController::class, 'store'])->name('pengguna.store');
+    Route::put('/pengguna/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('pengguna.update');
+    Route::delete('/pengguna/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('pengguna.destroy');
+    Route::post('/pengguna/{user}/reset-password', [App\Http\Controllers\UserController::class, 'resetPassword'])->name('pengguna.reset-password');
 
     // Modul Fakultas
     Route::resource('fakultas', App\Http\Controllers\FakultasController::class)->except(['create', 'show', 'edit']);
@@ -77,7 +81,37 @@ Route::middleware([
 
     // Modul Kalender RKT
     Route::get('/rkt/kalender', function () {
-        return view('rkt.kalender.index');
+        $kegiatans = \App\Models\Kegiatan::with('program.bidang')
+            ->whereNotNull('waktu_mulai')
+            ->orderBy('waktu_mulai')
+            ->get();
+
+        $eventsData = $kegiatans->map(function ($k) {
+            $statusMap = [
+                'perencanaan' => 'upcoming',
+                'berjalan'    => 'running',
+                'selesai'     => 'done',
+                'tertunda'    => 'late',
+            ];
+            return [
+                'id'        => $k->id,
+                'title'     => $k->nama_kegiatan,
+                'program'   => $k->program?->nama_program ?? '-',
+                'bidang'    => $k->program?->bidang?->nama_bidang ?? '-',
+                'start'     => $k->waktu_mulai,
+                'end'       => $k->waktu_selesai ?? $k->waktu_mulai,
+                'pj'        => $k->penanggung_jawab,
+                'status'    => $statusMap[$k->status] ?? 'upcoming',
+                'anggaran'  => $k->kebutuhan_anggaran,
+                'indikator' => $k->indikator_kinerja,
+                'target'    => $k->target_kegiatan,
+                'dokumen'   => $k->dokumen ?? '-',
+            ];
+        })->values();
+
+        $bidangList = \App\Models\Bidang::where('status', 'Aktif')->orderBy('nama_bidang')->get();
+
+        return view('rkt.kalender.index', compact('eventsData', 'bidangList'));
     })->name('rkt.kalender');
 
     // Master Data – Bidang
