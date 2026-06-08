@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Fakultas;
 use App\Models\Renstra;
 use Illuminate\Http\Request;
@@ -36,6 +37,7 @@ class RenstraController extends Controller
                 'strategiNama' => $r->strategi,
                 'programKode' => 'PT' . $r->id,
                 'programNama' => $r->program_tahunan,
+                'status' => $r->status ?? 'belum_tercapai',
             ];
         })->toArray();
 
@@ -50,9 +52,11 @@ class RenstraController extends Controller
             'strategi'        => 'nullable|string|max:255',
             'program_tahunan' => 'nullable|string|max:255',
             'periode'         => 'nullable|string|max:10',
+            'status'          => 'nullable|string|in:tercapai,dalam_proses,belum_tercapai',
         ]);
 
-        Renstra::create($validated);
+        $renstra = Renstra::create($validated);
+        ActivityLog::log('Menambahkan renstra', 'Renstra', $renstra->id, $renstra->sasaran);
         return redirect()->route('renstra.index')->with('success', 'Data RENSTRA berhasil ditambahkan.');
     }
 
@@ -64,14 +68,17 @@ class RenstraController extends Controller
             'strategi'        => 'nullable|string|max:255',
             'program_tahunan' => 'nullable|string|max:255',
             'periode'         => 'nullable|string|max:10',
+            'status'          => 'nullable|string|in:tercapai,dalam_proses,belum_tercapai',
         ]);
 
         $renstra->update($validated);
+        ActivityLog::log('Memperbarui renstra', 'Renstra', $renstra->id, $renstra->sasaran);
         return redirect()->route('renstra.index')->with('success', 'Data RENSTRA berhasil diperbarui.');
     }
 
     public function destroy(Renstra $renstra)
     {
+        ActivityLog::log('Menghapus renstra', 'Renstra', $renstra->id, $renstra->sasaran);
         $renstra->delete();
         return redirect()->route('renstra.index')->with('success', 'Data RENSTRA berhasil dihapus.');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\PrestasiAkademik;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,8 @@ class PrestasiAkademikController extends Controller
             'internasional' => 'required|integer|min:0',
         ]);
 
-        PrestasiAkademik::create($validated);
+        $prestasi = PrestasiAkademik::create($validated);
+        ActivityLog::log('Menambahkan prestasi akademik', 'Prestasi Akademik', $prestasi->id, $prestasi->tahun);
 
         return redirect()->route('prestasi-akademik.index')->with('success', 'Data Prestasi Akademik berhasil ditambahkan.');
     }
@@ -55,12 +57,14 @@ class PrestasiAkademikController extends Controller
         ]);
 
         $prestasiAkademik->update($validated);
+        ActivityLog::log('Memperbarui prestasi akademik', 'Prestasi Akademik', $prestasiAkademik->id, $prestasiAkademik->tahun);
 
         return redirect()->route('prestasi-akademik.index')->with('success', 'Data Prestasi Akademik berhasil diperbarui.');
     }
 
     public function destroy(PrestasiAkademik $prestasiAkademik)
     {
+        ActivityLog::log('Menghapus prestasi akademik', 'Prestasi Akademik', $prestasiAkademik->id, $prestasiAkademik->tahun);
         $prestasiAkademik->delete();
         return redirect()->route('prestasi-akademik.index')->with('success', 'Data Prestasi Akademik berhasil dihapus.');
     }

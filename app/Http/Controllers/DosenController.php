@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Dosen;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
@@ -35,7 +36,8 @@ class DosenController extends Controller
             'prodi_id'    => 'nullable|exists:prodis,id',
         ]);
 
-        Dosen::create($validated);
+        $dosen = Dosen::create($validated);
+        ActivityLog::log('Menambahkan dosen', 'Dosen', $dosen->id, $dosen->nama_dosen);
 
         return redirect()->route('dosen.index')->with('success', 'Data Dosen berhasil ditambahkan.');
     }
@@ -49,12 +51,14 @@ class DosenController extends Controller
         ]);
 
         $dosen->update($validated);
+        ActivityLog::log('Memperbarui dosen', 'Dosen', $dosen->id, $dosen->nama_dosen);
 
         return redirect()->route('dosen.index')->with('success', 'Data Dosen berhasil diperbarui.');
     }
 
     public function destroy(Dosen $dosen)
     {
+        ActivityLog::log('Menghapus dosen', 'Dosen', $dosen->id, $dosen->nama_dosen);
         $dosen->delete();
         return redirect()->route('dosen.index')->with('success', 'Data Dosen berhasil dihapus.');
     }

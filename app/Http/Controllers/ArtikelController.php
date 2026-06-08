@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Artikel;
 use App\Models\Dosen;
 use Illuminate\Http\Request;
@@ -40,7 +41,8 @@ class ArtikelController extends Controller
             $validated['file_path'] = $request->file('file_path')->store('artikels', 'public');
         }
 
-        Artikel::create($validated);
+        $artikel = Artikel::create($validated);
+        ActivityLog::log('Menambahkan artikel', 'Artikel', $artikel->id, $artikel->judul);
 
         return redirect()->route('artikel.index')->with('success', 'Artikel berhasil ditambahkan.');
     }
@@ -64,6 +66,7 @@ class ArtikelController extends Controller
         }
 
         $artikel->update($validated);
+        ActivityLog::log('Memperbarui artikel', 'Artikel', $artikel->id, $artikel->judul);
 
         return redirect()->route('artikel.index')->with('success', 'Artikel berhasil diperbarui.');
     }
@@ -73,7 +76,7 @@ class ArtikelController extends Controller
         if ($artikel->file_path && Storage::disk('public')->exists($artikel->file_path)) {
             Storage::disk('public')->delete($artikel->file_path);
         }
-        
+        ActivityLog::log('Menghapus artikel', 'Artikel', $artikel->id, $artikel->judul);
         $artikel->delete();
 
         return redirect()->route('artikel.index')->with('success', 'Artikel berhasil dihapus.');

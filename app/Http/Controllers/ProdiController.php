@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Prodi;
 use App\Models\Fakultas;
 use Illuminate\Http\Request;
@@ -35,7 +36,8 @@ class ProdiController extends Controller
             'fakultas_id' => 'required|exists:fakultas,id',
         ]);
 
-        Prodi::create($validated);
+        $prodi = Prodi::create($validated);
+        ActivityLog::log('Menambahkan prodi', 'Prodi', $prodi->id, $prodi->nama_prodi);
 
         return redirect()->route('prodi.index')->with('success', 'Data Program Studi berhasil ditambahkan.');
     }
@@ -49,12 +51,14 @@ class ProdiController extends Controller
         ]);
 
         $prodi->update($validated);
+        ActivityLog::log('Memperbarui prodi', 'Prodi', $prodi->id, $prodi->nama_prodi);
 
         return redirect()->route('prodi.index')->with('success', 'Data Program Studi berhasil diperbarui.');
     }
 
     public function destroy(Prodi $prodi)
     {
+        ActivityLog::log('Menghapus prodi', 'Prodi', $prodi->id, $prodi->nama_prodi);
         $prodi->delete();
         return redirect()->route('prodi.index')->with('success', 'Data Program Studi berhasil dihapus.');
     }

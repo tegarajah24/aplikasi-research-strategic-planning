@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -38,7 +39,8 @@ class BukuController extends Controller
             $validated['file_path'] = $request->file('file_path')->store('bukus', 'public');
         }
 
-        Buku::create($validated);
+        $buku = Buku::create($validated);
+        ActivityLog::log('Menambahkan buku', 'Buku', $buku->id, $buku->judul);
 
         return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan.');
     }
@@ -62,6 +64,7 @@ class BukuController extends Controller
         }
 
         $buku->update($validated);
+        ActivityLog::log('Memperbarui buku', 'Buku', $buku->id, $buku->judul);
 
         return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui.');
     }
@@ -71,7 +74,7 @@ class BukuController extends Controller
         if ($buku->file_path && Storage::disk('public')->exists($buku->file_path)) {
             Storage::disk('public')->delete($buku->file_path);
         }
-        
+        ActivityLog::log('Menghapus buku', 'Buku', $buku->id, $buku->judul);
         $buku->delete();
 
         return redirect()->route('buku.index')->with('success', 'Buku berhasil dihapus.');

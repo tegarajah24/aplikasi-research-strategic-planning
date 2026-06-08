@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Program;
 use App\Models\Bidang;
 use App\Models\Kegiatan;
@@ -76,18 +77,21 @@ class ProgramController extends Controller
 
     public function store(StoreProgramRequest $request)
     {
-        Program::create($request->validated());
+        $program = Program::create($request->validated());
+        ActivityLog::log('Menambahkan program', 'Program', $program->id, $program->nama_program);
         return redirect()->route('program.index')->with('success', 'Program berhasil ditambahkan.');
     }
 
     public function update(UpdateProgramRequest $request, Program $program)
     {
         $program->update($request->validated());
+        ActivityLog::log('Memperbarui program', 'Program', $program->id, $program->nama_program);
         return redirect()->route('program.index')->with('success', 'Program berhasil diperbarui.');
     }
 
     public function destroy(Program $program)
     {
+        ActivityLog::log('Menghapus program', 'Program', $program->id, $program->nama_program);
         $program->delete();
         return redirect()->route('program.index')->with('success', 'Program berhasil dihapus.');
     }

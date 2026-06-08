@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -43,7 +44,8 @@ class UserController extends Controller
 
         $validated['password'] = Hash::make($validated['password']);
 
-        User::create($validated);
+        $user = User::create($validated);
+        ActivityLog::log('Menambahkan pengguna', 'Pengguna', $user->id, $user->name);
 
         return redirect()->route('pengguna')->with('success', 'Pengguna berhasil ditambahkan.');
     }
@@ -66,6 +68,7 @@ class UserController extends Controller
         }
 
         $user->update($validated);
+        ActivityLog::log('Memperbarui pengguna', 'Pengguna', $user->id, $user->name);
 
         return redirect()->route('pengguna')->with('success', 'Pengguna berhasil diperbarui.');
     }
@@ -76,6 +79,7 @@ class UserController extends Controller
             return redirect()->route('pengguna')->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
 
+        ActivityLog::log('Menghapus pengguna', 'Pengguna', $user->id, $user->name);
         $user->delete();
 
         return redirect()->route('pengguna')->with('success', 'Pengguna berhasil dihapus.');
@@ -86,6 +90,7 @@ class UserController extends Controller
         $user->update([
             'password' => \Illuminate\Support\Facades\Hash::make('uhb12345'),
         ]);
+        ActivityLog::log('Reset password pengguna', 'Pengguna', $user->id, $user->name);
 
         return redirect()->route('pengguna')->with('success', "Password {$user->name} berhasil direset menjadi: uhb12345");
     }

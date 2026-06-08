@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Fakultas;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,8 @@ class FakultasController extends Controller
             'dekan'         => 'nullable|string|max:255',
         ]);
 
-        Fakultas::create($validated);
+        $fakulta = Fakultas::create($validated);
+        ActivityLog::log('Menambahkan fakultas', 'Fakultas', $fakulta->id, $fakulta->nama_fakultas);
 
         return redirect()->route('fakultas.index')->with('success', 'Data Fakultas berhasil ditambahkan.');
     }
@@ -45,12 +47,14 @@ class FakultasController extends Controller
         ]);
 
         $fakulta->update($validated);
+        ActivityLog::log('Memperbarui fakultas', 'Fakultas', $fakulta->id, $fakulta->nama_fakultas);
 
         return redirect()->route('fakultas.index')->with('success', 'Data Fakultas berhasil diperbarui.');
     }
 
     public function destroy(Fakultas $fakulta)
     {
+        ActivityLog::log('Menghapus fakultas', 'Fakultas', $fakulta->id, $fakulta->nama_fakultas);
         $fakulta->delete();
         return redirect()->route('fakultas.index')->with('success', 'Data Fakultas berhasil dihapus.');
     }

@@ -227,6 +227,18 @@
                     </div>
                 </div>
 
+                <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
+                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 border-b border-slate-100 pb-2">4. Status Capaian</h4>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-500 mb-1">Status</label>
+                        <select id="f-status" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
+                            <option value="belum_tercapai">Belum Tercapai</option>
+                            <option value="dalam_proses">Dalam Proses</option>
+                            <option value="tercapai">Tercapai</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div id="form-error" class="hidden text-xs text-red-600 bg-red-50 border border-red-100 rounded-lg px-4 py-3 font-medium"></div>
             </div>
             <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-100 bg-slate-50">
@@ -414,6 +426,7 @@
                 document.getElementById('f-strategi-nama').value = row.strategiNama;
                 document.getElementById('f-program-kode').value = row.programKode;
                 document.getElementById('f-program-nama').value = row.programNama;
+                document.getElementById('f-status').value = row.status || 'belum_tercapai';
             }
         } else {
             document.getElementById('modal-title-text').textContent = 'Tambah Data RENSTRA';
@@ -430,6 +443,7 @@
             ['sasaran-kode','sasaran-nama','strategi-kode','strategi-nama','program-kode','program-nama'].forEach(f => {
                 document.getElementById('f-' + f).value = '';
             });
+            document.getElementById('f-status').value = 'belum_tercapai';
         }
         
         document.getElementById('renstra-modal').classList.remove('modal-closed');
@@ -466,6 +480,7 @@
             strategi: strategiNama,
             program_tahunan: programNama,
             periode: tahun.toString(),
+            status: document.getElementById('f-status').value,
         };
 
         const url  = id ? '/renstra/' + id : '/renstra';

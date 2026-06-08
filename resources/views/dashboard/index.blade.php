@@ -27,7 +27,7 @@
                         </div>
                         <span class="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">User Aktif</span>
                     </div>
-                    <p class="text-3xl font-bold text-slate-800">0</p>
+                    <p class="text-3xl font-bold text-slate-800">{{ $totalUsers }}</p>
                     <p class="text-xs text-slate-400 mt-1">Total Pengguna</p>
                 </div>
 
@@ -40,7 +40,7 @@
                             </svg>
                         </div>
                     </div>
-                    <p class="text-3xl font-bold text-slate-800">0 / 0</p>
+                    <p class="text-3xl font-bold text-slate-800">{{ $totalFakultas }} / {{ $totalProdi }}</p>
                     <p class="text-xs text-slate-400 mt-1">Fakultas / Program Studi</p>
                 </div>
 
@@ -54,7 +54,7 @@
                         </div>
                         <span class="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">Dosen Aktif</span>
                     </div>
-                    <p class="text-3xl font-bold text-slate-800">0</p>
+                    <p class="text-3xl font-bold text-slate-800">{{ $totalDosen }}</p>
                     <p class="text-xs text-slate-400 mt-1">Dosen Terdaftar</p>
                 </div>
 
@@ -67,7 +67,7 @@
                             </svg>
                         </div>
                     </div>
-                    <p class="text-3xl font-bold text-slate-800">0</p>
+                    <p class="text-3xl font-bold text-slate-800">{{ $totalLuaran }}</p>
                     <p class="text-xs text-slate-400 mt-1">HKI, Buku & Artikel</p>
                 </div>
 
@@ -80,7 +80,7 @@
                             </svg>
                         </div>
                     </div>
-                    <p class="text-3xl font-bold text-slate-800">0 / 0</p>
+                    <p class="text-3xl font-bold text-slate-800">{{ $totalKerjasama }} / {{ $totalPrestasi }}</p>
                     <p class="text-xs text-slate-400 mt-1">Mitra MoU / Prestasi Mhs</p>
                 </div>
 
@@ -109,16 +109,37 @@
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="w-full h-72 bg-slate-50/50 rounded-xl border border-dashed border-slate-200 flex items-center justify-center">
-                            <div class="text-center">
-                                <svg class="w-12 h-12 mx-auto text-slate-200 mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
-                                </svg>
-                                <p class="text-sm font-medium text-slate-400">Chart Placeholder</p>
-                                <p class="text-xs text-slate-300 mt-1">Bar Chart — Artikel vs Buku vs HKI</p>
-                            </div>
-                        </div>
+                        <canvas id="pubChart" class="w-full h-72"></canvas>
                     </div>
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const ctx = document.getElementById('pubChart')?.getContext('2d');
+                        if (!ctx) return;
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: @json($chartLabels),
+                                datasets: [
+                                    { label: 'Artikel', data: @json($chartArtikel), backgroundColor: '#3b82f6', borderRadius: 4 },
+                                    { label: 'Buku', data: @json($chartBuku), backgroundColor: '#f59e0b', borderRadius: 4 },
+                                    { label: 'HKI', data: @json($chartHki), backgroundColor: '#10b981', borderRadius: 4 },
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: { backgroundColor: '#1e293b', titleFont: { size: 12 }, bodyFont: { size: 12 }, cornerRadius: 8 }
+                                },
+                                scales: {
+                                    x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+                                    y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 11 } }, grid: { color: '#f1f5f9' } }
+                                }
+                            }
+                        });
+                    });
+                    </script>
                 </div>
 
                 {{-- Kolom 3: Status Capaian Renstra --}}
@@ -128,36 +149,69 @@
                         <p class="text-[11px] text-slate-400 mt-0.5">Proporsi capaian sasaran strategis</p>
                     </div>
                     <div class="p-6 flex flex-col items-center">
-                        <div class="w-44 h-44 rounded-full bg-slate-50/50 border border-dashed border-slate-200 flex items-center justify-center mb-5">
-                            <div class="text-center">
-                                <svg class="w-10 h-10 mx-auto text-slate-200 mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 3H12v6h6V7.5A4.5 4.5 0 0013.5 3z"/>
-                                </svg>
-                                <p class="text-xs text-slate-300">Pie Chart</p>
+                        @php
+                            $tercapai = $renstraStatus['tercapai'] ?? 0;
+                            $dalamProses = $renstraStatus['dalam_proses'] ?? 0;
+                            $belumTercapai = $renstraStatus['belum_tercapai'] ?? 0;
+                            $total = max($totalRenstra, 1);
+                            $pTer = round($tercapai / $total * 100);
+                            $pPro = round($dalamProses / $total * 100);
+                            $pBel = round($belumTercapai / $total * 100);
+                        @endphp
+                        <div class="w-44 h-44 rounded-full relative flex items-center justify-center mb-5">
+                            <canvas id="statusDonut" class="w-44 h-44"></canvas>
+                            <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                <span class="text-2xl font-extrabold text-slate-700">{{ $totalRenstra }}</span>
+                                <span class="text-[10px] font-medium text-slate-400">Total</span>
                             </div>
                         </div>
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const ctx = document.getElementById('statusDonut')?.getContext('2d');
+                            if (!ctx) return;
+                            new Chart(ctx, {
+                                type: 'doughnut',
+                                data: {
+                                    labels: ['Tercapai', 'Dalam Proses', 'Belum Tercapai'],
+                                    datasets: [{
+                                        data: [{{ $tercapai }}, {{ $dalamProses }}, {{ $belumTercapai }}],
+                                        backgroundColor: ['#10b981', '#f59e0b', '#94a3b8'],
+                                        borderWidth: 0,
+                                    }]
+                                },
+                                options: {
+                                    cutout: '72%',
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: { display: false },
+                                        tooltip: { enabled: false },
+                                    }
+                                }
+                            });
+                        });
+                        </script>
                         <div class="w-full space-y-2.5">
                             <div class="flex items-center justify-between text-xs">
                                 <div class="flex items-center gap-2">
                                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                                     <span class="text-slate-600">Tercapai</span>
                                 </div>
-                                <span class="font-semibold text-slate-700">0%</span>
+                                <span class="font-semibold text-slate-700">{{ $pTer }}%</span>
                             </div>
                             <div class="flex items-center justify-between text-xs">
                                 <div class="flex items-center gap-2">
                                     <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
                                     <span class="text-slate-600">Dalam Proses</span>
                                 </div>
-                                <span class="font-semibold text-slate-700">0%</span>
+                                <span class="font-semibold text-slate-700">{{ $pPro }}%</span>
                             </div>
                             <div class="flex items-center justify-between text-xs">
                                 <div class="flex items-center gap-2">
                                     <span class="w-2.5 h-2.5 rounded-full bg-slate-300"></span>
                                     <span class="text-slate-600">Belum Tercapai</span>
                                 </div>
-                                <span class="font-semibold text-slate-700">0%</span>
+                                <span class="font-semibold text-slate-700">{{ $pBel }}%</span>
                             </div>
                         </div>
                     </div>
@@ -178,18 +232,22 @@
                         <a href="{{ route('rkt.kalender') }}" class="text-[11px] font-semibold text-blue-600 hover:text-blue-700 transition">Lihat Semua</a>
                     </div>
                     <div class="p-5 space-y-3">
-                        @for ($i = 0; $i < 5; $i++)
-                        <div class="flex items-start gap-4 p-3 rounded-xl {{ $i > 0 ? 'opacity-30' : '' }}">
-                            <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-slate-100 flex flex-col items-center justify-center text-center">
-                                <span class="text-[9px] font-bold text-slate-400 uppercase leading-tight">{{ $i === 0 ? '—' : 'DD' }}</span>
-                                <span class="text-[8px] font-medium text-slate-300 leading-tight">{{ $i === 0 ? '' : 'Mon' }}</span>
+                        @forelse ($upcomingKegiatans as $kegiatan)
+                        <div class="flex items-start gap-4 p-3 rounded-xl {{ $loop->index > 0 ? 'opacity-100' : '' }}">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-50 flex flex-col items-center justify-center text-center border border-blue-100">
+                                <span class="text-[9px] font-bold text-blue-600 uppercase leading-tight">{{ \Carbon\Carbon::parse($kegiatan->waktu_mulai)->format('d') }}</span>
+                                <span class="text-[8px] font-medium text-blue-400 leading-tight">{{ \Carbon\Carbon::parse($kegiatan->waktu_mulai)->locale('id')->isoFormat('MMM') }}</span>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <div class="h-3.5 bg-slate-100 rounded w-3/4 mb-1.5"></div>
-                                <div class="h-3 bg-slate-50 rounded w-1/2"></div>
+                                <p class="text-sm font-semibold text-slate-700 truncate">{{ $kegiatan->nama_kegiatan }}</p>
+                                <p class="text-xs text-slate-400 mt-0.5">{{ $kegiatan->program?->nama_program ?? '-' }}</p>
                             </div>
                         </div>
-                        @endfor
+                        @empty
+                        <div class="text-center py-8">
+                            <p class="text-sm text-slate-400">Belum ada agenda kegiatan</p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
 
@@ -200,6 +258,20 @@
                         <p class="text-[11px] text-slate-400 mt-0.5">Riwayat perubahan data oleh pengguna</p>
                     </div>
                     <div class="p-5">
+                        @forelse ($recentLogs as $log)
+                        <div class="flex items-start gap-3 py-2.5 {{ !$loop->last ? 'border-b border-slate-50' : '' }}">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-500 flex-shrink-0">
+                                {{ strtoupper(substr($log->user?->name ?? '?', 0, 1)) }}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs text-slate-600">
+                                    <span class="font-semibold text-slate-700">{{ $log->user?->name ?? 'System' }}</span>
+                                    {{ $log->aktivitas }}
+                                </p>
+                                <p class="text-[11px] text-slate-400 mt-0.5">{{ $log->modul }} · {{ $log->created_at->diffForHumans() }}</p>
+                            </div>
+                        </div>
+                        @empty
                         <div class="text-center py-12">
                             <svg class="w-14 h-14 mx-auto text-slate-200 mb-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -207,6 +279,7 @@
                             <p class="text-sm font-semibold text-slate-500">Belum ada aktivitas terbaru</p>
                             <p class="text-xs text-slate-400 mt-1">Sistem berjalan normal.</p>
                         </div>
+                        @endforelse
                     </div>
                 </div>
 

@@ -14,5 +14,6 @@ class Renstra extends Model
         'strategi',
         'program_tahunan',
         'periode',
+        'status',
     ];
 }

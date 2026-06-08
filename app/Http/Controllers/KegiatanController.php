@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 
@@ -84,7 +85,8 @@ class KegiatanController extends Controller
             'dokumen'           => 'nullable|string',
         ]);
 
-        Kegiatan::create($validated);
+        $kegiatan = Kegiatan::create($validated);
+        ActivityLog::log('Menambahkan kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);
 
         return redirect()->route('kegiatan.index')->with('success', 'Kegiatan berhasil ditambahkan.');
     }
@@ -111,6 +113,7 @@ class KegiatanController extends Controller
         ]);
 
         $kegiatan->update($validated);
+        ActivityLog::log('Memperbarui kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);
 
         return redirect()->route('kegiatan.index')->with('success', 'Kegiatan berhasil diperbarui.');
     }
@@ -120,6 +123,7 @@ class KegiatanController extends Controller
      */
     public function destroy(Kegiatan $kegiatan)
     {
+        ActivityLog::log('Menghapus kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);
         $kegiatan->delete();
 
         return redirect()->route('kegiatan.index')->with('success', 'Kegiatan berhasil dihapus.');

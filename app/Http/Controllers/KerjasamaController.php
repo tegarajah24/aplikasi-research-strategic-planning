@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Kerjasama;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
@@ -42,7 +43,8 @@ class KerjasamaController extends Controller
             $validated['file_path'] = $request->file('file_path')->store('kerjasamas', 'public');
         }
 
-        Kerjasama::create($validated);
+        $kerjasama = Kerjasama::create($validated);
+        ActivityLog::log('Menambahkan kerja sama', 'Kerjasama', $kerjasama->id, $kerjasama->mitra);
 
         return redirect()->route('kerjasama.index')->with('success', 'Data Kerja Sama (MoU) berhasil ditambahkan.');
     }
@@ -68,6 +70,7 @@ class KerjasamaController extends Controller
         }
 
         $kerjasama->update($validated);
+        ActivityLog::log('Memperbarui kerja sama', 'Kerjasama', $kerjasama->id, $kerjasama->mitra);
 
         return redirect()->route('kerjasama.index')->with('success', 'Data Kerja Sama (MoU) berhasil diperbarui.');
     }
@@ -77,7 +80,7 @@ class KerjasamaController extends Controller
         if ($kerjasama->file_path && Storage::disk('public')->exists($kerjasama->file_path)) {
             Storage::disk('public')->delete($kerjasama->file_path);
         }
-        
+        ActivityLog::log('Menghapus kerja sama', 'Kerjasama', $kerjasama->id, $kerjasama->mitra);
         $kerjasama->delete();
 
         return redirect()->route('kerjasama.index')->with('success', 'Data Kerja Sama (MoU) berhasil dihapus.');

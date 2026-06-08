@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Bidang;
 use App\Models\Program;
 use App\Models\Kegiatan;
@@ -59,18 +60,21 @@ class BidangController extends Controller
 
     public function store(StoreBidangRequest $request)
     {
-        Bidang::create($request->validated());
+        $bidang = Bidang::create($request->validated());
+        ActivityLog::log('Menambahkan bidang', 'Bidang', $bidang->id, $bidang->nama_bidang);
         return redirect()->route('bidang.index')->with('success', 'Bidang berhasil ditambahkan.');
     }
 
     public function update(UpdateBidangRequest $request, Bidang $bidang)
     {
         $bidang->update($request->validated());
+        ActivityLog::log('Memperbarui bidang', 'Bidang', $bidang->id, $bidang->nama_bidang);
         return redirect()->route('bidang.index')->with('success', 'Bidang berhasil diperbarui.');
     }
 
     public function destroy(Bidang $bidang)
     {
+        ActivityLog::log('Menghapus bidang', 'Bidang', $bidang->id, $bidang->nama_bidang);
         $bidang->delete();
         return redirect()->route('bidang.index')->with('success', 'Bidang berhasil dihapus.');
     }

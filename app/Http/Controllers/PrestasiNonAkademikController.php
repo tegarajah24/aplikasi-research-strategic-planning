@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use App\Models\PrestasiNonAkademik;
 
@@ -38,7 +39,8 @@ class PrestasiNonAkademikController extends Controller
             'internasional' => 'required|integer|min:0',
         ]);
 
-        PrestasiNonAkademik::create($validated);
+        $prestasi = PrestasiNonAkademik::create($validated);
+        ActivityLog::log('Menambahkan prestasi non-akademik', 'Prestasi Non-Akademik', $prestasi->id, $prestasi->tahun);
 
         return redirect()->route('prestasi-non-akademik.index')->with('success', 'Data Prestasi Non-Akademik berhasil ditambahkan.');
     }
@@ -56,12 +58,14 @@ class PrestasiNonAkademikController extends Controller
         ]);
 
         $prestasi_non_akademik->update($validated);
+        ActivityLog::log('Memperbarui prestasi non-akademik', 'Prestasi Non-Akademik', $prestasi_non_akademik->id, $prestasi_non_akademik->tahun);
 
         return redirect()->route('prestasi-non-akademik.index')->with('success', 'Data Prestasi Non-Akademik berhasil diperbarui.');
     }
 
     public function destroy(PrestasiNonAkademik $prestasi_non_akademik)
     {
+        ActivityLog::log('Menghapus prestasi non-akademik', 'Prestasi Non-Akademik', $prestasi_non_akademik->id, $prestasi_non_akademik->tahun);
         $prestasi_non_akademik->delete();
         return redirect()->route('prestasi-non-akademik.index')->with('success', 'Data Prestasi Non-Akademik berhasil dihapus.');
     }
