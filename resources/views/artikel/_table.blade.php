@@ -4,7 +4,7 @@
             <tr class="bg-slate-50/50 border-b border-slate-100">
                 <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider w-12 text-center">No</th>
                 <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Judul Artikel</th>
-                <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Penulis</th>
+                <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Dosen</th>
                 <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Tahun</th>
                 <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Jurnal / Penerbit</th>
                 <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Aksi</th>

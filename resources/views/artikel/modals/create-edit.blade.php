@@ -20,8 +20,13 @@
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Penulis</label>
-                                        <input type="text" name="penulis" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <label class="block text-sm font-medium text-slate-700">Dosen</label>
+                                        <select name="penulis" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <option value="">Pilih Dosen...</option>
+                                            @foreach($dosens as $dosen)
+                                                <option value="{{ $dosen->nama_dosen }}">{{ $dosen->nama_dosen }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Tahun</label>
@@ -81,8 +86,13 @@
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700">Penulis</label>
-                                        <input type="text" name="penulis" x-model="editData.penulis" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <label class="block text-sm font-medium text-slate-700">Dosen</label>
+                                        <select name="penulis" x-model="editData.penulis" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <option value="">Pilih Dosen...</option>
+                                            @foreach($dosens as $dosen)
+                                                <option value="{{ $dosen->nama_dosen }}">{{ $dosen->nama_dosen }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Tahun</label>

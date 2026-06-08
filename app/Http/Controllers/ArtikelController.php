@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artikel;
+use App\Models\Dosen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,7 +21,8 @@ class ArtikelController extends Controller
         }
 
         $artikels = $query->latest()->paginate(10);
-        return view('artikel.index', compact('artikels'));
+        $dosens = Dosen::orderBy('nama_dosen')->get();
+        return view('artikel.index', compact('artikels', 'dosens'));
     }
 
     public function store(Request $request)
