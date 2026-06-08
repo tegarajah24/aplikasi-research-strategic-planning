@@ -57,7 +57,7 @@ class ProgramController extends Controller
                 'sasaran'  => $p->sasaran,
                 'strategi' => $p->strategi_renstra,
                 'rkt'      => $p->program_tahunan,
-                'anggaran' => $p->anggaran ?? 0,
+                'anggaran' => (float) ($p->anggaran ?? 0),
                 'status'   => $p->status,
                 'kegiatan' => $p->kegiatans->map(function ($k) {
                     return [
