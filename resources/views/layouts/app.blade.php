@@ -275,11 +275,6 @@
                     {{ $slot }}
                 </main>
 
-                {{-- Footer --}}
-                <footer class="flex-shrink-0 py-3 px-6 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">
-                    &copy; {{ date('Y') }} <span class="font-medium text-slate-500">RSP-UHB</span> &mdash; Research Strategic Planning
-                </footer>
-
             </div>
         </div>
 
