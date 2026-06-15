@@ -8,7 +8,7 @@
      class="fixed inset-0 z-50 overflow-y-auto"
      style="display: none;">
     <div class="flex items-center justify-center min-h-screen px-4 py-8">
-        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" @click="showDetailModal = false"></div>
+        <div class="fixed inset-0 bg-slate-900/60" @click="showDetailModal = false"></div>
         <div x-show="showDetailModal"
              x-transition:enter="transition ease-out duration-200"
              x-transition:enter-start="opacity-0 scale-95"

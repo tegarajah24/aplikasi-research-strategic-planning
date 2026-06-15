@@ -1,5 +1,5 @@
 <div id="ev-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="closeModal()"></div>
+    <div class="absolute inset-0 bg-slate-900/50" onclick="closeModal()"></div>
     <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-lg z-10 overflow-hidden">
         <div id="modal-header" class="px-6 py-5 flex items-start justify-between gap-4">
             <div class="flex-1 min-w-0">

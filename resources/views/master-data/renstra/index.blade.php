@@ -64,6 +64,8 @@
         #renstra-modal:not(.modal-closed), #del-modal:not(.modal-closed) {
             opacity: 1; visibility: visible; pointer-events: all;
         }
+        #renstra-modal > div:first-child, #del-modal > div:first-child { transition: opacity .25s ease; }
+        #renstra-modal.modal-closed > div:first-child, #del-modal.modal-closed > div:first-child { opacity: 0; }
         #renstra-modal > .modal-panel, #del-modal > .modal-panel {
             transform: scale(0.92) translateY(12px);
             transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -154,7 +156,7 @@
 
     {{-- ── Add/Edit Modal ── --}}
     <div id="renstra-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute inset-0 bg-slate-900/50" onclick="closeModal()"></div>
         <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-xl z-10 overflow-hidden">
             <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
@@ -257,7 +259,7 @@
 
     {{-- ── Delete Modal ── --}}
     <div id="del-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="closeDelModal()"></div>
+        <div class="absolute inset-0 bg-slate-900/50" onclick="closeDelModal()"></div>
         <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-sm z-10 p-6">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">

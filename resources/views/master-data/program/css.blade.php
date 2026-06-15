@@ -14,9 +14,11 @@
     .trow:hover { background:#f8fafc; }
 
     /* modals */
-    #prog-modal,#detail-drawer { transition:opacity .2s; }
+    #prog-modal { transition:opacity .25s ease, visibility .25s ease; }
     #prog-modal.modal-closed { opacity:0; visibility:hidden; pointer-events:none; }
     #prog-modal:not(.modal-closed) { opacity:1; visibility:visible; pointer-events:all; }
+    #prog-modal > div:first-child { transition: opacity .25s ease; }
+    #prog-modal.modal-closed > div:first-child { opacity: 0; }
     #prog-modal > .modal-panel {
         transform: scale(0.92) translateY(12px);
         transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -27,6 +29,8 @@
     #del-modal { transition: opacity .25s ease, visibility .25s ease; }
     #del-modal.modal-closed { opacity:0; visibility:hidden; pointer-events:none; }
     #del-modal:not(.modal-closed) { opacity:1; visibility:visible; pointer-events:all; }
+    #del-modal > div:first-child { transition: opacity .25s ease; }
+    #del-modal.modal-closed > div:first-child { opacity: 0; }
     #del-modal > .modal-panel {
         transform: scale(0.92) translateY(12px);
         transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -52,10 +56,10 @@
     #detail-drawer.open { transform:translateX(0); }
     #drawer-backdrop {
         position:fixed; inset:0; background:rgba(15,23,42,.35);
-        backdrop-filter:blur(2px); z-index:39;
-        display:none;
+        z-index:39; opacity:0; visibility:hidden;
+        transition: opacity .25s ease, visibility .25s ease;
     }
-    #drawer-backdrop.open { display:block; }
+    #drawer-backdrop.open { opacity:1; visibility:visible; }
 
     /* progress bar */
     .prog-track { background:#f1f5f9; border-radius:99px; height:6px; overflow:hidden; }

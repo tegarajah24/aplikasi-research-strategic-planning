@@ -31,6 +31,8 @@
     #bidang-modal:not(.modal-closed) {
         opacity: 1; visibility: visible; pointer-events: all;
     }
+    #bidang-modal > div:first-child { transition: opacity .25s ease; }
+    #bidang-modal.modal-closed > div:first-child { opacity: 0; }
     #bidang-modal > .modal-panel {
         transform: scale(0.92) translateY(12px);
         transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -63,6 +65,8 @@
     #del-modal:not(.modal-closed) {
         opacity: 1; visibility: visible; pointer-events: all;
     }
+    #del-modal > div:first-child { transition: opacity .25s ease; }
+    #del-modal.modal-closed > div:first-child { opacity: 0; }
     #del-modal > .modal-panel {
         transform: scale(0.92) translateY(12px);
         transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
