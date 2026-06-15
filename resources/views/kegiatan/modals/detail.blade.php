@@ -1,5 +1,5 @@
 <div x-show="showDetailModal"
-     x-transition:enter="transition ease-out duration-200"
+     x-transition:enter="transition ease-out duration-250"
      x-transition:enter-start="opacity-0"
      x-transition:enter-end="opacity-100"
      x-transition:leave="transition ease-in duration-150"
@@ -10,12 +10,12 @@
     <div class="flex items-center justify-center min-h-screen px-4 py-8">
         <div class="fixed inset-0 bg-slate-900/60" @click="showDetailModal = false"></div>
         <div x-show="showDetailModal"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:enter="ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-250"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-3"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
              x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-95 translate-y-3"
              class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-slate-100 z-10">
 
             <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-blue-50/50 rounded-t-2xl">

@@ -1,5 +1,5 @@
 <div x-show="showCreateModal"
-     x-transition:enter="transition ease-out duration-200"
+     x-transition:enter="transition ease-out duration-250"
      x-transition:enter-start="opacity-0"
      x-transition:enter-end="opacity-100"
      x-transition:leave="transition ease-in duration-150"
@@ -10,12 +10,12 @@
     <div class="flex items-center justify-center min-h-screen px-4 py-8">
         <div class="fixed inset-0 bg-slate-900/60" @click="showCreateModal = false"></div>
         <div x-show="showCreateModal"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:enter="ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-250"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-3"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
              x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-95 translate-y-3"
              class="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl border border-slate-100 z-10">
             <form action="{{ route('kegiatan.store') }}" method="POST">
                 @csrf
@@ -141,7 +141,7 @@
 </div>
 
 <div x-show="showEditModal"
-     x-transition:enter="transition ease-out duration-200"
+     x-transition:enter="transition ease-out duration-250"
      x-transition:enter-start="opacity-0"
      x-transition:enter-end="opacity-100"
      x-transition:leave="transition ease-in duration-150"
@@ -152,12 +152,12 @@
     <div class="flex items-center justify-center min-h-screen px-4 py-8">
         <div class="fixed inset-0 bg-slate-900/60" @click="showEditModal = false"></div>
         <div x-show="showEditModal"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:enter="ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-250"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-3"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
              x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-95 translate-y-3"
              class="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl border border-slate-100 z-10">
             <form :action="'{{ url('rkt/kegiatan') }}/' + editData.id" method="POST">
                 @csrf

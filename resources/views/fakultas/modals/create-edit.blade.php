@@ -1,11 +1,21 @@
 <!-- Create Modal -->
 <div x-show="showCreateModal" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div x-show="showCreateModal" x-transition.opacity class="fixed inset-0 transition-opacity" aria-hidden="true">
+        <div x-show="showCreateModal" x-transition:enter="transition ease-out duration-250"
+	x-transition:enter-start="opacity-0"
+	x-transition:enter-end="opacity-100"
+	x-transition:leave="transition ease-in duration-150"
+	x-transition:leave-start="opacity-100"
+	x-transition:leave-end="opacity-0" class="fixed inset-0 transition-opacity" aria-hidden="true">
             <div class="absolute inset-0 bg-slate-900/75"></div>
         </div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div x-show="showCreateModal" x-transition.scale.origin.bottom class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100">
+        <div x-show="showCreateModal" x-transition:enter="ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-250"
+	x-transition:enter-start="opacity-0 scale-95 translate-y-3"
+	x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+	x-transition:leave="transition ease-in duration-150"
+	x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+	x-transition:leave-end="opacity-0 scale-95 translate-y-3" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100">
             <form action="{{ route('fakultas.store') }}" method="POST">
                 @csrf
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -45,11 +55,21 @@
 <!-- Edit Modal -->
 <div x-show="showEditModal" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div x-show="showEditModal" x-transition.opacity class="fixed inset-0 transition-opacity" aria-hidden="true">
+        <div x-show="showEditModal" x-transition:enter="transition ease-out duration-250"
+	x-transition:enter-start="opacity-0"
+	x-transition:enter-end="opacity-100"
+	x-transition:leave="transition ease-in duration-150"
+	x-transition:leave-start="opacity-100"
+	x-transition:leave-end="opacity-0" class="fixed inset-0 transition-opacity" aria-hidden="true">
             <div class="absolute inset-0 bg-slate-900/75"></div>
         </div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div x-show="showEditModal" x-transition.scale.origin.bottom class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100">
+        <div x-show="showEditModal" x-transition:enter="ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-250"
+	x-transition:enter-start="opacity-0 scale-95 translate-y-3"
+	x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+	x-transition:leave="transition ease-in duration-150"
+	x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+	x-transition:leave-end="opacity-0 scale-95 translate-y-3" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100">
             <form :action="'{{ route('fakultas.index') }}/' + editData.id" method="POST">
                 @csrf
                 @method('PUT')
