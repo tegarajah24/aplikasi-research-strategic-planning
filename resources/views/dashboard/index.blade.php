@@ -1,12 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-3">
             <div>
                 <h1 class="text-xl font-bold text-slate-800 leading-tight">Dashboard Utama</h1>
                 <p class="text-sm text-slate-400 mt-0.5">Selamat datang kembali — ringkasan sistem RSP-UHB</p>
-            </div>
-            <div class="flex items-center gap-4">
-                <span class="text-xs text-slate-400 hidden sm:block">{{ now()->translatedFormat('l, d F Y') }}</span>
             </div>
         </div>
     </x-slot>
