@@ -78,8 +78,8 @@
             $isRenstra = request()->is('renstra*');
             $isMasterDataActive = $isFakultas || $isProdi || $isDosen || $isBidang || $isProgram || $isRenstra;
         @endphp
-        <div class="relative" x-data="{ open: {{ $isMasterDataActive ? 'true' : 'false' }}, isHovered: false }" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-            <button type="button" @click="if(!document.body.classList.contains('desktop-sidebar-collapsed')) open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        <div class="relative" x-data="{ open: {{ $isMasterDataActive ? 'true' : 'false' }} }">
+            <button type="button" @click="open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                                 transition-all duration-150
                                 {{ $isMasterDataActive
                                      ? 'text-white bg-slate-800/50'
@@ -100,7 +100,7 @@
             </button>
 
             <div x-cloak
-                 x-show="document.body.classList.contains('desktop-sidebar-collapsed') ? isHovered : open"
+                 x-show="open"
                  x-transition:enter="transition ease-out duration-200 origin-top"
                  x-transition:enter-start="opacity-0 scale-y-95 -translate-y-2"
                  x-transition:enter-end="opacity-100 scale-y-100 translate-y-0"
@@ -235,8 +235,8 @@
             $isArtikel = request()->is('artikel*');
             $isAkademikRisetActive = $isHki || $isBuku || $isArtikel;
         @endphp
-        <div class="relative" x-data="{ open: {{ $isAkademikRisetActive ? 'true' : 'false' }}, isHovered: false }" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-            <button type="button" @click="if(!document.body.classList.contains('desktop-sidebar-collapsed')) open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        <div class="relative" x-data="{ open: {{ $isAkademikRisetActive ? 'true' : 'false' }} }">
+            <button type="button" @click="open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                                 transition-all duration-150
                                 {{ $isAkademikRisetActive
                                      ? 'text-white bg-slate-800/50'
@@ -257,7 +257,7 @@
             </button>
 
             <div x-cloak
-                 x-show="document.body.classList.contains('desktop-sidebar-collapsed') ? isHovered : open"
+                 x-show="open"
                  x-transition:enter="transition ease-out duration-200 origin-top"
                  x-transition:enter-start="opacity-0 scale-y-95 -translate-y-2"
                  x-transition:enter-end="opacity-100 scale-y-100 translate-y-0"
@@ -329,8 +329,8 @@
             $isRktKalender = request()->is('rkt/kalender*');
             $isRktActive = $isRktKegiatan || $isRktKalender;
         @endphp
-        <div class="relative" x-data="{ open: {{ $isRktActive ? 'true' : 'false' }}, isHovered: false }" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-            <button type="button" @click="if(!document.body.classList.contains('desktop-sidebar-collapsed')) open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        <div class="relative" x-data="{ open: {{ $isRktActive ? 'true' : 'false' }} }">
+            <button type="button" @click="open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                                 transition-all duration-150
                                 {{ $isRktActive
                                      ? 'text-white bg-slate-800/50'
@@ -350,7 +350,7 @@
             </button>
 
             <div x-cloak
-                 x-show="document.body.classList.contains('desktop-sidebar-collapsed') ? isHovered : open"
+                 x-show="open"
                  x-transition:enter="transition ease-out duration-200 origin-top"
                  x-transition:enter-start="opacity-0 scale-y-95 -translate-y-2"
                  x-transition:enter-end="opacity-100 scale-y-100 translate-y-0"
@@ -432,8 +432,8 @@
             $isPrestasiNonAkademik = request()->is('prestasi-non-akademik*');
             $isPrestasiActive = $isPrestasiAkademik || $isPrestasiNonAkademik;
         @endphp
-        <div class="relative" x-data="{ open: {{ $isPrestasiActive ? 'true' : 'false' }}, isHovered: false }" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-            <button type="button" @click="if(!document.body.classList.contains('desktop-sidebar-collapsed')) open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        <div class="relative" x-data="{ open: {{ $isPrestasiActive ? 'true' : 'false' }} }">
+            <button type="button" @click="open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                                 transition-all duration-150
                                 {{ $isPrestasiActive
                                      ? 'text-white bg-slate-800/50'
@@ -454,7 +454,7 @@
             </button>
 
             <div x-cloak
-                 x-show="document.body.classList.contains('desktop-sidebar-collapsed') ? isHovered : open"
+                 x-show="open"
                  x-transition:enter="transition ease-out duration-200 origin-top"
                  x-transition:enter-start="opacity-0 scale-y-95 -translate-y-2"
                  x-transition:enter-end="opacity-100 scale-y-100 translate-y-0"
@@ -532,16 +532,6 @@
 
 </aside>
 
-{{-- ── Desktop Sidebar Toggle Button ── --}}
-<button id="desktop-sidebar-toggle" 
-        onclick="toggleDesktopSidebar()"
-        class="hidden lg:flex fixed top-6 left-[244px] z-40 w-6 h-6 bg-white text-slate-500 rounded-full items-center justify-center shadow-md border border-slate-200 transition-all duration-300 ease-in-out hover:bg-slate-50 hover:text-slate-700 focus:outline-none"
-        aria-label="Toggle Sidebar">
-    <svg id="sidebar-toggle-icon" class="w-3.5 h-3.5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-    </svg>
-</button>
-
 {{-- ── Mobile Top Bar ── --}}
 <div class="lg:hidden fixed top-0 left-0 right-0 z-20 h-14 bg-white border-b border-slate-200
             flex items-center gap-3 px-4 shadow-sm">
@@ -584,13 +574,6 @@
         backdrop.classList.add('opacity-0', 'invisible');
         btn && btn.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
-    }
-
-    function toggleDesktopSidebar() {
-        const body = document.body;
-        body.classList.toggle('desktop-sidebar-collapsed');
-        const isCollapsed = body.classList.contains('desktop-sidebar-collapsed');
-        localStorage.setItem('desktop-sidebar-collapsed', isCollapsed);
     }
 
     document.addEventListener('keydown', function (e) {
