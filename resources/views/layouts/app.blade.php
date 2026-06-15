@@ -269,7 +269,7 @@
                 <div class="h-14 lg:hidden flex-shrink-0"></div>
 
                 {{-- Top Navbar --}}
-                <nav class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 flex-shrink-0 glass-flat">
+                <nav class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 flex-shrink-0 z-50 glass-flat">
                     {{-- Left: Page title (from header slot) --}}
                     @if (isset($header))
                         {{ $header }}
