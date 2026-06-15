@@ -19,23 +19,107 @@
 
         <style>
             body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
-            #sidebar { transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+            #sidebar { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
             #sidebar::-webkit-scrollbar { width: 4px; }
             #sidebar::-webkit-scrollbar-track { background: transparent; }
             #sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+            
+            /* Sidebar Collapsed Styles */
+            @media (min-width: 1024px) {
+                body.desktop-sidebar-collapsed #sidebar {
+                    width: 4.5rem !important; /* 72px */
+                    overflow-y: visible !important; /* allow popovers to show */
+                    overflow-x: visible !important;
+                }
+                body.desktop-sidebar-collapsed #sidebar-backdrop {
+                    display: none !important;
+                }
+                body.desktop-sidebar-collapsed #main-content {
+                    padding-left: 4.5rem !important;
+                }
+                body.desktop-sidebar-collapsed #desktop-sidebar-toggle {
+                    left: 60px !important; /* Menggeser posisi tombol mengikuti lebar mini sidebar */
+                }
+                body.desktop-sidebar-collapsed #sidebar-toggle-icon {
+                    transform: rotate(180deg);
+                }
+                #desktop-sidebar-toggle {
+                    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s;
+                }
+
+                /* Hiding texts */
+                body.desktop-sidebar-collapsed .brand-text,
+                body.desktop-sidebar-collapsed .nav-heading,
+                body.desktop-sidebar-collapsed .menu-text,
+                body.desktop-sidebar-collapsed .user-info,
+                body.desktop-sidebar-collapsed form[action$="logout"] {
+                    display: none !important;
+                }
+
+                /* Center icons only for main menu, not submenus */
+                body.desktop-sidebar-collapsed #sidebar > nav > a,
+                body.desktop-sidebar-collapsed #sidebar > nav > div > details > summary,
+                body.desktop-sidebar-collapsed #sidebar > nav > div > details > summary > div,
+                body.desktop-sidebar-collapsed #sidebar .brand-container {
+                    justify-content: center !important;
+                    padding-left: 0 !important;
+                    padding-right: 0 !important;
+                }
+
+                /* Popover for dropdowns */
+                body.desktop-sidebar-collapsed #sidebar details > div {
+                    position: absolute;
+                    left: 100%; /* Nempel persis di sisi kanan elemen menu */
+                    top: 0;
+                    width: max-content;
+                    min-width: 12rem;
+                    background-color: #1e293b; /* slate-800 */
+                    border: 1px solid #334155; /* slate-700 */
+                    border-radius: 0.75rem;
+                    padding: 0.5rem;
+                    margin-left: 0 !important;
+                    z-index: 50;
+                    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+                }
+                /* Hide chevron arrow in mini mode */
+                body.desktop-sidebar-collapsed #sidebar details > summary > svg:last-child {
+                    display: none !important;
+                }
+                /* Ensure relative positioning for popovers */
+                body.desktop-sidebar-collapsed #sidebar .relative {
+                    position: relative;
+                }
+                
+                body.desktop-sidebar-collapsed #sidebar nav {
+                    overflow-y: visible !important;
+                    overflow-x: visible !important;
+                }
+            }
         </style>
+        
+        <script>
+            // Prevent flicker on load
+            if (localStorage.getItem('desktop-sidebar-collapsed') === 'true') {
+                document.documentElement.classList.add('desktop-sidebar-collapsed-html'); // For immediate styling if needed
+            }
+        </script>
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-800">
+        <script>
+            if (localStorage.getItem('desktop-sidebar-collapsed') === 'true') {
+                document.body.classList.add('desktop-sidebar-collapsed');
+            }
+        </script>
 
         <x-banner />
 
-        <div class="min-h-screen flex">
+        <div class="min-h-screen flex overflow-x-hidden">
 
             {{-- ── Sidebar (partial) ── --}}
             @include('layouts.sidebar')
 
             {{-- ── Main content wrapper ── --}}
-            <div class="flex-1 flex flex-col min-h-screen lg:pl-64">
+            <div id="main-content" class="flex-1 flex flex-col min-h-screen lg:pl-64 transition-all duration-300 ease-in-out w-full">
 
                 {{-- Spacer for mobile top bar --}}
                 <div class="h-14 lg:hidden flex-shrink-0"></div>

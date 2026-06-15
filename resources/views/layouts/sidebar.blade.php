@@ -25,7 +25,7 @@
               transition-transform duration-[250ms] ease-in-out">
 
     {{-- ── Brand / Logo ── --}}
-    <div class="flex items-center gap-3 px-5 py-5 border-b border-slate-800/70 flex-shrink-0">
+    <div class="flex items-center gap-3 px-5 py-5 border-b border-slate-800/70 flex-shrink-0 brand-container">
         <div class="flex-shrink-0 w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/40">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
                  viewBox="0 0 24 24" aria-hidden="true">
@@ -33,7 +33,7 @@
                       d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/>
             </svg>
         </div>
-        <div class="min-w-0">
+        <div class="min-w-0 brand-text">
             <p class="text-sm font-bold text-white leading-tight tracking-tight">RSP-UHB</p>
             <p class="text-[10px] font-medium text-slate-400 leading-tight truncate">Research Strategic Planning</p>
         </div>
@@ -43,7 +43,7 @@
     <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto" aria-label="Navigasi utama">
 
         {{-- Section: Utama --}}
-        <p class="px-3 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none">
+        <p class="px-3 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none nav-heading">
             Menu Utama
         </p>
 
@@ -59,7 +59,10 @@
             @if($isDashboard)
                 <span class="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] bg-blue-300 rounded-full"></span>
             @endif
-            <span>Dashboard</span>
+            <svg class="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+            </svg>
+            <span class="menu-text">Dashboard</span>
         </a>
 
         {{-- Divider --}}
@@ -89,7 +92,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="M2.25 13.5h3.86a2.25 2.25 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0118 21.75H6a2.25 2.25 0 01-2.25-2.25V15.75A2.25 2.25 0 012.25 13.5zm0-6h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0118 15.75H6a2.25 2.25 0 01-2.25-2.25V9.75A2.25 2.25 0 012.25 7.5zm0-6h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0118 9.75H6a2.25 2.25 0 01-2.25-2.25V3.75A2.25 2.25 0 012.25 1.5z"/>
                         </svg>
-                        <span>Master Data</span>
+                        <span class="menu-text">Master Data</span>
                     </div>
                     <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-90"
                          fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -239,7 +242,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
                         </svg>
-                        <span>Akademik & Riset</span>
+                        <span class="menu-text">Akademik & Riset</span>
                     </div>
                     <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-90"
                          fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -325,7 +328,7 @@
                              fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
                         </svg>
-                        <span>RKT</span>
+                        <span class="menu-text">RKT</span>
                     </div>
                     <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-90"
                          fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -376,7 +379,7 @@
 
         {{-- Divider + Section: Kemitraan & Prestasi --}}
         <div class="!mt-4 !mb-1 border-t border-slate-800/60"></div>
-        <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none">
+        <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none nav-heading">
             Kemitraan & Prestasi
         </p>
 
@@ -398,7 +401,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
             </svg>
-                        <span>Kerja Sama / MOU</span>
+                        <span class="menu-text">Kerja Sama / MOU</span>
                     </a>
                     @endif
 
@@ -422,7 +425,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c1.04-.518 1.75-1.59 1.75-2.822v-6.75h1.5a1.5 1.5 0 001.5-1.5V1.5a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 1.5v3a1.5 1.5 0 001.5 1.5h1.5v6.75c0 1.232.71 2.304 1.75 2.822v3.375m9 0h-9"/>
                         </svg>
-                        <span>Prestasi</span>
+                        <span class="menu-text">Prestasi</span>
                     </div>
                     <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-90"
                          fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -469,7 +472,7 @@
         @if(auth()->user()->isAdmin())
         {{-- Divider + Section: Pengguna --}}
         <div class="!mt-4 !mb-1 border-t border-slate-800/60"></div>
-        <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none">
+        <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-widest text-white select-none nav-heading">
             Pengguna & Akses
         </p>
 
@@ -492,7 +495,7 @@
                  fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
             </svg>
-                    <span>Manajemen User</span>
+                    <span class="menu-text">Manajemen User</span>
                 </a>
                 @endif
                 @endif
@@ -508,7 +511,7 @@
                         flex items-center justify-center text-xs font-bold text-white shadow">
                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
             </div>
-            <div class="min-w-0 flex-1">
+            <div class="min-w-0 flex-1 user-info">
                 <p class="text-xs font-semibold text-slate-200 truncate leading-snug">{{ Auth::user()->name }}</p>
                 <p class="text-[10px] text-slate-500 truncate leading-snug">{{ Auth::user()->email }}</p>
             </div>
@@ -528,6 +531,16 @@
     </div>
     @endauth
 </aside>
+
+{{-- ── Desktop Sidebar Toggle Button ── --}}
+<button id="desktop-sidebar-toggle" 
+        onclick="toggleDesktopSidebar()"
+        class="hidden lg:flex fixed top-6 left-[244px] z-40 w-6 h-6 bg-white text-slate-500 rounded-full items-center justify-center shadow-md border border-slate-200 transition-all duration-300 ease-in-out hover:bg-slate-50 hover:text-slate-700 focus:outline-none"
+        aria-label="Toggle Sidebar">
+    <svg id="sidebar-toggle-icon" class="w-3.5 h-3.5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+</button>
 
 {{-- ── Mobile Top Bar ── --}}
 <div class="lg:hidden fixed top-0 left-0 right-0 z-20 h-14 bg-white border-b border-slate-200
@@ -573,7 +586,47 @@
         document.body.style.overflow = '';
     }
 
+    function toggleDesktopSidebar() {
+        const body = document.body;
+        body.classList.toggle('desktop-sidebar-collapsed');
+        const isCollapsed = body.classList.contains('desktop-sidebar-collapsed');
+        localStorage.setItem('desktop-sidebar-collapsed', isCollapsed);
+
+        // Jika sidebar ditutup, otomatis tutup semua accordion agar tidak mengambang
+        if (isCollapsed) {
+            document.querySelectorAll('#sidebar details').forEach(details => {
+                details.removeAttribute('open');
+            });
+        }
+    }
+
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeSidebar();
+    });
+
+    // Mencegah klik accordion saat mini sidebar aktif
+    document.querySelectorAll('#sidebar details summary').forEach(summary => {
+        summary.addEventListener('click', function(e) {
+            if (document.body.classList.contains('desktop-sidebar-collapsed')) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    // Menampilkan submenu otomatis saat hover di mode mini sidebar
+    document.querySelectorAll('#sidebar details').forEach(details => {
+        details.addEventListener('mouseenter', function() {
+            if (document.body.classList.contains('desktop-sidebar-collapsed')) {
+                this.setAttribute('data-was-closed', !this.hasAttribute('open'));
+                this.setAttribute('open', 'true');
+            }
+        });
+        details.addEventListener('mouseleave', function() {
+            if (document.body.classList.contains('desktop-sidebar-collapsed')) {
+                if (this.getAttribute('data-was-closed') === 'true') {
+                    this.removeAttribute('open');
+                }
+            }
+        });
     });
 </script>
