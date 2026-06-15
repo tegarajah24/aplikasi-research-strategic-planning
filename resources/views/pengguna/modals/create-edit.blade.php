@@ -1,5 +1,5 @@
 <div id="user-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="closeModal()"></div>
+    <div class="absolute inset-0 bg-slate-900/50" onclick="closeModal()"></div>
     <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-md z-10 overflow-hidden">
         <form id="user-form" method="POST">
             @csrf
@@ -46,10 +46,7 @@
                         </select>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Alamat Email <span class="text-red-500">*</span></label>
-                    <input id="f-email" name="email" type="email" placeholder="email@institusi.ac.id" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition">
-                </div>
+
                 <div id="password-group">
                     <label class="block text-xs font-semibold text-slate-700 mb-1.5">Password <span class="text-red-500">*</span></label>
                     <input id="f-password" name="password" type="password" placeholder="Minimal 8 karakter" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition">

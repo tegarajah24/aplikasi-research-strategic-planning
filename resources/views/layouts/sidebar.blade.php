@@ -3,20 +3,19 @@
 {{-- Usage: @include('layouts.sidebar')  in app.blade.php           --}}
 {{-- ─────────────────────────────────────────────────────────────── --}}
 <style>
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    #sidebar::-webkit-scrollbar {
-        display: none;
-    }
-    /* Hide scrollbar for IE, Edge and Firefox */
+    #sidebar::-webkit-scrollbar { display: none; }
     #sidebar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #sidebar-backdrop {
+        transition: opacity .25s ease, visibility .25s ease;
     }
 </style>
 
 {{-- Mobile Backdrop --}}
 <div id="sidebar-backdrop"
-     class="fixed inset-0 z-20 bg-slate-900/50 backdrop-blur-sm hidden lg:hidden"
+     class="fixed inset-0 z-20 bg-slate-900/50 lg:hidden opacity-0 invisible"
      onclick="closeSidebar()"></div>
 
 {{-- ── Sidebar ── --}}
@@ -559,7 +558,7 @@
         const backdrop = document.getElementById('sidebar-backdrop');
         const btn      = document.getElementById('sidebar-open-btn');
         sidebar.classList.remove('-translate-x-full');
-        backdrop.classList.remove('hidden');
+        backdrop.classList.remove('opacity-0', 'invisible');
         btn && btn.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
     }
@@ -569,7 +568,7 @@
         const backdrop = document.getElementById('sidebar-backdrop');
         const btn      = document.getElementById('sidebar-open-btn');
         sidebar.classList.add('-translate-x-full');
-        backdrop.classList.add('hidden');
+        backdrop.classList.add('opacity-0', 'invisible');
         btn && btn.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
     }

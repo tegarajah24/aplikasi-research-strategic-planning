@@ -39,7 +39,6 @@ class UserController extends Controller
         $validated = $request->validate([
             'name'     => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
-            'email'    => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
             'role'     => 'required|in:Admin,Dekan,LPPM,Kaprodi',
             'status'   => 'required|in:Aktif,Nonaktif',
@@ -63,7 +62,6 @@ class UserController extends Controller
         $validated = $request->validate([
             'name'     => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-            'email'    => 'required|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
             'role'     => 'required|in:Admin,Dekan,LPPM,Kaprodi',
             'status'   => 'required|in:Aktif,Nonaktif',
@@ -96,15 +94,5 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('pengguna')->with('success', 'Pengguna berhasil dihapus.');
-    }
-
-    public function resetPassword(User $user)
-    {
-        $user->update([
-            'password' => \Illuminate\Support\Facades\Hash::make('uhb12345'),
-        ]);
-        ActivityLog::log('Reset password pengguna', 'Pengguna', $user->id, $user->name);
-
-        return redirect()->route('pengguna')->with('success', "Password {$user->name} berhasil direset menjadi: uhb12345");
     }
 }

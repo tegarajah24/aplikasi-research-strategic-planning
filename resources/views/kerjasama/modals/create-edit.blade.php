@@ -2,7 +2,7 @@
 <div x-show="showCreateModal" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div x-show="showCreateModal" x-transition.opacity class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-slate-900/75 backdrop-blur-sm"></div>
+            <div class="absolute inset-0 bg-slate-900/75"></div>
         </div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
         <div x-show="showCreateModal" x-transition.scale.origin.bottom class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-slate-100">
@@ -90,7 +90,7 @@
 <div x-show="showEditModal" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div x-show="showEditModal" x-transition.opacity class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-slate-900/75 backdrop-blur-sm"></div>
+            <div class="absolute inset-0 bg-slate-900/75"></div>
         </div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
         <div x-show="showEditModal" x-transition.scale.origin.bottom class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-slate-100">

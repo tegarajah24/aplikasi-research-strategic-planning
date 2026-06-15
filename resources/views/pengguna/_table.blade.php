@@ -12,7 +12,7 @@
                         oninput="document.getElementById('search-form').submit()">
                 </form>
             </div>
-                <select name="role" form="search-form" onchange="document.getElementById('search-form').submit()" class="appearance-none border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-600 outline-none focus:border-sky-400 cursor-pointer">
+                <select name="role" form="search-form" onchange="document.getElementById('search-form').submit()" class="appearance-none border border-slate-200 rounded-xl px-3 py-2 pr-8 text-xs text-slate-600 outline-none focus:border-sky-400 cursor-pointer">
                     <option value="">Semua Role</option>
                     <option value="Admin" {{ request('role') === 'Admin' ? 'selected' : '' }}>Admin</option>
                     <option value="Dekan" {{ request('role') === 'Dekan' ? 'selected' : '' }}>Dekan</option>
@@ -40,7 +40,7 @@
                             <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}" class="w-10 h-10 rounded-full border-2 border-white shadow-sm flex-shrink-0">
                             <div>
                                 <p class="text-sm font-bold text-slate-800">{{ $user->name }}</p>
-                                <p class="text-[11px] text-slate-500 font-medium">{{ $user->username }} · {{ $user->email }}</p>
+                                <p class="text-[11px] text-slate-500 font-medium">{{ $user->username }}</p>
                             </div>
                         </div>
                     </td>
@@ -66,8 +66,8 @@
                             <button onclick="openEditModal({{ $user->id }})" class="p-1.5 rounded-lg text-sky-500 hover:bg-sky-50 transition" title="Edit Data" data-user='@json($user)'>
                                 <x-icon name="pencil" class="w-4 h-4" />
                             </button>
-                            <button onclick="openResetModal({{ $user->id }})" class="p-1.5 rounded-lg text-amber-500 hover:bg-amber-50 transition" title="Reset Password">
-                                <x-icon name="key" class="w-4 h-4" />
+                            <button onclick="openViewModal({{ $user->id }})" class="p-1.5 rounded-lg text-blue-500 hover:bg-blue-50 transition" title="Lihat Detail" data-user='@json($user)'>
+                                <x-icon name="eye" class="w-4 h-4" />
                             </button>
                             <form action="{{ route('pengguna.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna {{ $user->name }} secara permanen?')">
                                 @csrf

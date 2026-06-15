@@ -27,6 +27,8 @@
 #ev-modal { transition: opacity .25s ease, visibility .25s ease; }
 #ev-modal.modal-closed { opacity:0; visibility:hidden; pointer-events:none; }
 #ev-modal:not(.modal-closed) { opacity:1; visibility:visible; pointer-events:all; }
+#ev-modal > div:first-child { transition: opacity .25s ease; }
+#ev-modal.modal-closed > div:first-child { opacity: 0; }
 #ev-modal > .modal-panel {
     transform: scale(0.92) translateY(12px);
     transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
