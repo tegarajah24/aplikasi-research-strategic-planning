@@ -34,7 +34,7 @@
 
             @include('hki._flash')
 
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm">
+            <div class="glass-panel shadow-sm">
                 @include('hki._toolbar')
 
                 @include('hki._table')

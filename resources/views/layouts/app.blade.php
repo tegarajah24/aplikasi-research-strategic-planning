@@ -43,6 +43,38 @@
             .ts-dropdown .dropdown-input { border-radius: 0.375rem !important; border: 1px solid #cbd5e1 !important; margin: 0.5rem !important; width: calc(100% - 1rem) !important; font-size: 0.875rem !important; padding: 0.375rem 0.75rem !important; }
             .ts-dropdown .dropdown-input:focus { border-color: #6366f1 !important; outline: none !important; ring: 2px; }
 
+            /* ── Glassmorphism ── */
+            .glass-panel {
+                background: rgba(255, 255, 255, 0.55);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                border-radius: 1rem;
+                box-shadow: 0 8px 32px rgba(59, 130, 246, 0.08);
+                transition: all 0.3s ease;
+            }
+            .glass-panel:hover {
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(16px);
+                border-color: rgba(59, 130, 246, 0.3);
+                box-shadow: 0 12px 40px rgba(59, 130, 246, 0.12);
+            }
+            .glass-card {
+                background: rgba(255, 255, 255, 0.45);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.35);
+                border-radius: 1rem;
+                box-shadow: 0 8px 32px rgba(59, 130, 246, 0.06);
+                transition: all 0.3s ease;
+            }
+            .glass-card:hover {
+                background: rgba(255, 255, 255, 0.65);
+                backdrop-filter: blur(16px);
+                border-color: rgba(59, 130, 246, 0.35);
+                box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15);
+            }
+
             /* Sidebar Collapsed Styles */
             @media (min-width: 1024px) {
                 body.desktop-sidebar-collapsed #sidebar {
@@ -123,7 +155,7 @@
             }
         </script>
     </head>
-    <body class="font-sans antialiased bg-slate-50 text-slate-800">
+    <body class="font-sans antialiased bg-gradient-to-br from-white via-blue-50 to-blue-100 text-slate-800">
         
         {{-- Global Loader Overlay --}}
         <div id="global-loader" class="fixed inset-0 z-[9999] bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center transition-opacity duration-300 opacity-0">

@@ -21,7 +21,7 @@
             @include('prestasi-akademik._flash')
             @include('prestasi-akademik._stats')
 
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm">
+            <div class="glass-panel shadow-sm">
                 @include('prestasi-akademik._toolbar')
                 @include('prestasi-akademik._table')
             </div>

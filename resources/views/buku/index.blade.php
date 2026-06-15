@@ -34,7 +34,7 @@
 
             @include('buku._flash')
 
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm">
+            <div class="glass-panel shadow-sm">
                 @include('buku._toolbar')
 
                 @include('buku._table')

@@ -1,5 +1,5 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-    <div class="dash-card bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+    <div class="dash-card glass-panel shadow-sm overflow-hidden">
         <div class="h-1 bg-rose-500"></div>
         <div class="p-5">
             <div class="flex items-center justify-between mb-4">
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="dash-card bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+    <div class="dash-card glass-panel shadow-sm overflow-hidden">
         <div class="h-1 bg-emerald-500"></div>
         <div class="p-5">
             <div class="flex items-center justify-between mb-4">
@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="dash-card bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+    <div class="dash-card glass-panel shadow-sm overflow-hidden">
         <div class="h-1 bg-blue-500"></div>
         <div class="p-5">
             <div class="flex items-center justify-between mb-4">

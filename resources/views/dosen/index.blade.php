@@ -8,7 +8,7 @@
 <div x-data="dosenPage()" @open-create-modal.window="showCreateModal = true">
     <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+            <div class="glass-panel shadow-sm">
                 @include('dosen._flash')
 
                 @include('dosen._toolbar')

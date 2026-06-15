@@ -18,7 +18,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
 
                 {{-- Card 1: Fakultas --}}
-                <a href="{{ route('fakultas.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
+                <a href="{{ route('fakultas.index') }}" class="block glass-panel p-5 hover:shadow-lg transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
                         <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
                             <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
@@ -31,7 +31,7 @@
                 </a>
 
                 {{-- Card 2: Prodi --}}
-                <a href="{{ route('prodi.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
+                <a href="{{ route('prodi.index') }}" class="block glass-panel shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
                         <div class="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center group-hover:bg-violet-100 transition-colors">
                             <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
@@ -44,7 +44,7 @@
                 </a>
 
                 {{-- Card 3: Dosen Terdaftar --}}
-                <a href="{{ route('dosen.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
+                <a href="{{ route('dosen.index') }}" class="block glass-panel shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
                         <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center group-hover:bg-cyan-100 transition-colors">
                             <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
@@ -58,7 +58,7 @@
                 </a>
 
                 {{-- Card 4: Total Luaran Ilmiah --}}
-                <a href="{{ route('hki.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
+                <a href="{{ route('hki.index') }}" class="block glass-panel shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
                         <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center group-hover:bg-amber-100 transition-colors">
                             <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
@@ -71,7 +71,7 @@
                 </a>
 
                 {{-- Card 5: Kerjasama & Prestasi --}}
-                <a href="{{ route('kerjasama.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
+                <a href="{{ route('kerjasama.index') }}" class="block glass-panel shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
                         <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center group-hover:bg-rose-100 transition-colors">
                             <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
@@ -89,7 +89,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 {{-- Kolom 1 & 2: Tren Publikasi --}}
-                <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                <div class="lg:col-span-2 glass-panel shadow-sm overflow-hidden">
                     <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
                         <div>
                             <h2 class="text-sm font-bold text-slate-700">Tren Publikasi & Luaran Ilmiah</h2>
@@ -142,7 +142,7 @@
                 </div>
 
                 {{-- Kolom 3: Status Capaian Renstra --}}
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                <div class="glass-panel shadow-sm overflow-hidden">
                     <div class="px-6 py-5 border-b border-slate-100">
                         <h2 class="text-sm font-bold text-slate-700">Status Capaian Renstra</h2>
                         <p class="text-[11px] text-slate-400 mt-0.5">Proporsi capaian sasaran strategis</p>
@@ -222,7 +222,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                 {{-- Kolom Kiri: Agenda & Kalender --}}
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                <div class="glass-panel shadow-sm overflow-hidden">
                     <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
                         <div>
                             <h2 class="text-sm font-bold text-slate-700">Agenda & Kalender Kegiatan Terdekat</h2>
@@ -251,7 +251,7 @@
                 </div>
 
                 {{-- Kolom Kanan: Log Aktivitas --}}
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                <div class="glass-panel shadow-sm overflow-hidden">
                     <div class="px-6 py-5 border-b border-slate-100">
                         <h2 class="text-sm font-bold text-slate-700">Log Aktivitas Terbaru</h2>
                         <p class="text-[11px] text-slate-400 mt-0.5">Riwayat perubahan data oleh pengguna</p>
