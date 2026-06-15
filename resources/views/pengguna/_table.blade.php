@@ -12,7 +12,7 @@
                         oninput="document.getElementById('search-form').submit()">
                 </form>
             </div>
-                <select name="role" form="search-form" onchange="document.getElementById('search-form').submit()" class="appearance-none border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-600 outline-none focus:border-sky-400 cursor-pointer">
+                <select name="role" form="search-form" onchange="document.getElementById('search-form').submit()" class="appearance-none border border-slate-200 rounded-xl px-3 py-2 pr-8 text-xs text-slate-600 outline-none focus:border-sky-400 cursor-pointer">
                     <option value="">Semua Role</option>
                     <option value="Admin" {{ request('role') === 'Admin' ? 'selected' : '' }}>Admin</option>
                     <option value="Dekan" {{ request('role') === 'Dekan' ? 'selected' : '' }}>Dekan</option>
