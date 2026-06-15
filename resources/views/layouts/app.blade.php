@@ -80,6 +80,10 @@
                     margin-left: 0 !important;
                     z-index: 50;
                     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+                    display: none !important; /* Sembunyikan meski statusnya 'open' dari server */
+                }
+                body.desktop-sidebar-collapsed #sidebar details:hover > div {
+                    display: block !important; /* Hanya tampilkan saat dihover */
                 }
                 /* Hide chevron arrow in mini mode */
                 body.desktop-sidebar-collapsed #sidebar details > summary > svg:last-child {
