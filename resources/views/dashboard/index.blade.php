@@ -17,37 +17,36 @@
             {{-- ════════════════ BARIS 1: METRIC CARDS ════════════════ --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
 
-                {{-- Card 1: Total Pengguna --}}
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                {{-- Card 1: Fakultas --}}
+                <a href="{{ route('fakultas.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
-                            </svg>
-                        </div>
-                        <span class="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">User Aktif</span>
-                    </div>
-                    <p class="text-3xl font-bold text-slate-800">{{ $totalUsers }}</p>
-                    <p class="text-xs text-slate-400 mt-1">Total Pengguna</p>
-                </div>
-
-                {{-- Card 2: Fakultas & Prodi --}}
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-slate-300 transition-all duration-200">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
                             <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"/>
                             </svg>
                         </div>
                     </div>
-                    <p class="text-3xl font-bold text-slate-800">{{ $totalFakultas }} / {{ $totalProdi }}</p>
-                    <p class="text-xs text-slate-400 mt-1">Fakultas / Program Studi</p>
-                </div>
+                    <p class="text-3xl font-bold text-slate-800">{{ $totalFakultas }}</p>
+                    <p class="text-xs text-slate-400 mt-1">Fakultas</p>
+                </a>
+
+                {{-- Card 2: Prodi --}}
+                <a href="{{ route('prodi.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center group-hover:bg-violet-100 transition-colors">
+                            <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-3xl font-bold text-slate-800">{{ $totalProdi }}</p>
+                    <p class="text-xs text-slate-400 mt-1">Program Studi</p>
+                </a>
 
                 {{-- Card 3: Dosen Terdaftar --}}
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                <a href="{{ route('dosen.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center group-hover:bg-cyan-100 transition-colors">
                             <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15A2.25 2.25 0 002.25 6.75v10.5a2.25 2.25 0 002.25 2.25zm.908-2.293a3.375 3.375 0 016.684 0v.093A3.375 3.375 0 0112 18H5.25a3.375 3.375 0 01-.092-.593zM8.625 10.5a1.875 1.875 0 113.75 0 1.875 1.875 0 01-3.75 0z"/>
                             </svg>
@@ -56,12 +55,12 @@
                     </div>
                     <p class="text-3xl font-bold text-slate-800">{{ $totalDosen }}</p>
                     <p class="text-xs text-slate-400 mt-1">Dosen Terdaftar</p>
-                </div>
+                </a>
 
                 {{-- Card 4: Total Luaran Ilmiah --}}
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                <a href="{{ route('hki.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center group-hover:bg-amber-100 transition-colors">
                             <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
                             </svg>
@@ -69,12 +68,12 @@
                     </div>
                     <p class="text-3xl font-bold text-slate-800">{{ $totalLuaran }}</p>
                     <p class="text-xs text-slate-400 mt-1">HKI, Buku & Artikel</p>
-                </div>
+                </a>
 
                 {{-- Card 5: Kerjasama & Prestasi --}}
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                <a href="{{ route('kerjasama.index') }}" class="block bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center">
+                        <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center group-hover:bg-rose-100 transition-colors">
                             <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
                             </svg>
@@ -82,7 +81,7 @@
                     </div>
                     <p class="text-3xl font-bold text-slate-800">{{ $totalKerjasama }} / {{ $totalPrestasi }}</p>
                     <p class="text-xs text-slate-400 mt-1">Mitra MoU / Prestasi Mhs</p>
-                </div>
+                </a>
 
             </div>
 
