@@ -530,34 +530,6 @@
 
     </nav>
 
-    {{-- ── User Profile Footer ── --}}
-    @auth
-    <div class="flex-shrink-0 border-t border-slate-800/70 p-3">
-        <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-slate-800 transition-colors duration-150 group">
-            {{-- Avatar initial --}}
-            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-700
-                        flex items-center justify-center text-xs font-bold text-white shadow">
-                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-            </div>
-            <div class="min-w-0 flex-1 user-info">
-                <p class="text-xs font-semibold text-slate-200 truncate leading-snug">{{ Auth::user()->name }}</p>
-                <p class="text-[10px] text-slate-500 truncate leading-snug">{{ Auth::user()->email }}</p>
-            </div>
-            {{-- Logout button --}}
-            <form method="POST" action="{{ route('logout') }}" class="flex-shrink-0">
-                @csrf
-                <button type="submit"
-                        title="Logout"
-                        class="p-1 text-slate-500 hover:text-red-400 transition-colors duration-150">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/>
-                    </svg>
-                </button>
-            </form>
-        </div>
-    </div>
-    @endauth
 </aside>
 
 {{-- ── Desktop Sidebar Toggle Button ── --}}

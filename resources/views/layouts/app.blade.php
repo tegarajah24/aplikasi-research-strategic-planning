@@ -108,9 +108,7 @@
                 /* Hiding texts */
                 body.desktop-sidebar-collapsed .brand-text,
                 body.desktop-sidebar-collapsed .nav-heading,
-                body.desktop-sidebar-collapsed .menu-text,
-                body.desktop-sidebar-collapsed .user-info,
-                body.desktop-sidebar-collapsed #sidebar form[action$="logout"] {
+                body.desktop-sidebar-collapsed .menu-text {
                     display: none !important;
                 }
 
