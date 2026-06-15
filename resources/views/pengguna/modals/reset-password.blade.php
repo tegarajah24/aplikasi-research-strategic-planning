@@ -21,16 +21,7 @@
             </div>
 
             <div class="bg-slate-50 rounded-xl p-4 space-y-3.5">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-semibold text-slate-500">Email</span>
-                    <span id="view-email" class="text-sm font-medium text-slate-800"></span>
-                </div>
-                <div class="border-t border-slate-200/60"></div>
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-semibold text-slate-500">Verifikasi Email</span>
-                    <span id="view-email-verified" class="text-xs font-bold"></span>
-                </div>
-                <div class="border-t border-slate-200/60"></div>
+
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-semibold text-slate-500">Role</span>
                     <span id="view-role" class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold"></span>

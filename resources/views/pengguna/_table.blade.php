@@ -40,7 +40,7 @@
                             <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}" class="w-10 h-10 rounded-full border-2 border-white shadow-sm flex-shrink-0">
                             <div>
                                 <p class="text-sm font-bold text-slate-800">{{ $user->name }}</p>
-                                <p class="text-[11px] text-slate-500 font-medium">{{ $user->username }} · {{ $user->email }}</p>
+                                <p class="text-[11px] text-slate-500 font-medium">{{ $user->username }}</p>
                             </div>
                         </div>
                     </td>

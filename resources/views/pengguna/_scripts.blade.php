@@ -8,7 +8,6 @@ function openCreateModal() {
     document.getElementById('user-form').action = '{{ route("pengguna.store") }}';
     document.getElementById('f-nama').value = '';
     document.getElementById('f-username').value = '';
-    document.getElementById('f-email').value = '';
     document.getElementById('f-role').value = 'Admin';
     document.getElementById('f-password').value = '';
     document.getElementById('f-password').required = true;
@@ -32,7 +31,6 @@ function openEditModal(id) {
     document.getElementById('user-form').action = '/pengguna/' + user.id;
     document.getElementById('f-nama').value = user.name;
     document.getElementById('f-username').value = user.username;
-    document.getElementById('f-email').value = user.email;
     document.getElementById('f-role').value = user.role;
     document.getElementById('f-prodi').value = user.prodi_id || '';
     if (user.role === 'Kaprodi') {
@@ -62,17 +60,6 @@ function openViewModal(id) {
     document.getElementById('view-photo').src = user.profile_photo_url;
     document.getElementById('view-name').textContent = user.name;
     document.getElementById('view-username').textContent = `@${user.username}`;
-    document.getElementById('view-email').textContent = user.email;
-
-    const verifiedEl = document.getElementById('view-email-verified');
-    if (user.email_verified_at) {
-        verifiedEl.textContent = 'Terverifikasi';
-        verifiedEl.className = 'text-xs font-bold text-emerald-600';
-    } else {
-        verifiedEl.textContent = 'Belum Terverifikasi';
-        verifiedEl.className = 'text-xs font-bold text-amber-600';
-    }
-
     const roleEl = document.getElementById('view-role');
     roleEl.textContent = user.role;
     roleEl.className = `inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold role-${user.role.toLowerCase()}`;
