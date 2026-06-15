@@ -97,14 +97,4 @@ class UserController extends Controller
 
         return redirect()->route('pengguna')->with('success', 'Pengguna berhasil dihapus.');
     }
-
-    public function resetPassword(User $user)
-    {
-        $user->update([
-            'password' => \Illuminate\Support\Facades\Hash::make('uhb12345'),
-        ]);
-        ActivityLog::log('Reset password pengguna', 'Pengguna', $user->id, $user->name);
-
-        return redirect()->route('pengguna')->with('success', "Password {$user->name} berhasil direset menjadi: uhb12345");
-    }
 }

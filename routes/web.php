@@ -72,7 +72,6 @@ Route::middleware([
         Route::post('/pengguna', [App\Http\Controllers\UserController::class, 'store'])->name('pengguna.store');
         Route::put('/pengguna/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('pengguna.update');
         Route::delete('/pengguna/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('pengguna.destroy');
-        Route::post('/pengguna/{user}/reset-password', [App\Http\Controllers\UserController::class, 'resetPassword'])->name('pengguna.reset-password');
     });
 
     // ── Admin, Dekan ──

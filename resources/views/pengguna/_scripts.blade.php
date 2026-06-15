@@ -1,6 +1,4 @@
 <script>
-let usersFromDB = @json($users->items());
-
 // ── Modal handlers ──
 function openCreateModal() {
     document.getElementById('modal-title').textContent = 'Tambah Pengguna Baru';
@@ -56,18 +54,58 @@ function closeModal() {
     document.body.style.overflow = '';
 }
 
-// ── Reset Password ──
-function openResetModal(id) {
-    const user = usersFromDB.find(u => u.id === id);
-    if (!user) return;
-    document.getElementById('reset-name').textContent = `Reset password untuk: ${user.name}`;
-    document.getElementById('reset-form').action = `/pengguna/${user.id}/reset-password`;
-    document.getElementById('reset-modal').classList.remove('modal-closed');
+// ── View Detail ──
+function openViewModal(id) {
+    const btn = document.querySelector(`button[onclick*="openViewModal(${id})"]`);
+    const user = JSON.parse(btn.dataset.user);
+
+    document.getElementById('view-photo').src = user.profile_photo_url;
+    document.getElementById('view-name').textContent = user.name;
+    document.getElementById('view-username').textContent = `@${user.username}`;
+    document.getElementById('view-email').textContent = user.email;
+
+    const verifiedEl = document.getElementById('view-email-verified');
+    if (user.email_verified_at) {
+        verifiedEl.textContent = 'Terverifikasi';
+        verifiedEl.className = 'text-xs font-bold text-emerald-600';
+    } else {
+        verifiedEl.textContent = 'Belum Terverifikasi';
+        verifiedEl.className = 'text-xs font-bold text-amber-600';
+    }
+
+    const roleEl = document.getElementById('view-role');
+    roleEl.textContent = user.role;
+    roleEl.className = `inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold role-${user.role.toLowerCase()}`;
+
+    const statusEl = document.getElementById('view-status');
+    const dot = document.createElement('span');
+    dot.className = `w-1.5 h-1.5 rounded-full ${user.status === 'Aktif' ? 'bg-emerald-500' : 'bg-red-500'}`;
+    statusEl.innerHTML = '';
+    statusEl.appendChild(dot);
+    statusEl.appendChild(document.createTextNode(' ' + user.status));
+    statusEl.className = `inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${user.status === 'Aktif' ? 'badge-aktif' : 'badge-nonaktif'}`;
+
+    if (user.role === 'Kaprodi' && user.prodi) {
+        document.getElementById('view-prodi').textContent = user.prodi.nama_prodi;
+        document.getElementById('view-prodi-row').style.display = '';
+        document.getElementById('view-prodi-divider').style.display = '';
+    } else {
+        document.getElementById('view-prodi-row').style.display = 'none';
+        document.getElementById('view-prodi-divider').style.display = 'none';
+    }
+
+    document.getElementById('view-last-login').textContent = user.last_login_at
+        ? new Date(user.last_login_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })
+        : 'Belum pernah login';
+
+    document.getElementById('view-created').textContent = new Date(user.created_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' });
+
+    document.getElementById('view-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
 }
 
-function closeResetModal() {
-    document.getElementById('reset-modal').classList.add('modal-closed');
+function closeViewModal() {
+    document.getElementById('view-modal').classList.add('modal-closed');
     document.body.style.overflow = '';
 }
 
@@ -89,7 +127,7 @@ function renderAuditLog() {
 }
 
 document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeModal(); closeResetModal(); }
+    if (e.key === 'Escape') { closeModal(); closeViewModal(); }
 });
 
 renderAuditLog();

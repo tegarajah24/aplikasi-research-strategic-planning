@@ -66,8 +66,8 @@
                             <button onclick="openEditModal({{ $user->id }})" class="p-1.5 rounded-lg text-sky-500 hover:bg-sky-50 transition" title="Edit Data" data-user='@json($user)'>
                                 <x-icon name="pencil" class="w-4 h-4" />
                             </button>
-                            <button onclick="openResetModal({{ $user->id }})" class="p-1.5 rounded-lg text-amber-500 hover:bg-amber-50 transition" title="Reset Password">
-                                <x-icon name="key" class="w-4 h-4" />
+                            <button onclick="openViewModal({{ $user->id }})" class="p-1.5 rounded-lg text-blue-500 hover:bg-blue-50 transition" title="Lihat Detail" data-user='@json($user)'>
+                                <x-icon name="eye" class="w-4 h-4" />
                             </button>
                             <form action="{{ route('pengguna.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna {{ $user->name }} secara permanen?')">
                                 @csrf

@@ -1,18 +1,18 @@
 <style>
-    #user-modal, #del-modal, #reset-modal { transition: opacity .25s ease, visibility .25s ease; }
-    #user-modal.modal-closed, #del-modal.modal-closed, #reset-modal.modal-closed {
+    #user-modal, #del-modal, #view-modal { transition: opacity .25s ease, visibility .25s ease; }
+    #user-modal.modal-closed, #del-modal.modal-closed, #view-modal.modal-closed {
         opacity: 0; visibility: hidden; pointer-events: none;
     }
-    #user-modal:not(.modal-closed), #del-modal:not(.modal-closed), #reset-modal:not(.modal-closed) {
+    #user-modal:not(.modal-closed), #del-modal:not(.modal-closed), #view-modal:not(.modal-closed) {
         opacity: 1; visibility: visible; pointer-events: all;
     }
-    #user-modal > .modal-panel, #del-modal > .modal-panel, #reset-modal > .modal-panel {
+    #user-modal > .modal-panel, #del-modal > .modal-panel, #view-modal > .modal-panel {
         transform: scale(0.92) translateY(12px);
         transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     #user-modal:not(.modal-closed) > .modal-panel,
     #del-modal:not(.modal-closed) > .modal-panel,
-    #reset-modal:not(.modal-closed) > .modal-panel {
+    #view-modal:not(.modal-closed) > .modal-panel {
         transform: scale(1) translateY(0);
     }
     .badge-aktif { background:#d1fae5; color:#059669; border:1px solid #a7f3d0; }
