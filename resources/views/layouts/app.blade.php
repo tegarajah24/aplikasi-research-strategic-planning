@@ -11,6 +11,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
 
+        <!-- TomSelect CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -23,7 +26,23 @@
             #sidebar::-webkit-scrollbar { width: 4px; }
             #sidebar::-webkit-scrollbar-track { background: transparent; }
             #sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
-            
+
+            /* TomSelect Custom Animations & Styling */
+            .ts-wrapper { width: 100%; position: relative; }
+            .ts-wrapper::after { content: ""; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); width: 1.2em; height: 1.2em; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2.5' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; pointer-events: none; transition: transform 0.2s ease; z-index: 1; }
+            .ts-wrapper.focus::after { transform: translateY(-50%) rotate(180deg); background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2.5' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E"); }
+            .ts-control { border-radius: 0.5rem !important; border-color: #cbd5e1 !important; padding: 0.5rem 2.5rem 0.5rem 0.75rem !important; min-height: 2.5rem !important; display: flex; align-items: center; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important; font-size: 0.875rem !important; line-height: 1.25rem !important; background-color: #fff !important; cursor: pointer; }
+            .ts-control.focus { border-color: #6366f1 !important; box-shadow: 0 0 0 2px #e0e7ff !important; outline: none !important; }
+            .ts-dropdown { border-radius: 0.5rem !important; border: 1px solid #e2e8f0 !important; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important; margin-top: 0.25rem !important; animation: ts-slide-down 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; transform-origin: top; overflow: hidden; background-color: #fff !important; }
+            @keyframes ts-slide-down {
+                0% { opacity: 0; transform: translateY(-5px) scaleY(0.95); }
+                100% { opacity: 1; transform: translateY(0) scaleY(1); }
+            }
+            .ts-dropdown .option { padding: 0.5rem 0.75rem !important; font-size: 0.875rem !important; transition: background-color 0.1s ease; }
+            .ts-dropdown .option.active, .ts-dropdown .option:hover { background-color: #eff6ff !important; color: #1d4ed8 !important; }
+            .ts-dropdown .dropdown-input { border-radius: 0.375rem !important; border: 1px solid #cbd5e1 !important; margin: 0.5rem !important; width: calc(100% - 1rem) !important; font-size: 0.875rem !important; padding: 0.375rem 0.75rem !important; }
+            .ts-dropdown .dropdown-input:focus { border-color: #6366f1 !important; outline: none !important; ring: 2px; }
+
             /* Sidebar Collapsed Styles */
             @media (min-width: 1024px) {
                 body.desktop-sidebar-collapsed #sidebar {
@@ -58,8 +77,8 @@
 
                 /* Center icons only for main menu, not submenus */
                 body.desktop-sidebar-collapsed #sidebar > nav > a,
-                body.desktop-sidebar-collapsed #sidebar > nav > div > details > summary,
-                body.desktop-sidebar-collapsed #sidebar > nav > div > details > summary > div,
+                body.desktop-sidebar-collapsed #sidebar > nav > div > button,
+                body.desktop-sidebar-collapsed #sidebar > nav > div > button > div,
                 body.desktop-sidebar-collapsed #sidebar .brand-container {
                     justify-content: center !important;
                     padding-left: 0 !important;
@@ -67,7 +86,7 @@
                 }
 
                 /* Popover for dropdowns */
-                body.desktop-sidebar-collapsed #sidebar details > div {
+                body.desktop-sidebar-collapsed #sidebar .submenu-wrapper {
                     position: absolute;
                     left: 100%; /* Nempel persis di sisi kanan elemen menu */
                     top: 0;
@@ -80,13 +99,9 @@
                     margin-left: 0 !important;
                     z-index: 50;
                     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
-                    display: none !important; /* Sembunyikan meski statusnya 'open' dari server */
-                }
-                body.desktop-sidebar-collapsed #sidebar details:hover > div {
-                    display: block !important; /* Hanya tampilkan saat dihover */
                 }
                 /* Hide chevron arrow in mini mode */
-                body.desktop-sidebar-collapsed #sidebar details > summary > svg:last-child {
+                body.desktop-sidebar-collapsed #sidebar .dropdown-chevron {
                     display: none !important;
                 }
                 /* Ensure relative positioning for popovers */
@@ -239,5 +254,58 @@
         @stack('modals')
 
         @livewireScripts
+
+        <!-- TomSelect JS -->
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+        <script>
+            // Initialize TomSelect globally
+            function initTomSelects() {
+                document.querySelectorAll('select:not(.tomselected)').forEach(selectEl => {
+                    // Cek opsi: jika sedikit, matikan fitur pencarian agar benar-benar "simple"
+                    const optionsCount = selectEl.querySelectorAll('option').length;
+                    
+                    new TomSelect(selectEl, {
+                        create: false,
+                        sortField: {
+                            field: "text",
+                            direction: "asc"
+                        },
+                        // Matikan search box jika item kurang dari 8 (opsional)
+                        controlInput: optionsCount > 8 ? '<input>' : null,
+                        maxOptions: 50,
+                        render: {
+                            no_results: function(data, escape) {
+                                return '<div class="no-results" style="padding: 0.5rem 0.75rem; color: #64748b; font-size: 0.875rem;">Tidak ada hasil ditemukan</div>';
+                            }
+                        }
+                    });
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', initTomSelects);
+            
+            // Re-initialize for dynamically added elements (Livewire / Alpine modals)
+            if (typeof Livewire !== 'undefined') {
+                Livewire.hook('message.processed', (message, component) => {
+                    initTomSelects();
+                });
+            }
+            
+            // MutationObserver to catch Alpine.js x-show modals appearing or elements added
+            const observer = new MutationObserver((mutations) => {
+                let shouldInit = false;
+                for (const mutation of mutations) {
+                    if (mutation.addedNodes.length > 0 || mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+                        shouldInit = true;
+                        break;
+                    }
+                }
+                if (shouldInit) {
+                    // Small delay to let DOM settle
+                    setTimeout(initTomSelects, 50);
+                }
+            });
+            observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+        </script>
     </body>
 </html>

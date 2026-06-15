@@ -78,29 +78,36 @@
             $isRenstra = request()->is('renstra*');
             $isMasterDataActive = $isFakultas || $isProdi || $isDosen || $isBidang || $isProgram || $isRenstra;
         @endphp
-        <div class="relative">
-            <details class="group cursor-pointer" {{ $isMasterDataActive ? 'open' : '' }}>
-                <summary class="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        <div class="relative" x-data="{ open: {{ $isMasterDataActive ? 'true' : 'false' }}, isHovered: false }" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+            <button type="button" @click="if(!document.body.classList.contains('desktop-sidebar-collapsed')) open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                                 transition-all duration-150
                                 {{ $isMasterDataActive
                                      ? 'text-white bg-slate-800/50'
                                      : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}
-                                list-none [&::-webkit-details-marker]:hidden">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isMasterDataActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M2.25 13.5h3.86a2.25 2.25 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0118 21.75H6a2.25 2.25 0 01-2.25-2.25V15.75A2.25 2.25 0 012.25 13.5zm0-6h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0118 15.75H6a2.25 2.25 0 01-2.25-2.25V9.75A2.25 2.25 0 012.25 7.5zm0-6h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0118 9.75H6a2.25 2.25 0 01-2.25-2.25V3.75A2.25 2.25 0 012.25 1.5z"/>
-                        </svg>
-                        <span class="menu-text">Master Data</span>
-                    </div>
-                    <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-90"
-                         fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                                list-none">
+                <div class="flex items-center gap-3">
+                    <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isMasterDataActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
+                         fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M2.25 13.5h3.86a2.25 2.25 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0118 21.75H6a2.25 2.25 0 01-2.25-2.25V15.75A2.25 2.25 0 012.25 13.5zm0-6h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0118 15.75H6a2.25 2.25 0 01-2.25-2.25V9.75A2.25 2.25 0 012.25 7.5zm0-6h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0118 9.75H6a2.25 2.25 0 01-2.25-2.25V3.75A2.25 2.25 0 012.25 1.5z"/>
                     </svg>
-                </summary>
+                    <span class="menu-text">Master Data</span>
+                </div>
+                <svg class="dropdown-chevron w-3.5 h-3.5 opacity-60 transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                     fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                </svg>
+            </button>
 
-                <div class="mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
+            <div x-cloak
+                 x-show="document.body.classList.contains('desktop-sidebar-collapsed') ? isHovered : open"
+                 x-transition:enter="transition ease-out duration-200 origin-top"
+                 x-transition:enter-start="opacity-0 scale-y-95 -translate-y-2"
+                 x-transition:enter-end="opacity-100 scale-y-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150 origin-top"
+                 x-transition:leave-start="opacity-100 scale-y-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-y-95 -translate-y-2"
+                 class="submenu-wrapper mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
                     {{-- Fakultas --}}
                     @if(auth()->user()->isAdmin() || auth()->user()->isDekan())
                     <a href="/fakultas"
@@ -219,7 +226,7 @@
                     </a>
                     @endif
                 </div>
-            </details>
+            <!-- dropdown closed -->
         </div>
         {{-- Akademik & Riset Accordion --}}
         @php
@@ -228,29 +235,36 @@
             $isArtikel = request()->is('artikel*');
             $isAkademikRisetActive = $isHki || $isBuku || $isArtikel;
         @endphp
-        <div class="relative">
-            <details class="group cursor-pointer" {{ $isAkademikRisetActive ? 'open' : '' }}>
-                <summary class="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        <div class="relative" x-data="{ open: {{ $isAkademikRisetActive ? 'true' : 'false' }}, isHovered: false }" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+            <button type="button" @click="if(!document.body.classList.contains('desktop-sidebar-collapsed')) open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                                 transition-all duration-150
                                 {{ $isAkademikRisetActive
                                      ? 'text-white bg-slate-800/50'
                                      : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}
-                                list-none [&::-webkit-details-marker]:hidden">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isAkademikRisetActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
-                        </svg>
-                        <span class="menu-text">Akademik & Riset</span>
-                    </div>
-                    <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-90"
-                         fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                                list-none">
+                <div class="flex items-center gap-3">
+                    <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isAkademikRisetActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
+                         fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
                     </svg>
-                </summary>
+                    <span class="menu-text">Akademik & Riset</span>
+                </div>
+                <svg class="dropdown-chevron w-3.5 h-3.5 opacity-60 transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                     fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                </svg>
+            </button>
 
-                <div class="mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
+            <div x-cloak
+                 x-show="document.body.classList.contains('desktop-sidebar-collapsed') ? isHovered : open"
+                 x-transition:enter="transition ease-out duration-200 origin-top"
+                 x-transition:enter-start="opacity-0 scale-y-95 -translate-y-2"
+                 x-transition:enter-end="opacity-100 scale-y-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150 origin-top"
+                 x-transition:leave-start="opacity-100 scale-y-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-y-95 -translate-y-2"
+                 class="submenu-wrapper mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
 
                     {{-- HKI --}}
                     <a href="/hki"
@@ -306,7 +320,7 @@
                         <span>Artikel</span>
                     </a>
                 </div>
-            </details>
+            <!-- dropdown closed -->
         </div>
 
         {{-- RKT Accordion --}}
@@ -315,28 +329,35 @@
             $isRktKalender = request()->is('rkt/kalender*');
             $isRktActive = $isRktKegiatan || $isRktKalender;
         @endphp
-        <div class="relative">
-            <details class="group cursor-pointer" {{ $isRktActive ? 'open' : '' }}>
-                <summary class="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        <div class="relative" x-data="{ open: {{ $isRktActive ? 'true' : 'false' }}, isHovered: false }" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+            <button type="button" @click="if(!document.body.classList.contains('desktop-sidebar-collapsed')) open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                                 transition-all duration-150
                                 {{ $isRktActive
                                      ? 'text-white bg-slate-800/50'
                                      : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}
-                                list-none [&::-webkit-details-marker]:hidden">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isRktActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
-                        </svg>
-                        <span class="menu-text">RKT</span>
-                    </div>
-                    <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-90"
-                         fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                                list-none">
+                <div class="flex items-center gap-3">
+                    <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isRktActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
+                         fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
                     </svg>
-                </summary>
+                    <span class="menu-text">RKT</span>
+                </div>
+                <svg class="dropdown-chevron w-3.5 h-3.5 opacity-60 transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                     fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                </svg>
+            </button>
 
-                <div class="mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
+            <div x-cloak
+                 x-show="document.body.classList.contains('desktop-sidebar-collapsed') ? isHovered : open"
+                 x-transition:enter="transition ease-out duration-200 origin-top"
+                 x-transition:enter-start="opacity-0 scale-y-95 -translate-y-2"
+                 x-transition:enter-end="opacity-100 scale-y-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150 origin-top"
+                 x-transition:leave-start="opacity-100 scale-y-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-y-95 -translate-y-2"
+                 class="submenu-wrapper mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
                     {{-- Data Kegiatan --}}
                     <a href="/rkt/kegiatan"
                        class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
@@ -373,7 +394,7 @@
                         <span>Kalender Kegiatan</span>
                     </a>
                 </div>
-            </details>
+            <!-- dropdown closed -->
         </div>
 
 
@@ -411,29 +432,36 @@
             $isPrestasiNonAkademik = request()->is('prestasi-non-akademik*');
             $isPrestasiActive = $isPrestasiAkademik || $isPrestasiNonAkademik;
         @endphp
-        <div class="relative">
-            <details class="group cursor-pointer" {{ $isPrestasiActive ? 'open' : '' }}>
-                <summary class="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+        <div class="relative" x-data="{ open: {{ $isPrestasiActive ? 'true' : 'false' }}, isHovered: false }" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+            <button type="button" @click="if(!document.body.classList.contains('desktop-sidebar-collapsed')) open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
                                 transition-all duration-150
                                 {{ $isPrestasiActive
                                      ? 'text-white bg-slate-800/50'
                                      : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}
-                                list-none [&::-webkit-details-marker]:hidden">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isPrestasiActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c1.04-.518 1.75-1.59 1.75-2.822v-6.75h1.5a1.5 1.5 0 001.5-1.5V1.5a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 1.5v3a1.5 1.5 0 001.5 1.5h1.5v6.75c0 1.232.71 2.304 1.75 2.822v3.375m9 0h-9"/>
-                        </svg>
-                        <span class="menu-text">Prestasi</span>
-                    </div>
-                    <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-open:rotate-90"
-                         fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                                list-none">
+                <div class="flex items-center gap-3">
+                    <svg class="w-[18px] h-[18px] flex-shrink-0 {{ $isPrestasiActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
+                         fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c1.04-.518 1.75-1.59 1.75-2.822v-6.75h1.5a1.5 1.5 0 001.5-1.5V1.5a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 1.5v3a1.5 1.5 0 001.5 1.5h1.5v6.75c0 1.232.71 2.304 1.75 2.822v3.375m9 0h-9"/>
                     </svg>
-                </summary>
+                    <span class="menu-text">Prestasi</span>
+                </div>
+                <svg class="dropdown-chevron w-3.5 h-3.5 opacity-60 transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                     fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                </svg>
+            </button>
 
-                <div class="mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
+            <div x-cloak
+                 x-show="document.body.classList.contains('desktop-sidebar-collapsed') ? isHovered : open"
+                 x-transition:enter="transition ease-out duration-200 origin-top"
+                 x-transition:enter-start="opacity-0 scale-y-95 -translate-y-2"
+                 x-transition:enter-end="opacity-100 scale-y-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150 origin-top"
+                 x-transition:leave-start="opacity-100 scale-y-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-y-95 -translate-y-2"
+                 class="submenu-wrapper mt-1 pl-6 space-y-0.5 border-l-2 border-slate-800/80 ml-5">
                     {{-- Prestasi Akademik --}}
                     @if(auth()->user()->isAdmin() || auth()->user()->isDekan() || auth()->user()->isKaprodi())
                     <a href="/prestasi-akademik"
@@ -466,7 +494,7 @@
                     </a>
                     @endif
                 </div>
-            </details>
+            <!-- dropdown closed -->
         </div>
 
         @if(auth()->user()->isAdmin())
@@ -591,42 +619,9 @@
         body.classList.toggle('desktop-sidebar-collapsed');
         const isCollapsed = body.classList.contains('desktop-sidebar-collapsed');
         localStorage.setItem('desktop-sidebar-collapsed', isCollapsed);
-
-        // Jika sidebar ditutup, otomatis tutup semua accordion agar tidak mengambang
-        if (isCollapsed) {
-            document.querySelectorAll('#sidebar details').forEach(details => {
-                details.removeAttribute('open');
-            });
-        }
     }
 
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeSidebar();
-    });
-
-    // Mencegah klik accordion saat mini sidebar aktif
-    document.querySelectorAll('#sidebar details summary').forEach(summary => {
-        summary.addEventListener('click', function(e) {
-            if (document.body.classList.contains('desktop-sidebar-collapsed')) {
-                e.preventDefault();
-            }
-        });
-    });
-
-    // Menampilkan submenu otomatis saat hover di mode mini sidebar
-    document.querySelectorAll('#sidebar details').forEach(details => {
-        details.addEventListener('mouseenter', function() {
-            if (document.body.classList.contains('desktop-sidebar-collapsed')) {
-                this.setAttribute('data-was-closed', !this.hasAttribute('open'));
-                this.setAttribute('open', 'true');
-            }
-        });
-        details.addEventListener('mouseleave', function() {
-            if (document.body.classList.contains('desktop-sidebar-collapsed')) {
-                if (this.getAttribute('data-was-closed') === 'true') {
-                    this.removeAttribute('open');
-                }
-            }
-        });
     });
 </script>
