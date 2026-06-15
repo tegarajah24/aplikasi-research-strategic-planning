@@ -109,10 +109,96 @@
         </script>
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-800">
+        
+        {{-- Global Loader Overlay --}}
+        <div id="global-loader" class="fixed inset-0 z-[9999] bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center transition-opacity duration-300 opacity-0">
+            <div class="bg-white/90 backdrop-blur-md p-5 rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-3">
+                <svg class="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="text-xs font-semibold text-slate-500 tracking-widest animate-pulse">MEMUAT...</p>
+            </div>
+        </div>
+
         <script>
             if (localStorage.getItem('desktop-sidebar-collapsed') === 'true') {
                 document.body.classList.add('desktop-sidebar-collapsed');
             }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const loader = document.getElementById('global-loader');
+                
+                function showLoader() {
+                    loader.classList.remove('hidden');
+                    loader.classList.add('flex');
+                    requestAnimationFrame(() => {
+                        loader.classList.remove('opacity-0');
+                        loader.classList.add('opacity-100');
+                    });
+                }
+
+                function hideLoader() {
+                    loader.classList.remove('opacity-100');
+                    loader.classList.add('opacity-0');
+                    setTimeout(() => {
+                        loader.classList.remove('flex');
+                        loader.classList.add('hidden');
+                    }, 300);
+                }
+
+                // Sembunyikan loader saat kembali dari BFCache (tombol back browser)
+                window.addEventListener('pageshow', (event) => {
+                    hideLoader();
+                });
+
+                // Tampilkan loader saat link diklik
+                document.querySelectorAll('a').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        const href = this.getAttribute('href');
+                        // Abaikan jika open in new tab, link kosong, anchor link, js, atau ctrl+click
+                        if (!href || this.target === '_blank' || href.startsWith('#') || href.startsWith('javascript') || e.ctrlKey || e.metaKey || e.defaultPrevented) {
+                            return;
+                        }
+                        showLoader();
+                    });
+                });
+
+                // Tampilkan loader saat form disubmit
+                document.querySelectorAll('form').forEach(form => {
+                    form.addEventListener('submit', function (e) {
+                        if (this.target === '_blank' || e.defaultPrevented) return;
+                        
+                        const submitBtn = this.querySelector('button[type="submit"]');
+                        if (submitBtn) {
+                            const btnText = submitBtn.textContent.trim().toLowerCase();
+                            // Khusus untuk tombol yang mengandung kata "simpan" (di dalam modal/input)
+                            if (btnText.includes('simpan')) {
+                                // Cegah double submit
+                                if (submitBtn.disabled) {
+                                    e.preventDefault();
+                                    return;
+                                }
+                                submitBtn.disabled = true;
+                                submitBtn.classList.add('opacity-80', 'cursor-not-allowed', 'pointer-events-none');
+                                // Ubah isi tombol menjadi spinner kecil
+                                submitBtn.innerHTML = `
+                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span class="align-middle">Menyimpan...</span>
+                                `;
+                            } else {
+                                // Untuk form lain (misal hapus atau logout), gunakan global loader
+                                showLoader();
+                            }
+                        } else {
+                            showLoader();
+                        }
+                    });
+                });
+            });
         </script>
 
         <x-banner />
