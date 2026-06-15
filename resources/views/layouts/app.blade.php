@@ -97,6 +97,7 @@
             </div>
         </div>
 
+        <script>
         document.addEventListener('DOMContentLoaded', () => {
                 const loader = document.getElementById('global-loader');
                 
