@@ -1,5 +1,5 @@
 <div id="view-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="closeViewModal()"></div>
+    <div class="absolute inset-0 bg-slate-900/50" onclick="closeViewModal()"></div>
     <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-md z-10 overflow-hidden">
         <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
             <div>

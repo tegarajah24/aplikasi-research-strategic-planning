@@ -6,6 +6,16 @@
     #user-modal:not(.modal-closed), #del-modal:not(.modal-closed), #view-modal:not(.modal-closed) {
         opacity: 1; visibility: visible; pointer-events: all;
     }
+
+    #user-modal > div:first-child, #del-modal > div:first-child, #view-modal > div:first-child {
+        transition: opacity .25s ease;
+    }
+    #user-modal.modal-closed > div:first-child,
+    #del-modal.modal-closed > div:first-child,
+    #view-modal.modal-closed > div:first-child {
+        opacity: 0;
+    }
+
     #user-modal > .modal-panel, #del-modal > .modal-panel, #view-modal > .modal-panel {
         transform: scale(0.92) translateY(12px);
         transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
