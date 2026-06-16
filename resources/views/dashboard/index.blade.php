@@ -67,7 +67,7 @@
                     <p class="text-xs text-slate-400 mt-1">HKI, Buku & Artikel</p>
                 </a>
 
-                {{-- Card 5: Kerjasama & Prestasi --}}
+                {{-- Card 5: Kerjasama / Mitra MoU --}}
                 <a href="{{ route('kerjasama.index') }}" class="block glass-panel shadow-sm p-5 hover:shadow-md hover:border-blue-400 transition-all duration-200 group">
                     <div class="flex items-center justify-between mb-3">
                         <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center group-hover:bg-rose-100 transition-colors">
@@ -76,8 +76,8 @@
                             </svg>
                         </div>
                     </div>
-                    <p class="text-3xl font-bold text-slate-800">{{ $totalKerjasama }} / {{ $totalPrestasi }}</p>
-                    <p class="text-xs text-slate-400 mt-1">Mitra MoU / Prestasi Mhs</p>
+                    <p class="text-3xl font-bold text-slate-800">{{ $totalKerjasama }}</p>
+                    <p class="text-xs text-slate-400 mt-1">Mitra MoU</p>
                 </a>
 
             </div>
