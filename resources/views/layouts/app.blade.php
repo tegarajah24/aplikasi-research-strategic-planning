@@ -257,7 +257,7 @@
         <script>
             // Initialize TomSelect globally
             function initTomSelects() {
-                document.querySelectorAll('select:not(.tomselected)').forEach(selectEl => {
+                document.querySelectorAll('select:not(.tomselected):not(.simple-select)').forEach(selectEl => {
                     // Cek opsi: jika sedikit, matikan fitur pencarian agar benar-benar "simple"
                     const optionsCount = selectEl.querySelectorAll('option').length;
                     
