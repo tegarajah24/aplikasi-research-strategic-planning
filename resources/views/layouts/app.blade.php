@@ -252,6 +252,42 @@
 
         @livewireScripts
 
+        <!-- Custom animated filter select component -->
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('filterSelect', (onChange) => ({
+                    open: false,
+                    selected: '',
+                    placeholder: 'Pilih...',
+                    options: [],
+                    init() {
+                        const sel = this.$el.querySelector('select');
+                        this.selected = sel.value;
+                        this.options = Array.from(sel.options).map(o => ({
+                            value: o.value,
+                            label: o.label
+                        }));
+                        if (this.options.length > 0) {
+                            this.placeholder = this.options[0].label;
+                        }
+                        this.$el.addEventListener('reset-filter', () => {
+                            this.selected = '';
+                            this.$el.querySelector('select').value = '';
+                        });
+                    },
+                    select(val) {
+                        this.selected = val;
+                        this.open = false;
+                        this.$el.querySelector('select').value = val;
+                        if (typeof onChange === 'function') onChange();
+                    },
+                    toggle() {
+                        this.open = !this.open;
+                    }
+                }));
+            });
+        </script>
+
         <!-- TomSelect JS -->
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
         <script>

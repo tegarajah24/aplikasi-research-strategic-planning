@@ -69,9 +69,13 @@ select.simple-select {
     font-size: 13px;
     line-height: normal;
     cursor: pointer;
+    transition: border-color .2s ease, box-shadow .2s ease;
 }
 select.simple-select:hover {
     border-color: #94a3b8;
+}
+select.simple-select:focus {
+    box-shadow: 0 0 0 3px rgba(59,130,246,.12);
 }
 
 /* Chip legend */

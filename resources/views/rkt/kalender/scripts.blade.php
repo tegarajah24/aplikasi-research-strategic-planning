@@ -34,10 +34,9 @@ function applyFilters() {
 }
 
 function resetFilters() {
-    document.getElementById('filter-tahun').value = '';
-    document.getElementById('filter-bidang').value = '';
-    document.getElementById('filter-program').value = '';
-    document.getElementById('filter-pj').value = '';
+    document.querySelectorAll('.filter-select-wrapper').forEach(el => {
+        el.dispatchEvent(new CustomEvent('reset-filter'));
+    });
     applyFilters();
 }
 
