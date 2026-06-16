@@ -1,24 +1,30 @@
 <div class="glass-panel shadow-sm overflow-hidden">
     {{-- Table toolbar --}}
-    <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-slate-100 flex-wrap">
+    <div class="flex items-center gap-3 px-5 py-4 border-b border-slate-100 flex-wrap">
         <div>
             <h2 class="text-sm font-bold text-slate-700">Daftar Program</h2>
             <p id="table-count" class="text-xs text-slate-400 mt-0.5"></p>
         </div>
-        <div class="flex items-center gap-2 flex-wrap">
+        <div class="flex items-center gap-3 ml-auto">
+            @if(auth()->user()->canWrite('program'))
+            <button onclick="openModal()"
+                class="flex items-center gap-2 px-4 py-3 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm shrink-0">
+                <x-icon name="plus" class="w-3.5 h-3.5" />
+                Tambah Program
+            </button>
+            @endif
             {{-- Search --}}
-            <div class="search-wrap relative">
-                <x-icon name="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
-                <input id="search-input" type="text" placeholder="Cari program..." oninput="filterTable()">
-            </div>
+            <input id="search-input" type="text" placeholder="Cari program..."
+                class="border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 w-44"
+                oninput="filterTable()">
             {{-- Filter Bidang --}}
             <select id="filter-bidang" onchange="filterTable()"
-                class="border border-slate-200 rounded-xl px-3 py-[7px] text-xs text-slate-600 outline-none focus:border-violet-400 cursor-pointer">
+                class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
                 <option value="">Semua Bidang</option>
             </select>
             {{-- Filter Status --}}
             <select id="filter-status" onchange="filterTable()"
-                class="border border-slate-200 rounded-xl px-3 py-[7px] text-xs text-slate-600 outline-none focus:border-violet-400 cursor-pointer">
+                class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
                 <option value="">Semua Status</option>
                 <option value="Aktif">Aktif</option>
                 <option value="Tidak Aktif">Tidak Aktif</option>
