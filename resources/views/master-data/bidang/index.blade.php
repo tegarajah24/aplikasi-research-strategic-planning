@@ -5,13 +5,6 @@
                 <h1 class="text-xl font-bold text-slate-800 leading-tight">Master Data Bidang</h1>
                 <p class="text-sm text-slate-400 mt-0.5">Kategori utama dalam RENSTRA/RKT — level teratas hierarki perencanaan</p>
             </div>
-            @if(auth()->user()->canWrite('bidang'))
-            <button onclick="openModal()"
-                class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm shadow-blue-200">
-                <x-icon name="plus" class="w-4 h-4" />
-                Tambah Bidang
-            </button>
-            @endif
         </div>
     </x-slot>
 
