@@ -52,7 +52,7 @@
         padding: 7px 12px 7px 36px;
         font-size: 13px;
         outline: none;
-        width: 100%;
+        width: 176px;
         transition: border-color .15s;
     }
     .search-wrap input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.12); }
