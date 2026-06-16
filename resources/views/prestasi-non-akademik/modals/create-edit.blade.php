@@ -15,7 +15,7 @@
 	x-transition:enter-end="opacity-100 scale-100 translate-y-0"
 	x-transition:leave="transition ease-in duration-150"
 	x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-	x-transition:leave-end="opacity-0 scale-95 translate-y-3" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100">
+	x-transition:leave-end="opacity-0 scale-95 translate-y-3" class="inline-block align-bottom bg-white rounded-2xl text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100">
             <form action="{{ route('prestasi-non-akademik.store') }}" method="POST">
                 @csrf
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -101,7 +101,7 @@
 	x-transition:enter-end="opacity-100 scale-100 translate-y-0"
 	x-transition:leave="transition ease-in duration-150"
 	x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-	x-transition:leave-end="opacity-0 scale-95 translate-y-3" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100">
+	x-transition:leave-end="opacity-0 scale-95 translate-y-3" class="inline-block align-bottom bg-white rounded-2xl text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100">
             <form :action="'{{ route('prestasi-non-akademik.index') }}/' + editData.id" method="POST">
                 @csrf
                 @method('PUT')

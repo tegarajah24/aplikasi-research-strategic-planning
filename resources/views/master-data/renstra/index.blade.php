@@ -157,7 +157,7 @@
     {{-- ── Add/Edit Modal ── --}}
     <div id="renstra-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-900/50" onclick="closeModal()"></div>
-        <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-xl z-10 overflow-hidden">
+        <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-xl z-10">
             <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
                     <h3 id="modal-title-text" class="text-base font-bold text-slate-800">Tambah Data RENSTRA</h3>
