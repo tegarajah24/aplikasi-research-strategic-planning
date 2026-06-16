@@ -177,7 +177,7 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tahun Periode <span class="text-red-500">*</span></label>
                         <select id="f-tahun"
-                            class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition">
+                            class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             <option value="">Pilih Tahun</option>
                             @foreach(range(now()->year - 4, now()->year) as $y)
                             <option value="{{ $y }}">{{ $y }}</option>
@@ -186,7 +186,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">Fakultas / Prodi <span class="text-red-500">*</span></label>
-                        <select id="f-fakultas" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 transition">
+                        <select id="f-fakultas" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             @foreach($fakultasList as $f)
                             <option value="{{ $f->kode_fakultas }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
                             @endforeach
@@ -240,7 +240,7 @@
                     <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 border-b border-slate-100 pb-2">4. Status Capaian</h4>
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-500 mb-1">Status</label>
-                        <select id="f-status" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
+                        <select id="f-status" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             <option value="belum_tercapai">Belum Tercapai</option>
                             <option value="dalam_proses">Dalam Proses</option>
                             <option value="tercapai">Tercapai</option>
