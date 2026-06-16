@@ -5,18 +5,7 @@
                 <h1 class="text-xl font-bold text-slate-800 leading-tight">Data Kegiatan Penelitian</h1>
                 <p class="text-sm text-slate-400 mt-0.5">Manajemen program kerja penelitian &amp; pengabdian masyarakat berdasarkan Renstra</p>
             </div>
-            @if(auth()->user()->canWrite('kegiatan'))
-            <div class="flex items-center gap-2">
-                <button @click="$dispatch('open-create-modal')"
-                    id="btn-tambah-kegiatan"
-                    class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 border border-transparent rounded-lg text-sm font-medium text-white hover:bg-blue-700 active:scale-95 transition-all shadow-sm shadow-blue-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                    </svg>
-                    Tambah Kegiatan
-                </button>
-            </div>
-            @endif
+
         </div>
     </x-slot>
 
@@ -52,4 +41,31 @@
         @include('kegiatan.modals.create-edit')
         @include('kegiatan.modals.detail')
     </div>
+
+    <style>
+        @include('kegiatan.css')
+    </style>
+
+    <script>
+    function filterTable() {
+        const q = (document.getElementById('search-input').value || '').toLowerCase();
+        const tahun = document.getElementById('filter-tahun').value;
+        const pj = document.getElementById('filter-pj').value;
+        const status = document.getElementById('filter-status').value;
+        let visible = 0;
+
+        document.querySelectorAll('#table-body tr[data-search]').forEach(row => {
+            const matchSearch = !q || row.getAttribute('data-search').toLowerCase().includes(q);
+            const matchTahun = !tahun || row.getAttribute('data-tahun') === tahun;
+            const matchPj = !pj || row.getAttribute('data-pj') === pj;
+            const matchStatus = !status || row.getAttribute('data-status') === status;
+            const show = matchSearch && matchTahun && matchPj && matchStatus;
+            row.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+
+        const empty = document.getElementById('filter-empty-state');
+        if (empty) empty.classList.toggle('hidden', visible > 0);
+    }
+    </script>
 </x-app-layout>

@@ -5,7 +5,7 @@
         </svg>
         <span class="text-sm font-semibold text-slate-600">Filter:</span>
 
-        <select id="filter-tahun" class="filter-select" onchange="applyFilters()">
+        <select id="filter-tahun" class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer" onchange="applyFilters()">
             <option value="">Semua Tahun</option>
             @php
                 $tahunList = $eventsData->pluck('start')->map(fn($d) => date('Y', strtotime($d)))->unique()->sort()->values();
@@ -15,14 +15,14 @@
             @endforeach
         </select>
 
-        <select id="filter-bidang" class="filter-select" onchange="applyFilters()">
+        <select id="filter-bidang" class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer" onchange="applyFilters()">
             <option value="">Semua Bidang</option>
             @foreach($bidangList as $b)
                 <option value="{{ $b->nama_bidang }}">{{ $b->nama_bidang }}</option>
             @endforeach
         </select>
 
-        <select id="filter-program" class="filter-select" onchange="applyFilters()">
+        <select id="filter-program" class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer" onchange="applyFilters()">
             <option value="">Semua Program</option>
             @php
                 $programList = $eventsData->pluck('program')->unique()->filter()->sort()->values();
@@ -32,7 +32,7 @@
             @endforeach
         </select>
 
-        <select id="filter-pj" class="filter-select" onchange="applyFilters()">
+        <select id="filter-pj" class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer" onchange="applyFilters()">
             <option value="">Semua PJ</option>
             @php
                 $pjList = $eventsData->pluck('pj')->unique()->sort()->values();
@@ -41,6 +41,14 @@
                 <option value="{{ $pj }}">{{ $pj }}</option>
             @endforeach
         </select>
+
+        <button onclick="goToToday()"
+            class="flex items-center gap-2 px-4 py-3 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm shrink-0 whitespace-nowrap">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
+            </svg>
+            Hari Ini
+        </button>
 
         <button onclick="resetFilters()" class="ml-auto text-xs text-blue-500 hover:text-blue-700 font-medium transition-colors">
             Reset Filter
