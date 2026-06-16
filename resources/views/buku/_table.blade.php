@@ -10,9 +10,9 @@
                 <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Aksi</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-slate-100">
+        <tbody id="table-body" class="divide-y divide-slate-100">
             @forelse($bukus as $index => $buku)
-            <tr class="hover:bg-slate-50/50 transition-colors">
+            <tr class="hover:bg-slate-50/50 transition-colors" data-search>
                 <td class="py-4 px-6 text-sm text-slate-500 text-center">{{ $bukus->firstItem() + $index }}</td>
                 <td class="py-4 px-6">
                     <div class="text-sm font-medium text-slate-900 line-clamp-2">{{ $buku->judul }}</div>

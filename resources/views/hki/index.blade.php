@@ -27,3 +27,12 @@
         @include('hki.modals.import')
     </div>
 </x-app-layout>
+
+<script>
+function filterTable() {
+    const q = (document.getElementById('search-input').value || '').toLowerCase();
+    document.querySelectorAll('#table-body tr[data-search]').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+}
+</script>
