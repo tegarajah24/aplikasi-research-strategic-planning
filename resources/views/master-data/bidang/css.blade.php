@@ -45,32 +45,23 @@
     .trow { transition: background .12s; }
     .trow:hover { background: #f8fafc; }
 
-    /* ── Search input ── */
-    .search-wrap input {
-        border: 1px solid #e2e8f0;
+    select.simple-select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2.5' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 14px;
+        padding-right: 32px;
         border-radius: 10px;
-        padding: 7px 12px 7px 36px;
         font-size: 13px;
-        outline: none;
-        width: 176px;
-        transition: border-color .15s;
+        line-height: normal;
+        cursor: pointer;
     }
-            .search-wrap input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.12); }
-
-            select.simple-select {
-                appearance: none;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2.5' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E");
-                background-repeat: no-repeat;
-                background-position: right 10px center;
-                background-size: 14px;
-                padding-right: 32px;
-                cursor: pointer;
-            }
-            select.simple-select:hover {
-                border-color: #94a3b8;
-            }
+    select.simple-select:hover {
+        border-color: #94a3b8;
+    }
 
     /* ── Delete Modal ── */
     #del-modal { transition: opacity .25s ease, visibility .25s ease; }
