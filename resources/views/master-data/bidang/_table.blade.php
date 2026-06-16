@@ -9,20 +9,20 @@
             <div class="flex items-center gap-2">
                 @if(auth()->user()->canWrite('bidang'))
                 <button onclick="openModal()"
-                    class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm shrink-0">
+                    class="flex items-center gap-2 px-4 py-3 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm shrink-0">
                     <x-icon name="plus" class="w-3.5 h-3.5" />
                     Tambah
                 </button>
                 @endif
                 {{-- Search --}}
                 <input id="search-input" type="text" placeholder="Cari bidang..."
-                    class="border border-slate-200 rounded-xl px-3 py-[7px] text-xs text-slate-600 outline-none focus:border-blue-400 w-44"
+                    class="border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 w-44"
                     oninput="filterTable()">
             </div>
             <div>
                 {{-- Filter status --}}
                 <select id="filter-status" onchange="filterTable()"
-                    class="simple-select border border-slate-200 rounded-xl px-3 py-[7px] text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
+                    class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
                     <option value="">Semua Status</option>
                     <option value="Aktif">Aktif</option>
                     <option value="Tidak Aktif">Tidak Aktif</option>
