@@ -17,8 +17,7 @@
             <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1.5">Bidang <span class="text-red-400">*</span></label>
                 <select id="f-bidang" onchange="autoKode()"
-                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-violet-400 focus:ring-2 transition cursor-pointer"
-                    style="--tw-ring-color:rgba(124,58,237,.12)">
+                    class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">-- Pilih Bidang --</option>
                 </select>
             </div>
@@ -73,7 +72,7 @@
             <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1.5">Status</label>
                 <select id="f-status"
-                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-violet-400 transition cursor-pointer">
+                    class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="Aktif">Aktif</option>
                     <option value="Tidak Aktif">Tidak Aktif</option>
                 </select>
