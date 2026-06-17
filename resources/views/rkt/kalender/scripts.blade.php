@@ -15,15 +15,11 @@ let filteredEvents = [...allEvents];
 
 function applyFilters() {
     const tahun  = document.getElementById('filter-tahun').value;
-    const bidang = document.getElementById('filter-bidang').value;
-    const program= document.getElementById('filter-program').value;
     const pj     = document.getElementById('filter-pj').value;
 
     filteredEvents = allEvents.filter(e => {
         const year = new Date(e.start).getFullYear().toString();
         if (tahun  && year       !== tahun)  return false;
-        if (bidang && e.bidang   !== bidang)  return false;
-        if (program && e.program !== program) return false;
         if (pj     && e.pj       !== pj)      return false;
         return true;
     });
@@ -146,9 +142,8 @@ function openModal(id) {
     const cfg = statusConfig[ev.status];
 
     document.getElementById('modal-title').textContent   = ev.title;
-    document.getElementById('modal-program').textContent = ev.program + ' · ' + ev.bidang;
+    document.getElementById('modal-program').textContent = ev.program;
     document.getElementById('modal-pj').textContent      = ev.pj;
-    document.getElementById('modal-bidang').textContent  = ev.bidang;
     document.getElementById('modal-anggaran').textContent= ev.anggaran;
     document.getElementById('modal-indikator').textContent= ev.indikator;
     document.getElementById('modal-target').textContent  = ev.target;

@@ -24,11 +24,7 @@
                     <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wide mb-1">Penanggung Jawab</p>
                     <p id="modal-pj" class="text-sm font-semibold text-slate-700"></p>
                 </div>
-                <div class="bg-slate-50 rounded-xl p-3">
-                    <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wide mb-1">Bidang</p>
-                    <p id="modal-bidang" class="text-sm font-semibold text-slate-700"></p>
-                </div>
-                <div class="bg-slate-50 rounded-xl p-3">
+                <div class="bg-slate-50 rounded-xl p-3 col-span-2">
                     <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wide mb-1">Anggaran</p>
                     <p id="modal-anggaran" class="text-sm font-semibold text-slate-700"></p>
                 </div>
