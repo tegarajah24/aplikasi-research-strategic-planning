@@ -14,9 +14,9 @@
                 <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Actions</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-slate-100">
+        <tbody id="table-body" class="divide-y divide-slate-100">
             @forelse($kerjasamas as $index => $kerjasama)
-            <tr class="hover:bg-slate-50/50 transition-colors">
+            <tr class="hover:bg-slate-50/50 transition-colors" data-search="{{ strtolower($kerjasama->nomor_surat.' '.$kerjasama->mitra.' '.$kerjasama->pic.' '.$kerjasama->program_studi.' '.$kerjasama->jenis.' '.$kerjasama->tingkat) }}">
                 <td class="py-4 px-6 text-sm text-slate-500 text-center">{{ $kerjasamas->firstItem() + $index }}</td>
                 <td class="py-4 px-6">
                     <div class="text-sm font-medium text-slate-900">{{ $kerjasama->nomor_surat }}</div>
@@ -58,7 +58,7 @@
                 </td>
             </tr>
             @empty
-            <tr>
+            <tr id="filter-empty-state-db" class="hidden">
                 <td colspan="10" class="py-12 px-6 text-center">
                     <div class="flex flex-col items-center justify-center">
                         <div class="bg-slate-50 rounded-full p-3 mb-3">
@@ -70,6 +70,17 @@
                 </td>
             </tr>
             @endforelse
+            <tr id="filter-empty-state" class="hidden">
+                <td colspan="10" class="py-12 px-6 text-center">
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="bg-slate-50 rounded-full p-3 mb-3">
+                            <x-icon name="document" class="w-8 h-8 text-slate-400" />
+                        </div>
+                        <h3 class="text-sm font-medium text-slate-900">No matching cooperations</h3>
+                        <p class="mt-1 text-sm text-slate-500">Try adjusting your search criteria.</p>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
