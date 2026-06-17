@@ -48,17 +48,22 @@
 
     <script>
     function filterTable() {
-        const q = (document.getElementById('search-input').value || '').toLowerCase();
-        const tahun = document.getElementById('filter-tahun').value;
-        const pj = document.getElementById('filter-pj').value;
-        const status = document.getElementById('filter-status').value;
+        const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
+        const tahun = (document.getElementById('filter-tahun').value || '').trim();
+        const pj = (document.getElementById('filter-pj').value || '').trim();
+        const status = (document.getElementById('filter-status').value || '').trim();
         let visible = 0;
 
         document.querySelectorAll('#table-body tr[data-search]').forEach(row => {
-            const matchSearch = !q || row.getAttribute('data-search').toLowerCase().includes(q);
-            const matchTahun = !tahun || row.getAttribute('data-tahun') === tahun;
-            const matchPj = !pj || row.getAttribute('data-pj') === pj;
-            const matchStatus = !status || row.getAttribute('data-status') === status;
+            const text = (row.getAttribute('data-search') || '').toLowerCase();
+            const rowTahun = (row.getAttribute('data-tahun') || '').trim();
+            const rowPj = (row.getAttribute('data-pj') || '').trim();
+            const rowStatus = (row.getAttribute('data-status') || '').trim();
+
+            const matchSearch = !q || text.includes(q);
+            const matchTahun = !tahun || rowTahun === tahun;
+            const matchPj = !pj || rowPj === pj;
+            const matchStatus = !status || rowStatus === status;
             const show = matchSearch && matchTahun && matchPj && matchStatus;
             row.style.display = show ? '' : 'none';
             if (show) visible++;

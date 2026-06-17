@@ -247,31 +247,31 @@
                     placeholder: 'Pilih...',
                     options: [],
                     init() {
-                        const sel = this.$el.querySelector('select');
-                        this.selected = sel.value;
-                        this.options = Array.from(sel.options).map(o => ({
-                            value: o.value,
-                            label: o.label
-                        }));
-                        if (this.options.length > 0) {
-                            this.placeholder = this.options[0].label;
+                        this.selectEl = this.$el.querySelector('select');
+                        if (this.selectEl) {
+                            this.selected = this.selectEl.value;
+                            this.options = Array.from(this.selectEl.options).map(o => ({
+                                value: o.value,
+                                label: o.label
+                            }));
+                            if (this.options.length > 0) {
+                                this.placeholder = this.options[0].label;
+                            }
                         }
                         this.$el.addEventListener('reset-filter', () => {
                             this.selected = '';
-                            const selectEl = this.$el.querySelector('select');
-                            if (selectEl) {
-                                selectEl.value = '';
-                                selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+                            if (this.selectEl) {
+                                this.selectEl.value = '';
+                                this.selectEl.dispatchEvent(new Event('change', { bubbles: true }));
                             }
                         });
                     },
                     select(val) {
                         this.selected = val;
                         this.open = false;
-                        const selectEl = this.$el.querySelector('select');
-                        if (selectEl) {
-                            selectEl.value = val;
-                            selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+                        if (this.selectEl) {
+                            this.selectEl.value = val;
+                            this.selectEl.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                         if (typeof onChange === 'function') onChange(val);
                     },

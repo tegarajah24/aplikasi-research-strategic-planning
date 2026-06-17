@@ -25,7 +25,7 @@
                     </button>
                 </template>
             </div>
-            <select id="filter-tahun" class="hidden simple-select">
+            <select id="filter-tahun" class="hidden simple-select" onchange="applyFilters()">
                 <option value="">Semua Tahun</option>
                 @php
                     $tahunList = $eventsData->pluck('start')->map(fn($d) => date('Y', strtotime($d)))->unique()->sort()->values();
@@ -56,7 +56,7 @@
                     </button>
                 </template>
             </div>
-            <select id="filter-bidang" class="hidden simple-select">
+            <select id="filter-bidang" class="hidden simple-select" onchange="applyFilters()">
                 <option value="">Semua Bidang</option>
                 @foreach($bidangList as $b)
                     <option value="{{ $b->nama_bidang }}">{{ $b->nama_bidang }}</option>
@@ -84,7 +84,7 @@
                     </button>
                 </template>
             </div>
-            <select id="filter-program" class="hidden simple-select">
+            <select id="filter-program" class="hidden simple-select" onchange="applyFilters()">
                 <option value="">Semua Program</option>
                 @php
                     $programList = $eventsData->pluck('program')->unique()->filter()->sort()->values();
@@ -115,7 +115,7 @@
                     </button>
                 </template>
             </div>
-            <select id="filter-pj" class="hidden simple-select">
+            <select id="filter-pj" class="hidden simple-select" onchange="applyFilters()">
                 <option value="">Semua PJ</option>
                 @php
                     $pjList = $eventsData->pluck('pj')->unique()->sort()->values();

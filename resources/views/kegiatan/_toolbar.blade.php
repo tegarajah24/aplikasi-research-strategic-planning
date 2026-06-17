@@ -38,7 +38,7 @@
                         </button>
                     </template>
                 </div>
-                <select id="filter-tahun" class="hidden simple-select">
+                <select id="filter-tahun" class="hidden simple-select" onchange="filterTable()">
                     <option value="">Semua Tahun Akademik</option>
                     @foreach($tahunAkademikOptions as $tahun)
                         <option value="{{ $tahun }}" {{ request('tahun_akademik') === $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
@@ -66,7 +66,7 @@
                         </button>
                     </template>
                 </div>
-                <select id="filter-pj" class="hidden simple-select">
+                <select id="filter-pj" class="hidden simple-select" onchange="filterTable()">
                     <option value="">Semua Penanggung Jawab</option>
                     @foreach($penanggungJawabOptions as $pj)
                         <option value="{{ $pj }}" {{ request('penanggung_jawab') === $pj ? 'selected' : '' }}>{{ $pj }}</option>
@@ -94,7 +94,7 @@
                         </button>
                     </template>
                 </div>
-                <select id="filter-status" class="hidden simple-select">
+                <select id="filter-status" class="hidden simple-select" onchange="filterTable()">
                     <option value="">Semua Status</option>
                     <option value="perencanaan" {{ request('status') === 'perencanaan' ? 'selected' : '' }}>Perencanaan</option>
                     <option value="berjalan"    {{ request('status') === 'berjalan'    ? 'selected' : '' }}>Berjalan</option>
