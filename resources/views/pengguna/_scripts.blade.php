@@ -107,6 +107,38 @@ function toggleProdiField() {
     }
 }
 
+// ── Search / Filter ──
+function filterTable() {
+    const input = document.getElementById('search-input');
+    const filter = input.value.toLowerCase().trim();
+    const roleFilter = document.getElementById('filter-role').value;
+    const tableBody = document.getElementById('table-body');
+    const rows = tableBody.querySelectorAll('tr[data-search]');
+    let visibleCount = 0;
+    rows.forEach(row => {
+        const text = row.getAttribute('data-search') || '';
+        const role = row.getAttribute('data-role') || '';
+        const matchesSearch = text.includes(filter);
+        const matchesRole = !roleFilter || role === roleFilter;
+        if (matchesSearch && matchesRole) {
+            row.classList.remove('hidden');
+            visibleCount++;
+        } else {
+            row.classList.add('hidden');
+        }
+    });
+    document.getElementById('filter-empty-state').classList.toggle('hidden', visibleCount > 0);
+    const dbEmpty = document.getElementById('filter-empty-state-db');
+    if (dbEmpty) dbEmpty.classList.add('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('search-input');
+    const roleFilter = document.getElementById('filter-role');
+    if (input) input.addEventListener('input', filterTable);
+    if (roleFilter) roleFilter.addEventListener('change', filterTable);
+});
+
 // ── Audit Log (placeholder, no audit log table yet) ──
 function renderAuditLog() {
     const container = document.getElementById('audit-log-container');

@@ -30,6 +30,4 @@
     .role-admin { background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe; }
     .role-operator { background:#f5f3ff; color:#7c3aed; border:1px solid #ddd6fe; }
     .role-viewer { background:#fffbeb; color:#d97706; border:1px solid #fde68a; }
-    .search-wrap input { border:1px solid #e2e8f0; border-radius:10px; padding:7px 12px 7px 36px; font-size:13px; outline:none; width:100%; transition:border-color .15s; }
-    .search-wrap input:focus { border-color:#0ea5e9; box-shadow:0 0 0 3px rgba(14,165,233,.12); }
 </style>

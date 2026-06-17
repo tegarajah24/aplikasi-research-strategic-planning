@@ -1,24 +1,26 @@
 <div class="lg:col-span-2 glass-panel shadow-sm overflow-hidden flex flex-col">
-    <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-slate-100 flex-wrap bg-slate-50/50">
-        <div>
-            <h2 class="text-sm font-bold text-slate-700">Daftar Pengguna Sistem</h2>
-            <p class="text-xs text-slate-400 mt-0.5">Total {{ $users->total() }} pengguna</p>
+    <div class="flex items-center justify-between gap-3 px-5 py-3 border-b border-slate-100 flex-wrap bg-slate-50/50">
+        <div class="flex items-center gap-3">
+            <div>
+                <h2 class="text-sm font-bold text-slate-700">Daftar Pengguna Sistem</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Total {{ $users->total() }} pengguna</p>
+            </div>
         </div>
         <div class="flex items-center gap-2">
-            <div class="search-wrap relative w-48">
-                <x-icon name="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
-                <form method="GET" action="{{ route('pengguna') }}" id="search-form">
-                    <input name="search" type="text" placeholder="Cari nama/username..." value="{{ request('search') }}"
-                        oninput="document.getElementById('search-form').submit()">
-                </form>
-            </div>
-                <select name="role" form="search-form" onchange="document.getElementById('search-form').submit()" class="appearance-none border border-slate-200 rounded-xl px-3 py-2 pr-8 text-xs text-slate-600 outline-none focus:border-sky-400 cursor-pointer">
-                    <option value="">Semua Role</option>
-                    <option value="Admin" {{ request('role') === 'Admin' ? 'selected' : '' }}>Admin</option>
-                    <option value="Dekan" {{ request('role') === 'Dekan' ? 'selected' : '' }}>Dekan</option>
-                    <option value="LPPM" {{ request('role') === 'LPPM' ? 'selected' : '' }}>LPPM</option>
-                    <option value="Kaprodi" {{ request('role') === 'Kaprodi' ? 'selected' : '' }}>Kaprodi</option>
-                </select>
+            <input type="text" id="search-input" placeholder="Cari nama/username..." class="rounded-xl py-3 text-xs w-44 border border-slate-200 bg-white placeholder-slate-400 focus:outline-none focus:border-blue-400 transition-colors">
+            <select id="filter-role" class="simple-select rounded-xl py-3 text-xs border border-slate-200 bg-white text-slate-600 focus:outline-none focus:border-blue-400 cursor-pointer">
+                <option value="">Semua Role</option>
+                <option value="Admin">Admin</option>
+                <option value="Dekan">Dekan</option>
+                <option value="LPPM">LPPM</option>
+                <option value="Kaprodi">Kaprodi</option>
+            </select>
+            <button onclick="openCreateModal()" class="inline-flex items-center justify-center px-4 bg-blue-600 border border-transparent rounded-lg py-3 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm whitespace-nowrap">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Tambah Pengguna
+            </button>
         </div>
     </div>
 
@@ -32,9 +34,9 @@
                     <th class="px-4 py-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider text-center">Aksi</th>
                 </tr>
             </thead>
-            <tbody class="text-sm">
+            <tbody id="table-body" class="text-sm">
                 @forelse($users as $user)
-                <tr class="hover:bg-slate-50/70 border-b border-slate-100 transition-colors">
+                <tr class="hover:bg-slate-50/70 border-b border-slate-100 transition-colors" data-search="{{ strtolower($user->name.' '.$user->username.' '.$user->role.' '.$user->status) }}" data-role="{{ $user->role }}">
                     <td class="px-5 py-4">
                         <div class="flex items-center gap-3">
                             <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}" class="w-10 h-10 rounded-full border-2 border-white shadow-sm flex-shrink-0">
@@ -80,12 +82,23 @@
                     </td>
                 </tr>
                 @empty
-                <tr>
+                <tr id="filter-empty-state-db">
                     <td colspan="4" class="py-12 text-center">
                         <p class="text-sm font-medium text-slate-500">Tidak ada pengguna ditemukan.</p>
                     </td>
                 </tr>
                 @endforelse
+                <tr id="filter-empty-state" class="hidden">
+                    <td colspan="4" class="py-12 text-center">
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="bg-slate-50 rounded-full p-3 mb-3">
+                                <x-icon name="user" class="w-8 h-8 text-slate-400" />
+                            </div>
+                            <h3 class="text-sm font-medium text-slate-900">Tidak ada pengguna ditemukan</h3>
+                            <p class="mt-1 text-sm text-slate-500">Coba sesuaikan kata kunci pencarian.</p>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
