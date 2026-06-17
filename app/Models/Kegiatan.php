@@ -14,6 +14,7 @@ class Kegiatan extends Model
     }
 
     protected $fillable = [
+        'program_id',
         'kode_kegiatan',
         'nama_kegiatan',
         'indikator_kinerja',

@@ -41,33 +41,32 @@ class FakultasController extends Controller
         return redirect()->route('fakultas.index')->with('success', 'Data Fakultas berhasil ditambahkan.');
     }
 
-    public function update(Request $request, Fakultas $fakulta)
+    public function update(Request $request, Fakultas $fakultas)
     {
         if (!auth()->user()->canWrite('fakultas')) {
             abort(403, 'Unauthorized action.');
         }
 
-        // Laravel's route-model binding might inject $fakulta because the resource name is 'fakultas'
         $validated = $request->validate([
-            'kode_fakultas' => 'required|string|max:50|unique:fakultas,kode_fakultas,' . $fakulta->id,
+            'kode_fakultas' => 'required|string|max:50|unique:fakultas,kode_fakultas,' . $fakultas->id,
             'nama_fakultas' => 'required|string|max:255',
             'dekan'         => 'nullable|string|max:255',
         ]);
 
-        $fakulta->update($validated);
-        ActivityLog::log('Memperbarui fakultas', 'Fakultas', $fakulta->id, $fakulta->nama_fakultas);
+        $fakultas->update($validated);
+        ActivityLog::log('Memperbarui fakultas', 'Fakultas', $fakultas->id, $fakultas->nama_fakultas);
 
         return redirect()->route('fakultas.index')->with('success', 'Data Fakultas berhasil diperbarui.');
     }
 
-    public function destroy(Fakultas $fakulta)
+    public function destroy(Fakultas $fakultas)
     {
         if (!auth()->user()->canWrite('fakultas')) {
             abort(403, 'Unauthorized action.');
         }
 
-        ActivityLog::log('Menghapus fakultas', 'Fakultas', $fakulta->id, $fakulta->nama_fakultas);
-        $fakulta->delete();
+        ActivityLog::log('Menghapus fakultas', 'Fakultas', $fakultas->id, $fakultas->nama_fakultas);
+        $fakultas->delete();
         return redirect()->route('fakultas.index')->with('success', 'Data Fakultas berhasil dihapus.');
     }
 

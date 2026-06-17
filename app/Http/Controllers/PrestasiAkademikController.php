@@ -109,18 +109,19 @@ class PrestasiAkademikController extends Controller
                 continue;
             }
             
-            // Format: Tahun, Regional, Nasional, Internasional
-            if (count($data) >= 4) {
+            // Format: Tahun, Nama Mahasiswa, Prodi, Fakultas, Regional, Nasional, Internasional
+            if (count($data) >= 7) {
                 $tahun = (int)($data[0] ?? 0);
                 if ($tahun > 0) {
-                    PrestasiAkademik::updateOrCreate(
-                        ['tahun' => $tahun],
-                        [
-                            'regional' => (int)($data[1] ?? 0),
-                            'nasional' => (int)($data[2] ?? 0),
-                            'internasional' => (int)($data[3] ?? 0),
-                        ]
-                    );
+                    PrestasiAkademik::create([
+                        'tahun' => $tahun,
+                        'nama_mahasiswa' => $data[1] ?? null,
+                        'prodi' => $data[2] ?? null,
+                        'fakultas' => $data[3] ?? null,
+                        'regional' => (int)($data[4] ?? 0),
+                        'nasional' => (int)($data[5] ?? 0),
+                        'internasional' => (int)($data[6] ?? 0),
+                    ]);
                     $count++;
                 }
             }

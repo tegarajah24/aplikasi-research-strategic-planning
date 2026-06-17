@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Hki;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -42,7 +43,8 @@ class HkiController extends Controller
             $validated['file_path'] = $request->file('file_path')->store('hkis', 'public');
         }
 
-        Hki::create($validated);
+        $hki = Hki::create($validated);
+        ActivityLog::log('Menambahkan HKI', 'HKI', $hki->id, $hki->judul);
 
         return redirect()->route('hki.index')->with('success', 'Data HKI berhasil ditambahkan.');
     }
@@ -70,6 +72,7 @@ class HkiController extends Controller
         }
 
         $hki->update($validated);
+        ActivityLog::log('Memperbarui HKI', 'HKI', $hki->id, $hki->judul);
 
         return redirect()->route('hki.index')->with('success', 'Data HKI berhasil diperbarui.');
     }
@@ -84,6 +87,7 @@ class HkiController extends Controller
             Storage::disk('public')->delete($hki->file_path);
         }
         
+        ActivityLog::log('Menghapus HKI', 'HKI', $hki->id, $hki->judul);
         $hki->delete();
 
         return redirect()->route('hki.index')->with('success', 'Data HKI berhasil dihapus.');
