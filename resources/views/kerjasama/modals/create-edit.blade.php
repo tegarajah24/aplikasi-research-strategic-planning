@@ -41,7 +41,7 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Type</label>
-                                        <select name="jenis" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <select name="jenis" required class="simple-select mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             <option value="">Select Type...</option>
                                             <option value="Research">Research</option>
                                             <option value="Education">Education</option>
@@ -51,7 +51,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Level</label>
-                                        <select name="tingkat" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <select name="tingkat" required class="simple-select mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             <option value="">Select Level...</option>
                                             <option value="National">National</option>
                                             <option value="International">International</option>
@@ -66,7 +66,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Department</label>
-                                        <select name="program_studi" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <select name="program_studi" required class="simple-select mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             <option value="">Select Department...</option>
                                             @foreach($prodis as $p)
                                             <option value="{{ $p->nama_prodi }}">{{ $p->nama_prodi }}</option>
@@ -140,7 +140,7 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Type</label>
-                                        <select name="jenis" x-model="editData.jenis" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <select name="jenis" x-model="editData.jenis" required class="simple-select mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             <option value="">Select Type...</option>
                                             <option value="Research">Research</option>
                                             <option value="Education">Education</option>
@@ -150,7 +150,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Level</label>
-                                        <select name="tingkat" x-model="editData.tingkat" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <select name="tingkat" x-model="editData.tingkat" required class="simple-select mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             <option value="">Select Level...</option>
                                             <option value="National">National</option>
                                             <option value="International">International</option>
@@ -165,7 +165,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700">Department</label>
-                                        <select name="program_studi" x-model="editData.program_studi" required class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <select name="program_studi" x-model="editData.program_studi" required class="simple-select mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             <option value="">Select Department...</option>
                                             @foreach($prodis as $p)
                                             <option value="{{ $p->nama_prodi }}">{{ $p->nama_prodi }}</option>
