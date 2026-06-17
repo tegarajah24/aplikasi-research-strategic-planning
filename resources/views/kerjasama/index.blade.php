@@ -27,7 +27,6 @@
         @include('kerjasama.modals.create-edit')
     </div>
 
-    @push('scripts')
     <script>
         function filterTable() {
             const input = document.getElementById('search-input');
@@ -51,5 +50,4 @@
             if (input) input.addEventListener('input', filterTable);
         });
     </script>
-    @endpush
 </x-app-layout>

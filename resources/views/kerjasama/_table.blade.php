@@ -58,7 +58,7 @@
                 </td>
             </tr>
             @empty
-            <tr id="filter-empty-state-db" class="hidden">
+            <tr id="filter-empty-state-db">
                 <td colspan="10" class="py-12 px-6 text-center">
                     <div class="flex flex-col items-center justify-center">
                         <div class="bg-slate-50 rounded-full p-3 mb-3">
