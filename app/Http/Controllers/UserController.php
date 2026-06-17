@@ -46,7 +46,6 @@ class UserController extends Controller
             'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:8',
             'role'     => 'required|in:Admin,Dekan,LPPM,Kaprodi',
-            'status'   => 'required|in:Aktif,Nonaktif',
             'prodi_id' => 'nullable|exists:prodis,id',
         ]);
 
@@ -54,6 +53,7 @@ class UserController extends Controller
             return back()->withErrors(['prodi_id' => 'Prodi wajib dipilih untuk role Kaprodi.'])->withInput();
         }
 
+        $validated['status'] = 'Aktif';
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);

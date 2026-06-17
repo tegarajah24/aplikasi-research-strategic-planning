@@ -12,7 +12,6 @@ function openCreateModal() {
     document.getElementById('f-password').value = '';
     document.getElementById('f-password').required = true;
     document.getElementById('pwd-hint').style.display = 'none';
-    document.querySelector('input[name="status"][value="Aktif"]').checked = true;
     document.getElementById('form-error').classList.add('hidden');
     document.getElementById('prodi-field').classList.add('hidden');
     document.getElementById('f-prodi').value = '';
@@ -41,7 +40,6 @@ function openEditModal(id) {
     document.getElementById('f-password').value = '';
     document.getElementById('f-password').required = false;
     document.getElementById('pwd-hint').style.display = '';
-    document.querySelector(`input[name="status"][value="${user.status}"]`).checked = true;
     document.getElementById('form-error').classList.add('hidden');
     document.getElementById('user-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
