@@ -109,7 +109,7 @@
             </div>
 
             {{-- ── Main Content ── --}}
-            <div class="glass-panel shadow-sm overflow-hidden">
+            <div class="glass-panel shadow-sm">
                 {{-- Toolbar --}}
                 <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-slate-100 flex-wrap bg-slate-50/50">
                     <div>
@@ -117,27 +117,21 @@
                         <p class="text-xs text-slate-400 mt-0.5">Tampilan berdasarkan relasi hierarkis</p>
                     </div>
                     <div class="flex items-center gap-3">
-                        <div class="relative">
-                            <select id="filter-fakultas" onchange="renderTree()"
-                                class="appearance-none border border-slate-200 rounded-xl pl-9 pr-8 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-sky-400 cursor-pointer bg-white">
-                                <option value="Semua">Semua Fakultas/Prodi</option>
-                                @foreach($fakultasList as $f)
-                                <option value="{{ $f->kode_fakultas }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
-                                @endforeach
-                            </select>
-                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
-                        </div>
-                        <div class="relative">
-                            <select id="filter-tahun" onchange="renderTree()"
-                                class="appearance-none border border-slate-200 rounded-xl pl-9 pr-8 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-sky-400 cursor-pointer bg-white">
-                            </select>
-                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
-                        </div>
+                        <select id="filter-fakultas" onchange="renderTree()"
+                            class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
+                            <option value="Semua">Semua Fakultas/Prodi</option>
+                            @foreach($fakultasList as $f)
+                            <option value="{{ $f->kode_fakultas }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
+                            @endforeach
+                        </select>
+                        <select id="filter-tahun" onchange="renderTree()"
+                            class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
+                        </select>
                     </div>
                 </div>
 
                 {{-- Tree View Container --}}
-                <div class="p-6">
+                <div class="p-6 overflow-hidden">
                     <div id="tree-container" class="space-y-4">
                         {{-- JS Rendered Tree --}}
                     </div>
