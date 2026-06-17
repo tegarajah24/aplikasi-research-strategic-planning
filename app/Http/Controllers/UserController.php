@@ -53,6 +53,9 @@ class UserController extends Controller
             return back()->withErrors(['prodi_id' => 'Prodi wajib dipilih untuk role Kaprodi.'])->withInput();
         }
 
+        if (empty($validated['prodi_id'])) {
+            $validated['prodi_id'] = null;
+        }
         $validated['status'] = 'Aktif';
         $validated['password'] = Hash::make($validated['password']);
 
@@ -75,6 +78,10 @@ class UserController extends Controller
 
         if ($validated['role'] === 'Kaprodi' && !$validated['prodi_id']) {
             return back()->withErrors(['prodi_id' => 'Prodi wajib dipilih untuk role Kaprodi.'])->withInput();
+        }
+
+        if (empty($validated['prodi_id'])) {
+            $validated['prodi_id'] = null;
         }
 
         if ($request->filled('password')) {
