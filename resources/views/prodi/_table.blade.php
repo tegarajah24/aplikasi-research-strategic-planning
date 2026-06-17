@@ -9,10 +9,10 @@
                 <th class="py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center align-middle">Aksi</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-slate-100 bg-white">
+        <tbody id="table-body" class="divide-y divide-slate-100 bg-white">
             @forelse($prodis as $index => $item)
-            <tr class="hover:bg-slate-50/50 transition-colors">
-                <td class="py-4 px-6 text-sm text-slate-500 text-center border-r border-slate-100">{{ $prodis->firstItem() + $index }}</td>
+            <tr class="hover:bg-slate-50/50 transition-colors" data-search="{{ strtolower($item->kode_prodi.' '.$item->nama_prodi.' '.($item->fakultas->nama_fakultas ?? '')) }}">
+                <td class="py-4 px-6 text-sm text-slate-500 text-center border-r border-slate-100">{{ $index + 1 }}</td>
                 <td class="py-4 px-6 text-sm font-medium text-slate-900 border-r border-slate-100">{{ $item->kode_prodi }}</td>
                 <td class="py-4 px-6 text-sm text-slate-700 border-r border-slate-100">{{ $item->nama_prodi }}</td>
                 <td class="py-4 px-6 text-sm text-slate-700 border-r border-slate-100">{{ $item->fakultas->nama_fakultas ?? '-' }}</td>
@@ -38,7 +38,7 @@
                 </td>
             </tr>
             @empty
-            <tr>
+            <tr id="filter-empty-state-db">
                 <td colspan="5" class="py-12 px-6 text-center">
                     <div class="flex flex-col items-center justify-center">
                         <div class="bg-slate-50 rounded-full p-3 mb-3">
@@ -52,12 +52,19 @@
                 </td>
             </tr>
             @endforelse
+            <tr id="filter-empty-state" class="hidden">
+                <td colspan="5" class="py-12 px-6 text-center">
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="bg-slate-50 rounded-full p-3 mb-3">
+                            <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-medium text-slate-900">Tidak ada data program studi yang cocok</h3>
+                        <p class="mt-1 text-sm text-slate-500">Coba sesuaikan kata kunci pencarian Anda.</p>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
-
-@if($prodis->hasPages())
-<div class="p-4 border-t border-slate-100">
-    {{ $prodis->links() }}
-</div>
-@endif

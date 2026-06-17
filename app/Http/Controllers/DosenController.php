@@ -17,16 +17,7 @@ class DosenController extends Controller
             $query->where('prodi_id', auth()->user()->prodi_id);
         }
 
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where('nama_dosen', 'like', "%{$search}%")
-                  ->orWhere('nidn', 'like', "%{$search}%")
-                  ->orWhereHas('prodi', function($q) use ($search) {
-                      $q->where('nama_prodi', 'like', "%{$search}%");
-                  });
-        }
-
-        $dosens = $query->orderBy('nama_dosen', 'asc')->paginate(10);
+        $dosens = $query->orderBy('nama_dosen', 'asc')->get();
         $prodis = Prodi::orderBy('nama_prodi', 'asc')->get();
         
         return view('dosen.index', compact('dosens', 'prodis'));

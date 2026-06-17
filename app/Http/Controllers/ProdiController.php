@@ -11,18 +11,7 @@ class ProdiController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Prodi::with('fakultas');
-
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where('nama_prodi', 'like', "%{$search}%")
-                  ->orWhere('kode_prodi', 'like', "%{$search}%")
-                  ->orWhereHas('fakultas', function($q) use ($search) {
-                      $q->where('nama_fakultas', 'like', "%{$search}%");
-                  });
-        }
-
-        $prodis = $query->orderBy('kode_prodi', 'asc')->paginate(10);
+        $prodis = Prodi::with('fakultas')->orderBy('kode_prodi', 'asc')->get();
         $fakultas = Fakultas::orderBy('nama_fakultas', 'asc')->get();
         
         return view('prodi.index', compact('prodis', 'fakultas'));

@@ -1,8 +1,8 @@
 <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-    <form action="{{ route('dosen.index') }}" method="GET" class="relative max-w-sm w-full">
-        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari dosen..."
+    <div class="relative max-w-sm w-full">
+        <input type="text" id="search-input" placeholder="Cari dosen..."
                class="w-full px-3 py-3 border border-slate-200 rounded-xl text-xs text-slate-600 outline-none focus:border-blue-400 transition-colors">
-    </form>
+    </div>
 
     @if(auth()->user()->canWrite('dosen'))
     <div class="flex items-center gap-3">

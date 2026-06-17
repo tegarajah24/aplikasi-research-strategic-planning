@@ -10,15 +10,7 @@ class FakultasController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Fakultas::query();
-
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where('nama_fakultas', 'like', "%{$search}%")
-                  ->orWhere('kode_fakultas', 'like', "%{$search}%");
-        }
-
-        $fakultas = $query->orderBy('kode_fakultas', 'asc')->paginate(10);
+        $fakultas = Fakultas::orderBy('kode_fakultas', 'asc')->get();
         
         return view('fakultas.index', compact('fakultas'));
     }
