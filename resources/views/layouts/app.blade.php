@@ -247,9 +247,9 @@
                     placeholder: 'Pilih...',
                     options: [],
                     init() {
-                        this.selectEl = this.$el.querySelector('select');
-                        this.selected = this.selectEl.value;
-                        this.options = Array.from(this.selectEl.options).map(o => ({
+                        const sel = this.$el.querySelector('select');
+                        this.selected = sel.value;
+                        this.options = Array.from(sel.options).map(o => ({
                             value: o.value,
                             label: o.label
                         }));
@@ -258,13 +258,21 @@
                         }
                         this.$el.addEventListener('reset-filter', () => {
                             this.selected = '';
-                            this.selectEl.value = '';
+                            const selectEl = this.$el.querySelector('select');
+                            if (selectEl) {
+                                selectEl.value = '';
+                                selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+                            }
                         });
                     },
                     select(val) {
                         this.selected = val;
                         this.open = false;
-                        this.selectEl.value = val;
+                        const selectEl = this.$el.querySelector('select');
+                        if (selectEl) {
+                            selectEl.value = val;
+                            selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
                         if (typeof onChange === 'function') onChange(val);
                     },
                     toggle() {

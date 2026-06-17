@@ -77,7 +77,7 @@ Route::middleware([
 
     // ── Admin, Dekan ──
     Route::middleware(['role:Admin,Dekan'])->group(function () {
-        Route::resource('fakultas', App\Http\Controllers\FakultasController::class)->except(['create', 'show', 'edit']);
+        Route::resource('fakultas', App\Http\Controllers\FakultasController::class)->parameters(['fakultas' => 'fakultas'])->except(['create', 'show', 'edit']);
         Route::resource('prodi', App\Http\Controllers\ProdiController::class)->except(['create', 'show', 'edit']);
         Route::resource('renstra', App\Http\Controllers\RenstraController::class)->except(['create', 'show', 'edit']);
     });
