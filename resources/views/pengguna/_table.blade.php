@@ -8,7 +8,7 @@
         </div>
         <div class="flex items-center gap-2">
             <input type="text" id="search-input" placeholder="Cari nama/username..." class="rounded-xl py-3 text-xs w-44 border border-slate-200 bg-white placeholder-slate-400 focus:outline-none focus:border-blue-400 transition-colors">
-            <div x-data="filterSelect(() => filterTable())" @click.outside="open = false" class="filter-select-wrapper relative min-w-[160px]">
+            <div x-data="filterSelect((val) => filterTable(val))" @click.outside="open = false" class="filter-select-wrapper relative min-w-[160px]">
                 <button @click="toggle" type="button"
                     class="flex items-center justify-between gap-2 w-full border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none cursor-pointer bg-white transition-colors duration-200"
                     :class="open ? 'border-blue-400' : 'hover:border-slate-300'">
@@ -27,7 +27,7 @@
                         </button>
                     </template>
                 </div>
-                <select id="filter-role" class="hidden">
+                <select id="filter-role" class="hidden simple-select">
                     <option value="">Semua Role</option>
                     <option value="Admin">Admin</option>
                     <option value="Dekan">Dekan</option>

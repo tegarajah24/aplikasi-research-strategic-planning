@@ -265,7 +265,7 @@
                         this.selected = val;
                         this.open = false;
                         this.$el.querySelector('select').value = val;
-                        if (typeof onChange === 'function') onChange();
+                        if (typeof onChange === 'function') onChange(val);
                     },
                     toggle() {
                         this.open = !this.open;

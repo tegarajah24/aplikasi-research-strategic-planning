@@ -12,8 +12,8 @@ function openCreateModal() {
     document.getElementById('f-password').value = '';
     document.getElementById('f-password').required = true;
     document.getElementById('pwd-hint').style.display = 'none';
-    document.getElementById('form-error').classList.add('hidden');
-    document.getElementById('prodi-field').classList.add('hidden');
+    document.getElementById('form-error').style.display = 'none';
+    document.getElementById('prodi-field').style.display = 'none';
     document.getElementById('f-prodi').value = '';
     document.getElementById('user-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
@@ -33,14 +33,14 @@ function openEditModal(id) {
     document.getElementById('f-role').value = user.role;
     document.getElementById('f-prodi').value = user.prodi_id || '';
     if (user.role === 'Kaprodi') {
-        document.getElementById('prodi-field').classList.remove('hidden');
+        document.getElementById('prodi-field').style.display = '';
     } else {
-        document.getElementById('prodi-field').classList.add('hidden');
+        document.getElementById('prodi-field').style.display = 'none';
     }
     document.getElementById('f-password').value = '';
     document.getElementById('f-password').required = false;
     document.getElementById('pwd-hint').style.display = '';
-    document.getElementById('form-error').classList.add('hidden');
+    document.getElementById('form-error').style.display = 'none';
     document.getElementById('user-modal').classList.remove('modal-closed');
     document.body.style.overflow = 'hidden';
 }
@@ -98,26 +98,28 @@ function toggleProdiField() {
     const role = document.getElementById('f-role').value;
     const field = document.getElementById('prodi-field');
     if (role === 'Kaprodi') {
-        field.classList.remove('hidden');
+        field.style.display = '';
     } else {
-        field.classList.add('hidden');
+        field.style.display = 'none';
         document.getElementById('f-prodi').value = '';
     }
 }
 
 // ── Search / Filter ──
-function filterTable() {
+function filterTable(role) {
+    console.log('filterTable called, role param:', role);
     const input = document.getElementById('search-input');
     const filter = input.value.toLowerCase().trim();
-    const roleFilter = document.getElementById('filter-role').value;
+    const roleFilter = role !== undefined ? role : document.getElementById('filter-role').value;
+    console.log('roleFilter used:', roleFilter);
     const tableBody = document.getElementById('table-body');
     const rows = tableBody.querySelectorAll('tr[data-search]');
     let visibleCount = 0;
     rows.forEach(row => {
         const text = row.getAttribute('data-search') || '';
-        const role = row.getAttribute('data-role') || '';
+        const rowRole = row.getAttribute('data-role') || '';
         const matchesSearch = text.includes(filter);
-        const matchesRole = !roleFilter || role === roleFilter;
+        const matchesRole = !roleFilter || rowRole === roleFilter;
         if (matchesSearch && matchesRole) {
             row.classList.remove('hidden');
             visibleCount++;
@@ -131,10 +133,20 @@ function filterTable() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOMContentLoaded: setting up filters');
     const input = document.getElementById('search-input');
     const roleFilter = document.getElementById('filter-role');
-    if (input) input.addEventListener('input', filterTable);
-    if (roleFilter) roleFilter.addEventListener('change', filterTable);
+    if (input) {
+        input.addEventListener('input', () => filterTable());
+        console.log('search-input listener added');
+    }
+    if (roleFilter) {
+        roleFilter.addEventListener('change', (e) => {
+            console.log('change event fired on filter-role, value:', e.target.value);
+            filterTable(e.target.value);
+        });
+        console.log('filter-role listener added');
+    }
 });
 
 document.addEventListener('keydown', e => {
