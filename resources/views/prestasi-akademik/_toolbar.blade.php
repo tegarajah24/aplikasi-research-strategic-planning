@@ -9,7 +9,7 @@
             Tambah
         </button>
         @endif
-        <a href="{{ route('prestasi-akademik.export') }}" class="inline-flex items-center justify-center px-4 bg-white border border-slate-200 rounded-lg py-3 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors shadow-sm whitespace-nowrap">
+        <a href="{{ route('prestasi-akademik.export') }}" data-no-loader class="inline-flex items-center justify-center px-4 bg-white border border-slate-200 rounded-lg py-3 text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors shadow-sm whitespace-nowrap">
             <x-icon name="download" class="w-4 h-4 mr-1.5 text-blue-500" />
             Unduh Excel
         </a>

@@ -129,7 +129,7 @@
                     anchor.addEventListener('click', function (e) {
                         const href = this.getAttribute('href');
                         // Abaikan jika open in new tab, link kosong, anchor link, js, atau ctrl+click
-                        if (!href || this.target === '_blank' || href.startsWith('#') || href.startsWith('javascript') || e.ctrlKey || e.metaKey || e.defaultPrevented) {
+                        if (!href || this.target === '_blank' || this.hasAttribute('data-no-loader') || href.startsWith('#') || href.startsWith('javascript') || e.ctrlKey || e.metaKey || e.defaultPrevented) {
                             return;
                         }
                         showLoader();
