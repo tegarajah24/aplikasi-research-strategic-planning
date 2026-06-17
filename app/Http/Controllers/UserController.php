@@ -31,7 +31,12 @@ class UserController extends Controller
 
         $prodiList = Prodi::orderBy('nama_prodi')->get();
 
-        return view('pengguna.index', compact('users', 'prodiList'));
+        $logs = ActivityLog::with('user')
+            ->latest()
+            ->take(20)
+            ->get();
+
+        return view('pengguna.index', compact('users', 'prodiList', 'logs'));
     }
 
     public function store(Request $request)
@@ -95,4 +100,20 @@ class UserController extends Controller
 
         return redirect()->route('pengguna')->with('success', 'Pengguna berhasil dihapus.');
     }
+
+    public function toggleStatus(User $user)
+    {
+        if ($user->id === auth()->id()) {
+            return redirect()->route('pengguna')->with('error', 'Tidak dapat menonaktifkan akun sendiri.');
+        }
+
+        $user->status = $user->status === 'Aktif' ? 'Nonaktif' : 'Aktif';
+        $user->save();
+
+        $action = $user->status === 'Aktif' ? 'Mengaktifkan' : 'Menonaktifkan';
+        ActivityLog::log("$action pengguna", 'Pengguna', $user->id, $user->name);
+
+        return redirect()->route('pengguna')->with('success', "Pengguna berhasil di{$action}kan.");
+    }
+
 }

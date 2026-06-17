@@ -72,6 +72,7 @@ Route::middleware([
         Route::post('/pengguna', [App\Http\Controllers\UserController::class, 'store'])->name('pengguna.store');
         Route::put('/pengguna/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('pengguna.update');
         Route::delete('/pengguna/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('pengguna.destroy');
+        Route::patch('/pengguna/{user}/toggle-status', [App\Http\Controllers\UserController::class, 'toggleStatus'])->name('pengguna.toggle-status');
     });
 
     // ── Admin, Dekan ──

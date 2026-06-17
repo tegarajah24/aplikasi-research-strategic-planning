@@ -15,7 +15,7 @@
     </div>
 
     @include('pengguna.modals.create-edit')
-    @include('pengguna.modals.reset-password')
+    @include('pengguna.modals.view')
 
     @include('pengguna._scripts')
 </x-app-layout>

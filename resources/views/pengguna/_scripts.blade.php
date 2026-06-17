@@ -139,15 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (roleFilter) roleFilter.addEventListener('change', filterTable);
 });
 
-// ── Audit Log (placeholder, no audit log table yet) ──
-function renderAuditLog() {
-    const container = document.getElementById('audit-log-container');
-    container.innerHTML = `<div class="text-center py-10"><p class="text-sm text-slate-400">Belum ada aktivitas</p></div>`;
-}
-
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { closeModal(); closeViewModal(); }
 });
-
-renderAuditLog();
 </script>
