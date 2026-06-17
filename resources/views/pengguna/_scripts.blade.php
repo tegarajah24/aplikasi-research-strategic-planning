@@ -121,15 +121,15 @@ function filterTable(role) {
         const matchesSearch = text.includes(filter);
         const matchesRole = !roleFilter || rowRole === roleFilter;
         if (matchesSearch && matchesRole) {
-            row.classList.remove('hidden');
+            row.style.display = '';
             visibleCount++;
         } else {
-            row.classList.add('hidden');
+            row.style.display = 'none';
         }
     });
-    document.getElementById('filter-empty-state').classList.toggle('hidden', visibleCount > 0);
+    document.getElementById('filter-empty-state').style.display = visibleCount > 0 ? 'none' : '';
     const dbEmpty = document.getElementById('filter-empty-state-db');
-    if (dbEmpty) dbEmpty.classList.add('hidden');
+    if (dbEmpty) dbEmpty.style.display = 'none';
 }
 
 document.addEventListener('DOMContentLoaded', function () {
