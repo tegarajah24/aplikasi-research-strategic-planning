@@ -79,34 +79,6 @@
     <div class="py-6 min-h-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
 
-            {{-- ── Info Banner ── --}}
-            <div class="rounded-2xl p-6 text-white shadow-lg" style="background:linear-gradient(135deg,#0284c7,#0369a1)">
-                <div class="flex items-start justify-between flex-wrap gap-4">
-                    <div class="flex-1 min-w-0 max-w-3xl">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3" style="background:rgba(255,255,255,.15);color:#e0f2fe">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
-                            Bank Data RENSTRA
-                        </div>
-                        <p class="text-sm leading-relaxed" style="color:rgba(224,242,255,.85)">
-                            Halaman ini berfungsi sebagai referensi strategis utama. Rencana Kerja Tahunan (RKT) dan Program akan mengambil data <strong>Sasaran Strategis</strong>, <strong>Strategi RENSTRA</strong>, dan <strong>Program Tahunan</strong> dari sini agar input lebih terstruktur, rapi, dan konsisten.
-                        </p>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="rounded-xl px-5 py-4 text-center min-w-[90px]" style="background:rgba(255,255,255,.1)">
-                            <p id="stat-sasaran" class="text-3xl font-extrabold">0</p>
-                            <p class="text-xs font-medium mt-1" style="color:#bae6fd">Sasaran</p>
-                        </div>
-                        <div class="rounded-xl px-5 py-4 text-center min-w-[90px]" style="background:rgba(255,255,255,.1)">
-                            <p id="stat-strategi" class="text-3xl font-extrabold">0</p>
-                            <p class="text-xs font-medium mt-1" style="color:#bae6fd">Strategi</p>
-                        </div>
-                        <div class="rounded-xl px-5 py-4 text-center min-w-[90px]" style="background:rgba(255,255,255,.1)">
-                            <p id="stat-program" class="text-3xl font-extrabold">0</p>
-                            <p class="text-xs font-medium mt-1" style="color:#bae6fd">Program Thn</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             {{-- ── Main Content ── --}}
             <div class="glass-panel shadow-sm">
@@ -410,9 +382,12 @@
             container.innerHTML = html;
         }
         
-        document.getElementById('stat-sasaran').textContent = countSasaran;
-        document.getElementById('stat-strategi').textContent = countStrategi;
-        document.getElementById('stat-program').textContent = countProgram;
+        const elSasaran = document.getElementById('stat-sasaran');
+        const elStrategi = document.getElementById('stat-strategi');
+        const elProgram = document.getElementById('stat-program');
+        if (elSasaran) elSasaran.textContent = countSasaran;
+        if (elStrategi) elStrategi.textContent = countStrategi;
+        if (elProgram) elProgram.textContent = countProgram;
     }
 
     // ── Form Modal ───────────────────────────────────────────────────
