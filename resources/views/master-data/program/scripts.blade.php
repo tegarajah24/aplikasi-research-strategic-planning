@@ -36,11 +36,18 @@ function progressPct(p)   {
 
 // ── Stats ────────────────────────────────────────────────────────
 function renderStats() {
-    document.getElementById('stat-program').textContent  = programData.length;
-    document.getElementById('stat-kegiatan').textContent = totalKegiatan();
-    document.getElementById('stat-anggaran').textContent = rupiah(totalAnggaran());
-    const pct = totalKegiatan() ? Math.round(totalSelesai()/totalKegiatan()*100) : 0;
-    document.getElementById('stat-progress').textContent = pct+'%';
+    const elProgram = document.getElementById('stat-program');
+    const elKegiatan = document.getElementById('stat-kegiatan');
+    const elAnggaran = document.getElementById('stat-anggaran');
+    const elProgress = document.getElementById('stat-progress');
+    
+    if (elProgram) elProgram.textContent  = programData.length;
+    if (elKegiatan) elKegiatan.textContent = totalKegiatan();
+    if (elAnggaran) elAnggaran.textContent = rupiah(totalAnggaran());
+    if (elProgress) {
+        const pct = totalKegiatan() ? Math.round(totalSelesai()/totalKegiatan()*100) : 0;
+        elProgress.textContent = pct+'%';
+    }
 }
 
 // ── Populate selects ─────────────────────────────────────────────
