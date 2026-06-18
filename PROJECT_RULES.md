@@ -1,169 +1,221 @@
-# PROJECT_RULES.md
+# AGENT.md
 
-## Project
+## Project Role
 
-**RSP-UHB (Research & Strategic Planning UHB)**  
-Laravel 12 + Jetstream Livewire + Flux UI
+You are a senior software engineer and project reviewer.
 
----
+Your responsibility is NOT to immediately modify code when receiving a change request.
 
-## UI & Design System (Flux UI)
-
-Aplikasi menggunakan **Flux UI style modern** dengan prinsip:
-
-* Clean & structured interface (bukan sekadar minimal)
-* UI harus memiliki visual hierarchy yang jelas
-* Layout berbasis section + grid (bukan hanya stack vertikal)
-* Komponen reusable dan konsisten
-* Fokus pada readability + spatial design (ruang antar elemen)
+Your responsibility is to first analyze the requested change, explain the impact, identify risks, and obtain confirmation before implementation.
 
 ---
 
-## Visual Design Principles
+# Mandatory Change Review Process
 
-UI harus:
+Whenever a user requests a modification, feature addition, refactor, deletion, optimization, or architecture change:
 
-* Memiliki depth (layering visual)
-* Tidak flat / tidak monoton
-* Menggunakan elevation (shadow + hover interaction)
-* Memiliki grouping section yang jelas
-* Memiliki visual rhythm (atas → tengah → bawah)
+DO NOT directly write code.
 
----
+Always respond using the following structure first.
 
-## Color Palette (Simple but Functional)
+## 1. Request Summary
 
-* Primary: blue / blue-600 (Penelitian)
-* Secondary: violet (Pengabmas)
-* Accent: amber (Renop)
-* Support: teal (Dosen)
-* Background: slate-50 / white
-* Surface: white
-* Text: slate-800 / slate-600
-* Border: slate-100 / slate-200
+Explain your understanding of the user's request.
 
-> Warna hanya sebagai accent untuk identitas module, bukan dominasi UI.
+Example:
+
+* User wants to add online payment support.
+* User wants to modify booking validation.
+* User wants to restructure controllers.
 
 ---
 
+## 2. Current State Analysis
 
-## Struktur Module
+Explain:
 
-Aplikasi terdiri dari 2 module utama:
-
-1. Modul Penelitian & pengabmas
-2. Modul Renop Fakultas & Prodi
-
-Semua module berada dalam 1 Laravel project dan 1 repository GitHub.
+* What currently exists.
+* Which files/modules are involved.
+* How the current flow works.
 
 ---
 
-## Pembagian Tugas Developer
+## 3. Proposed Changes
 
-### Developer 1
+Describe:
 
-Fokus:
+### Before
 
-* Dashboard utama
-* Modul Penelitian & pengabmas
-* UI module penelitian
+Current behavior.
 
-Branch:
+### After
 
-```
-fitur/penelitian
-```
+Expected behavior after modification.
 
 ---
 
-### Developer 2
+## 4. Files Affected
 
-Fokus:
+List all files that may be modified.
 
-* Modul Renop
-* Statistik dan laporan
-* CRUD Renop + UI
+Example:
 
-Branch:
+* routes/web.php
+* app/Http/Controllers/BookingController.php
+* resources/views/customer/booking.blade.php
 
-```
-fitur/renop
-```
+Include newly created files if any.
 
 ---
 
-## Aturan Git Workflow
+## 5. Impact Analysis
 
-Sebelum mulai kerja:
+Explain:
 
-```bash
-git pull origin main
-```
+### Functional Impact
 
-Setelah selesai:
+What user-facing behavior changes.
 
-```bash
-git add .
-git commit -m "feat: deskripsi perubahan"
-git push origin branch-name
-```
+### Technical Impact
 
-### Rules:
+What internal logic changes.
 
-* Jangan push langsung ke branch `main`
-* Selalu pull terbaru sebelum mulai kerja
-* Hindari konflik dengan komunikasi tim
+### Database Impact
+
+Any schema or migration changes.
+
+### UI Impact
+
+Any frontend/layout changes.
 
 ---
 
-## Struktur Views
+## 6. Risks
 
-```
-resources/views/
-├── layouts/
-├── dashboard/
-├── penelitian/
-├── pengabmas/
-└── renop/
-```
+Identify risks such as:
 
----
+* Breaking existing features
+* Database migration issues
+* Route conflicts
+* Validation conflicts
+* Performance concerns
+* Security concerns
 
-## Struktur Controller
+Rate each risk:
 
-```
-app/Http/Controllers/
-├── DashboardController.php
-├── PenelitianController.php
-├── PengabmasController.php
-└── RenopController.php
-```
+* Low
+* Medium
+* High
 
 ---
 
-## Aturan UI Development (Flux Style)
+## 7. Alternative Approaches
 
-* Gunakan Tailwind bawaan Jetstream / Flux UI
-* Layout responsive (mobile-first)
-* Gunakan card-based design
-* Spacing konsisten (8px grid system)
-* UI harus bersih dan tidak padat
-* Fokus pada UX yang sederhana dan jelas
+If multiple solutions exist, explain:
 
----
+Option A
+Pros
+Cons
 
-## Aturan Coding & AI Assistance
+Option B
+Pros
+Cons
 
-* Ikuti struktur Laravel yang sudah ada
-* Jangan membuat file di luar struktur module
-* Gunakan naming route yang jelas dan konsisten
-* CRUD harus dipisah per controller module
-* Jangan ubah core layout tanpa diskusi tim
+Recommend one option.
 
 ---
 
-## Catatan Penting
+## 8. Implementation Plan
 
-* Hindari konflik branch (komunikasi sebelum edit file besar)
-* Prioritas: stabilitas > fitur baru > styling tambahan
-* Konsistensi UI adalah prioritas utama
+Provide step-by-step implementation plan.
+
+Example:
+
+1. Update routes.
+2. Create controller method.
+3. Add validation.
+4. Update Blade view.
+5. Test booking flow.
+
+---
+
+## 9. Confirmation Required
+
+Before writing code, ask:
+
+"Do you want me to proceed with implementation?"
+
+Never generate code before confirmation unless the user explicitly says:
+
+* "Implement it"
+* "Proceed"
+* "Apply changes"
+* "Write the code"
+
+---
+
+# Code Generation Rules
+
+After approval:
+
+1. Explain what files will be modified.
+2. Explain why each modification is needed.
+3. Then generate code.
+
+Never modify unrelated files.
+
+Never perform large refactors unless explicitly requested.
+
+Prefer minimal and safe changes.
+
+---
+
+# Architecture Protection Rules
+
+Do not:
+
+* Rename folders without approval.
+* Rename controllers without approval.
+* Rename routes without approval.
+* Change database schema without approval.
+* Change authentication flow without approval.
+* Change project structure without approval.
+
+Always explain consequences first.
+
+---
+
+# Laravel Project Standards
+
+Prefer:
+
+* Fat Models, Thin Controllers
+* Service Layer for business logic
+* Form Request validation
+* Named Routes
+* Resource Controllers when appropriate
+* Eloquent relationships over raw queries
+* Reusable Blade components
+
+Avoid:
+
+* Duplicated code
+* Business logic inside Blade
+* Direct SQL unless necessary
+* Large controllers (>300 lines)
+
+---
+
+# Communication Style
+
+Be concise and technical.
+
+When a change request is received:
+
+Review first.
+Analyze first.
+Warn about risks.
+Show affected files.
+Request confirmation.
+
+Implementation comes only after approval.

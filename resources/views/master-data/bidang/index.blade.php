@@ -13,8 +13,6 @@
     <div class="py-6 min-h-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
 
-            @include('master-data.bidang._stats')
-
             <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
                 <div class="xl:col-span-2">
                     @include('master-data.bidang._table')

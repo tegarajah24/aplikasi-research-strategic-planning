@@ -29,10 +29,14 @@ function totalAnggaran()  { return bidangData.reduce((s,b) => s + b.anggaran, 0)
 
 // ── Stats ────────────────────────────────────────────────────────
 function renderStats() {
-    document.getElementById('stat-bidang').textContent   = bidangData.length;
-    document.getElementById('stat-program').textContent  = totalPrograms();
-    document.getElementById('stat-kegiatan').textContent = totalKegiatan();
-    document.getElementById('stat-anggaran').textContent = rupiah(totalAnggaran());
+    const elBidang = document.getElementById('stat-bidang');
+    const elProgram = document.getElementById('stat-program');
+    const elKegiatan = document.getElementById('stat-kegiatan');
+    const elAnggaran = document.getElementById('stat-anggaran');
+    if (elBidang) elBidang.textContent = bidangData.length;
+    if (elProgram) elProgram.textContent = totalPrograms();
+    if (elKegiatan) elKegiatan.textContent = totalKegiatan();
+    if (elAnggaran) elAnggaran.textContent = rupiah(totalAnggaran());
 }
 
 // ── Table ────────────────────────────────────────────────────────
