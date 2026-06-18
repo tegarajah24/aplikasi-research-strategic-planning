@@ -11,4 +11,9 @@ class Fakultas extends Model
         'nama_fakultas',
         'dekan',
     ];
+
+    public function renstras()
+    {
+        return $this->hasMany(Renstra::class);
+    }
 }

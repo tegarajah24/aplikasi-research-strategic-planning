@@ -20,11 +20,11 @@ class MasterDataSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
         Kegiatan::truncate();
+        Program::truncate();
         User::whereNotNull('prodi_id')->update(['prodi_id' => null]);
         Dosen::truncate();
         Prodi::truncate();
         Fakultas::truncate();
-        Program::truncate();
         Bidang::truncate();
         Renstra::truncate();
 
@@ -104,30 +104,34 @@ class MasterDataSeeder extends Seeder
         $bd4 = Bidang::where('kode_bidang', 'BD-04')->value('id');
         $bd5 = Bidang::where('kode_bidang', 'BD-05')->value('id');
 
-        // ===== 5. PROGRAM =====
-        $program = [
-            ['bidang_id' => $bd1, 'kode_program' => 'P-001', 'nama_program' => 'Reguler Pagi',                             'deskripsi' => 'Program perkuliahan reguler pagi hari untuk mahasiswa penuh waktu',               'sasaran' => 'Mahasiswa S1 reguler',               'strategi_renstra' => 'Peningkatan mutu akademik',            'program_tahunan' => 'RKT 2026', 'anggaran' => 50000000,  'status' => 'Aktif'],
-            ['bidang_id' => $bd2, 'kode_program' => 'P-002', 'nama_program' => 'Reguler Malam / Kelas Karyawan',            'deskripsi' => 'Program perkuliahan malam hari untuk mahasiswa yang sudah bekerja',               'sasaran' => 'Karyawan dan masyarakat umum',       'strategi_renstra' => 'Peningkatan akses pendidikan',        'program_tahunan' => 'RKT 2026', 'anggaran' => 40000000,  'status' => 'Aktif'],
-            ['bidang_id' => $bd3, 'kode_program' => 'P-003', 'nama_program' => 'Program Internasional',                    'deskripsi' => 'Program perkuliahan dengan kurikulum dan standar internasional',                  'sasaran' => 'Mahasiswa dalam dan luar negeri',    'strategi_renstra' => 'Internasionalisasi kampus',           'program_tahunan' => 'RKT 2026', 'anggaran' => 75000000,  'status' => 'Aktif'],
-            ['bidang_id' => $bd4, 'kode_program' => 'P-004', 'nama_program' => 'Program Eksekutif',                        'deskripsi' => 'Program pendidikan eksekutif untuk profesional dan pemimpin bisnis',             'sasaran' => 'Profesional dan eksekutif',         'strategi_renstra' => 'Pengembangan SDM unggul',             'program_tahunan' => 'RKT 2026', 'anggaran' => 90000000,  'status' => 'Aktif'],
-            ['bidang_id' => $bd5, 'kode_program' => 'P-005', 'nama_program' => 'Blended Learning (Online-Offline)',        'deskripsi' => 'Program pembelajaran hybrid yang menggabungkan tatap muka dan daring',            'sasaran' => 'Mahasiswa fleksibel',               'strategi_renstra' => 'Digitalisasi pembelajaran',           'program_tahunan' => 'RKT 2026', 'anggaran' => 60000000,  'status' => 'Aktif'],
-        ];
-        foreach ($program as $p) {
-            Program::create($p);
-        }
-
-        // ===== 6. RENSTRA =====
+        // ===== 5. RENSTRA =====
         $renstra = [
-            ['kode' => 'R-001', 'sasaran' => 'Pengembangan Kurikulum Berbasis AI & IoT 2026-2030',                       'strategi' => 'Mengintegrasikan kecerdasan buatan dan IoT ke dalam kurikulum lintas prodi',                          'program_tahunan' => 'Program review & pengembangan kurikulum berbasis AI',     'periode' => '2026-2030', 'status' => 'belum_tercapai'],
-            ['kode' => 'R-002', 'sasaran' => 'Digitalisasi Tata Kelola Kampus & UMKM Daerah',                            'strategi' => 'Mengembangkan sistem digital terpadu untuk tata kelola kampus dan pendampingan UMKM',                'program_tahunan' => 'Program pengembangan aplikasi tata kelola & digitalisasi UMKM', 'periode' => '2026-2030', 'status' => 'belum_tercapai'],
-            ['kode' => 'R-003', 'sasaran' => 'Akselerasi Startup Mahasiswa & Inkubator Bisnis',                           'strategi' => 'Membangun ekosistem kewirausahaan mahasiswa melalui inkubator bisnis dan pendanaan awal',            'program_tahunan' => 'Program inkubasi startup & kompetisi bisnis mahasiswa',   'periode' => '2026-2030', 'status' => 'belum_tercapai'],
-            ['kode' => 'R-004', 'sasaran' => 'Penerapan Standar Akuntansi Hijau (Green Accounting)',                      'strategi' => 'Mengimplementasikan akuntansi lingkungan dalam pelaporan keuangan institusi',                        'program_tahunan' => 'Program pelatihan & penerapan green accounting',           'periode' => '2026-2030', 'status' => 'belum_tercapai'],
-            ['kode' => 'R-005', 'sasaran' => 'Literasi Digital & Pengabdian Masyarakat Anti-Hoaks',                      'strategi' => 'Meningkatkan literasi digital masyarakat dan memerangi penyebaran hoaks',                            'program_tahunan' => 'Program pengabdian masyarakat literasi digital & anti-hoaks', 'periode' => '2026-2030', 'status' => 'belum_tercapai'],
-            ['kode' => 'R-006', 'sasaran' => 'Peningkatan Kerja Sama Akademik Internasional Asia-Pasifik',                'strategi' => 'Memperluas jaringan kerja sama dengan universitas mitra di kawasan Asia-Pasifik',                    'program_tahunan' => 'Program mobilitas mahasiswa & dosen internasional',        'periode' => '2026-2030', 'status' => 'belum_tercapai'],
-            ['kode' => 'R-007', 'sasaran' => 'Internasionalisasi Jurnal Ilmiah Terakreditasi Scopus',                    'strategi' => 'Mendorong publikasi ilmiah dosen pada jurnal bereputasi internasional dan indeks Scopus',           'program_tahunan' => 'Program pendanaan publikasi & pelatihan penulisan jurnal internasional', 'periode' => '2026-2030', 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $ftik, 'kode' => 'R-001', 'sasaran' => 'Pengembangan Kurikulum Berbasis AI & IoT 2026-2030',                       'strategi' => 'Mengintegrasikan kecerdasan buatan dan IoT ke dalam kurikulum lintas prodi',                          'program_tahunan' => 'Program review & pengembangan kurikulum berbasis AI',     'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $ftik, 'kode' => 'R-002', 'sasaran' => 'Digitalisasi Tata Kelola Kampus & UMKM Daerah',                            'strategi' => 'Mengembangkan sistem digital terpadu untuk tata kelola kampus dan pendampingan UMKM',                'program_tahunan' => 'Program pengembangan aplikasi tata kelola & digitalisasi UMKM', 'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $feb,  'kode' => 'R-003', 'sasaran' => 'Akselerasi Startup Mahasiswa & Inkubator Bisnis',                           'strategi' => 'Membangun ekosistem kewirausahaan mahasiswa melalui inkubator bisnis dan pendanaan awal',            'program_tahunan' => 'Program inkubasi startup & kompetisi bisnis mahasiswa',   'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $feb,  'kode' => 'R-004', 'sasaran' => 'Penerapan Standar Akuntansi Hijau (Green Accounting)',                      'strategi' => 'Mengimplementasikan akuntansi lingkungan dalam pelaporan keuangan institusi',                        'program_tahunan' => 'Program pelatihan & penerapan green accounting',           'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $fisip,'kode' => 'R-005', 'sasaran' => 'Literasi Digital & Pengabdian Masyarakat Anti-Hoaks',                      'strategi' => 'Meningkatkan literasi digital masyarakat dan memerangi penyebaran hoaks',                            'program_tahunan' => 'Program pengabdian masyarakat literasi digital & anti-hoaks', 'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $fisip,'kode' => 'R-006', 'sasaran' => 'Peningkatan Kerja Sama Akademik Internasional Asia-Pasifik',                'strategi' => 'Memperluas jaringan kerja sama dengan universitas mitra di kawasan Asia-Pasifik',                    'program_tahunan' => 'Program mobilitas mahasiswa & dosen internasional',        'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $ftik, 'kode' => 'R-007', 'sasaran' => 'Internasionalisasi Jurnal Ilmiah Terakreditasi Scopus',                    'strategi' => 'Mendorong publikasi ilmiah dosen pada jurnal bereputasi internasional dan indeks Scopus',           'program_tahunan' => 'Program pendanaan publikasi & pelatihan penulisan jurnal internasional', 'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
         ];
         foreach ($renstra as $r) {
             Renstra::create($r);
+        }
+
+        // ===== 6. PROGRAM =====
+        $ftikRenstra = Renstra::where('fakultas_id', $ftik)->pluck('id')->toArray();
+        $febRenstra  = Renstra::where('fakultas_id', $feb)->pluck('id')->toArray();
+        $defaultRenstraId = !empty($ftikRenstra) ? $ftikRenstra[0] : null;
+
+        $program = [
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd1, 'kode_program' => 'P-001', 'nama_program' => 'Reguler Pagi',                             'deskripsi' => 'Program perkuliahan reguler pagi hari untuk mahasiswa penuh waktu',               'anggaran' => 50000000,  'status' => 'Aktif'],
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd2, 'kode_program' => 'P-002', 'nama_program' => 'Reguler Malam / Kelas Karyawan',            'deskripsi' => 'Program perkuliahan malam hari untuk mahasiswa yang sudah bekerja',               'anggaran' => 40000000,  'status' => 'Aktif'],
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd3, 'kode_program' => 'P-003', 'nama_program' => 'Program Internasional',                    'deskripsi' => 'Program perkuliahan dengan kurikulum dan standar internasional',                  'anggaran' => 75000000,  'status' => 'Aktif'],
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd4, 'kode_program' => 'P-004', 'nama_program' => 'Program Eksekutif',                        'deskripsi' => 'Program pendidikan eksekutif untuk profesional dan pemimpin bisnis',             'anggaran' => 90000000,  'status' => 'Aktif'],
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd5, 'kode_program' => 'P-005', 'nama_program' => 'Blended Learning (Online-Offline)',        'deskripsi' => 'Program pembelajaran hybrid yang menggabungkan tatap muka dan daring',            'anggaran' => 60000000,  'status' => 'Aktif'],
+        ];
+        foreach ($program as $p) {
+            Program::create($p);
         }
 
         $this->command->info('Master data berhasil ditambahkan:');
@@ -135,7 +139,7 @@ class MasterDataSeeder extends Seeder
         $this->command->info('- ' . count($prodi) . ' program studi');
         $this->command->info('- ' . count($dosen) . ' dosen');
         $this->command->info('- ' . count($bidang) . ' bidang keahlian');
-        $this->command->info('- ' . count($program) . ' program');
         $this->command->info('- ' . count($renstra) . ' renstra');
+        $this->command->info('- ' . count($program) . ' program');
     }
 }

@@ -1,5 +1,4 @@
 <script>
-// ── Data from Database ──────────────────────────────────────────
 const bidangMaster = @json($bidangMaster);
 let programData = @json($programList);
 let canWriteProgram = @json(auth()->user()->canWrite('program'));
@@ -7,7 +6,6 @@ let canWriteProgram = @json(auth()->user()->canWrite('program'));
 let deleteTargetId = null;
 let detailOpenId   = null;
 
-// ── SVG Icons used in JS-rendered HTML ──────────────────────────
 const SVG = {
     pencil: '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125"/></svg>',
     trash: '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>',
@@ -18,7 +16,6 @@ function iconChevronRight(id) {
     return '<svg id="' + id + '" class="w-3.5 h-3.5 text-slate-300 flex-shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>';
 }
 
-// ── Helpers ──────────────────────────────────────────────────────
 function rupiah(n) {
     if (n >= 1000000000) return 'Rp '+(n/1000000000).toFixed(1)+' M';
     if (n >= 1000000)    return 'Rp '+(n/1000000).toFixed(0)+' Jt';
@@ -34,13 +31,12 @@ function progressPct(p)   {
     return Math.round(p.kegiatan.filter(k=>k.selesai).length / p.kegiatan.length * 100);
 }
 
-// ── Stats ────────────────────────────────────────────────────────
 function renderStats() {
     const elProgram = document.getElementById('stat-program');
     const elKegiatan = document.getElementById('stat-kegiatan');
     const elAnggaran = document.getElementById('stat-anggaran');
     const elProgress = document.getElementById('stat-progress');
-    
+
     if (elProgram) elProgram.textContent  = programData.length;
     if (elKegiatan) elKegiatan.textContent = totalKegiatan();
     if (elAnggaran) elAnggaran.textContent = rupiah(totalAnggaran());
@@ -50,7 +46,6 @@ function renderStats() {
     }
 }
 
-// ── Populate selects ─────────────────────────────────────────────
 function populateSelects() {
     const filterSel = document.getElementById('filter-bidang');
     const formSel   = document.getElementById('f-bidang');
@@ -64,7 +59,6 @@ function populateSelects() {
     });
 }
 
-// ── Auto Kode ────────────────────────────────────────────────────
 function autoKode() {
     const bidId = parseInt(document.getElementById('f-bidang').value);
     const editId = document.getElementById('edit-id').value;
@@ -79,7 +73,6 @@ function autoKode() {
     prev.classList.remove('hidden');
 }
 
-// ── Filter ───────────────────────────────────────────────────────
 function getFiltered() {
     const q   = (document.getElementById('search-input').value || '').toLowerCase();
     const bid = document.getElementById('filter-bidang').value;
@@ -93,7 +86,6 @@ function getFiltered() {
 }
 function filterTable() { renderTable(); }
 
-// ── Table ────────────────────────────────────────────────────────
 function renderTable() {
     const filtered = getFiltered();
     const tbody = document.getElementById('tbl-body');
@@ -162,7 +154,6 @@ function renderTable() {
     }).join('');
 }
 
-// ── Hierarchy Panel ──────────────────────────────────────────────
 function renderHierarchy() {
     const container = document.getElementById('hier-tree');
     container.innerHTML = bidangMaster.map(b => {
@@ -206,7 +197,6 @@ function collapseAll() {
     });
 }
 
-// ── Progress Chart ───────────────────────────────────────────────
 function renderProgChart() {
     const container = document.getElementById('prog-chart');
     container.innerHTML = bidangMaster.map(b => {
@@ -236,7 +226,6 @@ function renderProgChart() {
     }).join('');
 }
 
-// ── Detail Drawer ────────────────────────────────────────────────
 function openDrawer(id) {
     const p = programData.find(x => x.id === id);
     if (!p) return;
@@ -263,7 +252,6 @@ function openDrawer(id) {
         </div>`).join('');
 
     document.getElementById('drawer-body').innerHTML = `
-        <!-- Info chips -->
         <div class="flex flex-wrap gap-2">
             <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border" style="background:${b?b.color+'18':'#f1f5f9'};color:${b?b.color:'#64748b'};border-color:${b?b.color+'40':'#e2e8f0'}">
                 <span class="w-1.5 h-1.5 rounded-full" style="background-color:${b?b.color:'#94a3b8'}"></span>
@@ -272,7 +260,6 @@ function openDrawer(id) {
             <span class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full ${p.status==='Aktif'?'badge-aktif':'badge-nonaktif'}">${p.status}</span>
         </div>
 
-        <!-- Progress -->
         <div class="bg-slate-50 rounded-xl p-4">
             <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-semibold text-slate-600">Progress Kegiatan</span>
@@ -287,7 +274,6 @@ function openDrawer(id) {
             </div>
         </div>
 
-        <!-- Stats row -->
         <div class="grid grid-cols-2 gap-3">
             <div class="bg-slate-50 rounded-xl p-3 text-center">
                 <p class="text-lg font-extrabold text-slate-800">${p.kegiatan.length}</p>
@@ -299,14 +285,12 @@ function openDrawer(id) {
             </div>
         </div>
 
-        <!-- Meta -->
         <div class="space-y-2 text-xs">
             ${p.sasaran ? `<div class="flex gap-2"><span class="text-slate-400 flex-shrink-0 w-20">Sasaran</span><span class="text-slate-600">${p.sasaran}</span></div>` : ''}
             ${p.strategi ? `<div class="flex gap-2"><span class="text-slate-400 flex-shrink-0 w-20">Strategi</span><span class="text-slate-600">${p.strategi}</span></div>` : ''}
             ${p.rkt ? `<div class="flex gap-2"><span class="text-slate-400 flex-shrink-0 w-20">RKT</span><span class="text-slate-600">${p.rkt}</span></div>` : ''}
         </div>
 
-        <!-- Kegiatan list -->
         <div>
             <h4 class="text-xs font-bold text-slate-700 mb-2">Daftar Kegiatan</h4>
             <div class="border border-slate-100 rounded-xl overflow-hidden">
@@ -315,7 +299,6 @@ function openDrawer(id) {
         </div>
 
         ${canWriteProgram ? `
-        <!-- Actions -->
         <div class="flex gap-2 pt-2">
             <button onclick="editProgram(${p.id})"
                 class="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold border border-violet-200 text-violet-700 hover:bg-violet-50 transition">Edit Program</button>
@@ -335,15 +318,12 @@ function closeDrawer() {
     detailOpenId = null;
 }
 
-// ── Modal ────────────────────────────────────────────────────────
 function openModal(id = null) {
     document.getElementById('edit-id').value     = id || '';
+    document.getElementById('f-renstra').value   = '';
     document.getElementById('f-bidang').value    = '';
     document.getElementById('f-kode').value      = '';
     document.getElementById('f-nama').value      = '';
-    document.getElementById('f-sasaran').value   = '';
-    document.getElementById('f-strategi').value  = '';
-    document.getElementById('f-rkt').value       = '';
     document.getElementById('f-anggaran').value  = '';
     document.getElementById('f-status').value    = 'Aktif';
     document.getElementById('kode-preview').classList.add('hidden');
@@ -353,12 +333,10 @@ function openModal(id = null) {
     if (id) {
         const p = programData.find(x => x.id === id);
         if (p) {
+            document.getElementById('f-renstra').value  = p.renstraId || '';
             document.getElementById('f-bidang').value   = p.bidangId;
             document.getElementById('f-kode').value     = p.kode;
             document.getElementById('f-nama').value     = p.nama;
-            document.getElementById('f-sasaran').value  = p.sasaran || '';
-            document.getElementById('f-strategi').value = p.strategi || '';
-            document.getElementById('f-rkt').value      = p.rkt || '';
             document.getElementById('f-anggaran').value = p.anggaran;
             document.getElementById('f-status').value   = p.status;
             const prev = document.getElementById('kode-preview');
@@ -378,18 +356,16 @@ function closeModal() {
 
 function saveProgram() {
     const id       = document.getElementById('edit-id').value;
+    const renstraId = parseInt(document.getElementById('f-renstra').value);
     const bidangId = parseInt(document.getElementById('f-bidang').value);
     const kode     = document.getElementById('f-kode').value.trim();
     const nama     = document.getElementById('f-nama').value.trim();
-    const sasaran  = document.getElementById('f-sasaran').value.trim();
-    const strategi = document.getElementById('f-strategi').value.trim();
-    const rkt      = document.getElementById('f-rkt').value.trim();
     const anggaran = parseInt(document.getElementById('f-anggaran').value) || 0;
     const status   = document.getElementById('f-status').value;
     const errEl    = document.getElementById('form-error');
 
-    if (!bidangId || !kode || !nama) {
-        errEl.textContent = 'Bidang, Kode Program, dan Nama Program wajib diisi.';
+    if (!renstraId || !bidangId || !kode || !nama) {
+        errEl.textContent = 'RENSTRA, Bidang, Kode Program, dan Nama Program wajib diisi.';
         errEl.classList.remove('hidden');
         return;
     }
@@ -402,9 +378,13 @@ function saveProgram() {
         method: method,
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
         body: JSON.stringify({
-            bidang_id: bidangId, kode_program: kode, nama_program: nama,
-            deskripsi: '', sasaran: sasaran, strategi_renstra: strategi,
-            program_tahunan: rkt, anggaran: anggaran, status: status
+            renstra_id: renstraId,
+            bidang_id: bidangId,
+            kode_program: kode,
+            nama_program: nama,
+            deskripsi: '',
+            anggaran: anggaran,
+            status: status
         })
     }).then(r => {
         if (r.ok) { window.location.reload(); }
@@ -417,7 +397,6 @@ function saveProgram() {
 
 function editProgram(id) { closeDrawer(); setTimeout(()=>openModal(id),100); }
 
-// ── Delete ───────────────────────────────────────────────────────
 function deleteProgram(id) {
     const p = programData.find(x => x.id === id);
     if (!p) return;
@@ -443,7 +422,6 @@ function confirmDelete() {
     closeDrawer();
 }
 
-// ── Init ─────────────────────────────────────────────────────────
 function renderAll() {
     renderStats();
     renderTable();

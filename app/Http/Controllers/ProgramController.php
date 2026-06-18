@@ -6,6 +6,7 @@ use App\Models\ActivityLog;
 use App\Models\Program;
 use App\Models\Bidang;
 use App\Models\Kegiatan;
+use App\Models\Renstra;
 use App\Http\Requests\StoreProgramRequest;
 use App\Http\Requests\UpdateProgramRequest;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class ProgramController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Program::with('bidang', 'kegiatans');
+        $query = Program::with('bidang', 'kegiatans', 'renstra');
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -32,12 +33,17 @@ class ProgramController extends Controller
             $query->where('status', $request->status);
         }
 
+        if ($request->filled('renstra_id')) {
+            $query->where('renstra_id', $request->renstra_id);
+        }
+
         $programs = $query->latest()->paginate(10)->withQueryString();
 
         $totalProgram  = Program::count();
         $totalKegiatan = Kegiatan::count();
         $totalAnggaran = Program::sum('anggaran');
         $bidangs       = Bidang::withCount('programs')->get();
+        $renstraList   = Renstra::with('fakultas')->orderBy('tahun_mulai', 'desc')->get();
 
         $bidangMaster = Bidang::all()->map(function ($b, $i) {
             $colors = ['#3b82f6','#6366f1','#8b5cf6','#10b981','#f59e0b','#ef4444','#ec4899','#14b8a6'];
@@ -49,18 +55,19 @@ class ProgramController extends Controller
             ];
         });
 
-        $programList = Program::with('bidang', 'kegiatans')->get()->map(function ($p) {
+        $programList = Program::with('bidang', 'kegiatans', 'renstra')->get()->map(function ($p) {
             return [
-                'id'       => $p->id,
-                'bidangId' => $p->bidang_id,
-                'kode'     => $p->kode_program,
-                'nama'     => $p->nama_program,
-                'sasaran'  => $p->sasaran,
-                'strategi' => $p->strategi_renstra,
-                'rkt'      => $p->program_tahunan,
-                'anggaran' => (float) ($p->anggaran ?? 0),
-                'status'   => $p->status,
-                'kegiatan' => $p->kegiatans->map(function ($k) {
+                'id'           => $p->id,
+                'bidangId'     => $p->bidang_id,
+                'renstraId'    => $p->renstra_id,
+                'kode'         => $p->kode_program,
+                'nama'         => $p->nama_program,
+                'sasaran'      => $p->renstra?->sasaran ?? '',
+                'strategi'     => $p->renstra?->strategi ?? '',
+                'rkt'          => $p->renstra?->program_tahunan ?? '',
+                'anggaran'     => (float) ($p->anggaran ?? 0),
+                'status'       => $p->status,
+                'kegiatan'     => $p->kegiatans->map(function ($k) {
                     return [
                         'nama'    => $k->nama_kegiatan,
                         'selesai' => $k->status === 'selesai',
@@ -71,7 +78,7 @@ class ProgramController extends Controller
         });
 
         return view('master-data.program.index', compact(
-            'programs', 'totalProgram', 'totalKegiatan', 'totalAnggaran', 'bidangs', 'bidangMaster', 'programList'
+            'programs', 'totalProgram', 'totalKegiatan', 'totalAnggaran', 'bidangs', 'bidangMaster', 'programList', 'renstraList'
         ));
     }
 

@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between flex-wrap gap-3">
             <div>
                 <h1 class="text-xl font-bold text-slate-800 leading-tight">Master Data RENSTRA</h1>
-                <p class="text-sm text-slate-400 mt-0.5">Bank Data Sasaran, Strategi, dan Program Tahunan</p>
+                <p class="text-sm text-slate-400 mt-0.5">Sasaran Strategis — Periode 5 Tahun per Fakultas</p>
             </div>
             @if(auth()->user()->canWrite('renstra'))
             <div class="flex items-center gap-2">
@@ -21,7 +21,6 @@
     </x-slot>
 
     <style>
-        /* Tree View Lines */
         .tree-node { position:relative; }
         .tree-node::before {
             content:''; position:absolute;
@@ -29,7 +28,7 @@
             border-left:2px solid #e2e8f0;
         }
         .tree-node:last-child::before { display:none; }
-        
+
         .tree-child { position:relative; padding-left:36px; }
         .tree-child::before {
             content:''; position:absolute;
@@ -56,7 +55,6 @@
         }
         .tree-grandchild:last-child::before { height:18px; }
 
-        /* Modals */
         #renstra-modal, #del-modal { transition: opacity .25s ease, visibility .25s ease; }
         #renstra-modal.modal-closed, #del-modal.modal-closed {
             opacity: 0; visibility: hidden; pointer-events: none;
@@ -79,41 +77,36 @@
     <div class="py-6 min-h-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
 
-
-            {{-- ── Main Content ── --}}
             <div class="glass-panel shadow-sm">
-                {{-- Toolbar --}}
                 <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-slate-100 flex-wrap bg-slate-50/50">
                     <div>
                         <h2 class="text-sm font-bold text-slate-700">Hierarki RENSTRA</h2>
-                        <p class="text-xs text-slate-400 mt-0.5">Tampilan berdasarkan relasi hierarkis</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Tampilan berdasarkan fakultas & periode</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <select id="filter-fakultas" onchange="renderTree()"
                             class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
-                            <option value="Semua">Semua Fakultas/Prodi</option>
+                            <option value="">Semua Fakultas</option>
                             @foreach($fakultasList as $f)
-                            <option value="{{ $f->kode_fakultas }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
+                            <option value="{{ $f->id }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
                             @endforeach
                         </select>
-                        <select id="filter-tahun" onchange="renderTree()"
+                        <select id="filter-periode" onchange="renderTree()"
                             class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
                         </select>
                     </div>
                 </div>
 
-                {{-- Tree View Container --}}
                 <div class="p-6 overflow-hidden">
                     <div id="tree-container" class="space-y-4">
-                        {{-- JS Rendered Tree --}}
                     </div>
-                    
+
                     <div id="empty-state" class="hidden py-16 text-center">
                         <svg class="w-16 h-16 mx-auto text-slate-200 mb-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
                         </svg>
                         <p class="text-base font-semibold text-slate-600">Belum ada data RENSTRA</p>
-                        <p class="text-sm text-slate-400 mt-1">Silakan tambah data baru atau copy dari tahun sebelumnya.</p>
+                        <p class="text-sm text-slate-400 mt-1">Silakan tambah data baru.</p>
                     </div>
                 </div>
             </div>
@@ -127,7 +120,7 @@
             <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
                     <h3 id="modal-title-text" class="text-base font-bold text-slate-800">Tambah Data RENSTRA</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Lengkapi hierarki sasaran strategis</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Lengkapi sasaran strategis 5 tahunan</p>
                 </div>
                 <button onclick="closeModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -138,72 +131,74 @@
             <div class="px-6 py-5 space-y-5 max-h-[75vh] overflow-y-auto bg-slate-50/30">
                 <input type="hidden" id="edit-id">
 
-                {{-- Tahun & Fakultas --}}
+                {{-- Fakultas & Periode --}}
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tahun Periode <span class="text-red-500">*</span></label>
-                        <select id="f-tahun"
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Fakultas <span class="text-red-500">*</span></label>
+                        <select id="f-fakultas"
                             class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            <option value="">Pilih Tahun</option>
-                            @foreach(range(now()->year - 4, now()->year) as $y)
+                            <option value="">Pilih Fakultas</option>
+                            @foreach($fakultasList as $f)
+                            <option value="{{ $f->id }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Sasaran</label>
+                        <input id="f-kode" type="text" placeholder="SS1" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
+                    </div>
+                </div>
+
+                {{-- Periode 5 Tahun --}}
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tahun Mulai <span class="text-red-500">*</span></label>
+                        <select id="f-tahun-mulai"
+                            class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="">Pilih</option>
+                            @foreach(range(now()->year - 9, now()->year + 10) as $y)
                             <option value="{{ $y }}">{{ $y }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Fakultas / Prodi <span class="text-red-500">*</span></label>
-                        <select id="f-fakultas" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            @foreach($fakultasList as $f)
-                            <option value="{{ $f->kode_fakultas }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tahun Selesai <span class="text-red-500">*</span></label>
+                        <select id="f-tahun-selesai"
+                            class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="">Pilih</option>
+                            @foreach(range(now()->year - 9, now()->year + 10) as $y)
+                            <option value="{{ $y }}">{{ $y }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
                 <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm space-y-4">
-                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">1. Sasaran Strategis</h4>
-                    <div class="grid grid-cols-4 gap-3">
-                        <div class="col-span-1">
-                            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Kode Sasaran</label>
-                            <input id="f-sasaran-kode" type="text" placeholder="SS1" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
-                        </div>
-                        <div class="col-span-3">
-                            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nama Sasaran</label>
-                            <input id="f-sasaran-nama" type="text" placeholder="Contoh: Meningkatkan kualitas penelitian dosen" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
-                        </div>
+                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Sasaran Strategis</h4>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nama Sasaran <span class="text-red-500">*</span></label>
+                        <input id="f-sasaran" type="text" placeholder="Contoh: Meningkatkan kualitas penelitian dosen" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
                     </div>
                 </div>
 
                 <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm space-y-4">
-                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">2. Strategi RENSTRA</h4>
-                    <div class="grid grid-cols-4 gap-3">
-                        <div class="col-span-1">
-                            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Kode Strategi</label>
-                            <input id="f-strategi-kode" type="text" placeholder="STR1" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
-                        </div>
-                        <div class="col-span-3">
-                            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nama Strategi</label>
-                            <input id="f-strategi-nama" type="text" placeholder="Contoh: Mendorong penelitian nasional" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
-                        </div>
+                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Strategi RENSTRA</h4>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nama Strategi</label>
+                        <input id="f-strategi" type="text" placeholder="Contoh: Mendorong penelitian nasional" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
                     </div>
                 </div>
 
                 <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm space-y-4">
-                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">3. Program Tahunan</h4>
-                    <div class="grid grid-cols-4 gap-3">
-                        <div class="col-span-1">
-                            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Kode Program</label>
-                            <input id="f-program-kode" type="text" placeholder="PT1" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
-                        </div>
-                        <div class="col-span-3">
-                            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nama Program Tahunan</label>
-                            <input id="f-program-nama" type="text" placeholder="Contoh: Program peningkatan publikasi ilmiah" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
-                        </div>
+                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Program Tahunan</h4>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nama Program Tahunan</label>
+                        <input id="f-program" type="text" placeholder="Contoh: Program peningkatan publikasi ilmiah" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
                     </div>
                 </div>
 
                 <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
-                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 border-b border-slate-100 pb-2">4. Status Capaian</h4>
+                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 border-b border-slate-100 pb-2">Status Capaian</h4>
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-500 mb-1">Status</label>
                         <select id="f-status" class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -245,188 +240,143 @@
     </div>
 
     <script>
-    // ── Data ────────────────────────────────────────────────────────
     let renstraData = @json($flatRenstra ?? []);
     let canWriteRenstra = @json(auth()->user()->canWrite('renstra'));
-
+    let fakultasList = @json($fakultasList);
     let deleteTargetId = null;
 
-    // ── Data Processing (Grouping for Tree View) ────────────────────
-    function getGroupedData(tahun, fakultas) {
-        const filtered = renstraData.filter(d => {
-            let matchTahun = d.tahun == tahun;
-            let matchFakultas = (fakultas === 'Semua') ? true : d.fakultas === fakultas;
-            return matchTahun && matchFakultas;
-        });
-        const grouped = {};
-        
-        filtered.forEach(row => {
-            // Group Sasaran
-            if (!grouped[row.sasaranKode]) {
-                grouped[row.sasaranKode] = {
-                    kode: row.sasaranKode, nama: row.sasaranNama,
-                    strategi: {}
-                };
-            }
-            // Group Strategi
-            if (!grouped[row.sasaranKode].strategi[row.strategiKode]) {
-                grouped[row.sasaranKode].strategi[row.strategiKode] = {
-                    kode: row.strategiKode, nama: row.strategiNama,
-                    program: []
-                };
-            }
-            // Push Program Tahunan
-            grouped[row.sasaranKode].strategi[row.strategiKode].program.push({
-                id: row.id,
-                kode: row.programKode,
-                nama: row.programNama
-            });
-        });
-        
-        return grouped;
+    function getFakultasName(id) {
+        const f = fakultasList.find(x => x.id === id);
+        return f ? f.kode_fakultas + ' (' + f.nama_fakultas + ')' : 'Semua';
     }
 
-    // ── UI Rendering ─────────────────────────────────────────────────
+    function getGroupedData(fakultasId, periodeKey) {
+        const filtered = renstraData.filter(d => {
+            let matchFak = !fakultasId || d.fakultas_id == fakultasId;
+            let matchPeriode = !periodeKey || (d.tahunMulai + '-' + d.tahunSelesai) === periodeKey;
+            return matchFak && matchPeriode;
+        });
+        return filtered;
+    }
+
     function renderTree() {
-        const tahun = document.getElementById('filter-tahun').value;
-        const fakultas = document.getElementById('filter-fakultas').value;
-        const data = getGroupedData(tahun, fakultas);
+        const fakultasId = document.getElementById('filter-fakultas').value;
+        const periodeKey = document.getElementById('filter-periode').value;
+        const data = getGroupedData(fakultasId, periodeKey);
         const container = document.getElementById('tree-container');
         const emptyState = document.getElementById('empty-state');
-        
-        const sasaranKeys = Object.keys(data);
-        
-        // Update Stats
-        let countSasaran = sasaranKeys.length;
-        let countStrategi = 0;
-        let countProgram = 0;
-        
-        if (countSasaran === 0) {
+
+        if (data.length === 0) {
             container.innerHTML = '';
             emptyState.classList.remove('hidden');
-        } else {
-            emptyState.classList.add('hidden');
-            let html = '';
-            
-            sasaranKeys.forEach(sKey => {
-                const sasaran = data[sKey];
-                const stratKeys = Object.keys(sasaran.strategi);
-                countStrategi += stratKeys.length;
-                
-                let stratHtml = '';
-                stratKeys.forEach(strKey => {
-                    const strategi = sasaran.strategi[strKey];
-                    countProgram += strategi.program.length;
-                    
-                    let progHtml = '';
-                    strategi.program.forEach(prog => {
-                        progHtml += `
-                            <div class="tree-grandchild group">
-                                <div class="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl shadow-sm hover:border-sky-200 transition">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center flex-shrink-0">
-                                            <span class="text-[10px] font-bold text-sky-600">${prog.kode}</span>
-                                        </div>
-                                        <div>
-                                            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-0.5">Program Tahunan</p>
-                                            <p class="text-sm font-semibold text-slate-700">${prog.nama}</p>
-                                        </div>
-                                    </div>
-                                    ${canWriteRenstra ? `
-                                    <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition">
-                                        <button onclick="editRenstra(${prog.id})" class="p-2 bg-slate-50 text-sky-600 rounded-lg hover:bg-sky-100 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125"/></svg></button>
-                                        <button onclick="deleteRenstra(${prog.id})" class="p-2 bg-slate-50 text-red-500 rounded-lg hover:bg-red-100 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg></button>
-                                    </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    stratHtml += `
-                        <div class="tree-child mt-4">
-                            <div class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200/60 rounded-xl shadow-sm mb-2">
-                                <div class="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                                    <span class="text-[10px] font-bold text-indigo-700">${strategi.kode}</span>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-0.5">Strategi RENSTRA</p>
-                                    <p class="text-sm font-bold text-slate-800">${strategi.nama}</p>
-                                </div>
-                            </div>
-                            <div class="ml-2 border-l-2 border-slate-100">
-                                ${progHtml}
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                html += `
-                    <div class="tree-node mb-6 last:mb-0">
-                        <div class="flex items-center gap-3 p-4 bg-white border-2 border-sky-100 rounded-xl shadow-sm relative z-10">
+            return;
+        }
+        emptyState.classList.add('hidden');
+
+        let html = '';
+        data.forEach(r => {
+            const programCount = r.totalProgram || 0;
+            const statusBadge = r.status === 'tercapai' ? 'bg-emerald-100 text-emerald-700' :
+                                r.status === 'dalam_proses' ? 'bg-amber-100 text-amber-700' :
+                                'bg-slate-100 text-slate-500';
+
+            html += `
+                <div class="tree-node mb-4 last:mb-0">
+                    <div class="flex items-center justify-between gap-3 p-4 bg-white border-2 border-sky-100 rounded-xl shadow-sm relative z-10">
+                        <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-xl bg-sky-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-sky-500/20">
-                                <span class="text-[11px] font-bold text-white">${sasaran.kode}</span>
+                                <span class="text-[11px] font-bold text-white">${r.sasaranKode || 'RS'}</span>
                             </div>
                             <div>
                                 <p class="text-[10px] font-bold text-sky-500 uppercase tracking-wider mb-0.5">Sasaran Strategis</p>
-                                <p class="text-base font-extrabold text-slate-800">${sasaran.nama}</p>
+                                <p class="text-base font-extrabold text-slate-800">${r.sasaranNama}</p>
+                                <div class="flex items-center gap-3 mt-1">
+                                    <span class="text-[11px] text-slate-400">${getFakultasName(r.fakultas_id)}</span>
+                                    <span class="text-[11px] text-slate-400">Periode ${r.tahunMulai} - ${r.tahunSelesai}</span>
+                                    <span class="text-[11px] text-slate-400">${programCount} Program</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="pl-2">
-                            ${stratHtml}
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${statusBadge}">${r.status?.replace('_', ' ') || 'Belum Tercapai'}</span>
+                            ${canWriteRenstra ? `
+                            <div class="flex gap-1">
+                                <button onclick="editRenstra(${r.id})" class="p-2 bg-slate-50 text-sky-600 rounded-lg hover:bg-sky-100 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125"/></svg>
+                                </button>
+                                <button onclick="deleteRenstra(${r.id})" class="p-2 bg-slate-50 text-red-500 rounded-lg hover:bg-red-100 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
+                                </button>
+                            </div>
+                            ` : ''}
                         </div>
                     </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        const elSasaran = document.getElementById('stat-sasaran');
-        const elStrategi = document.getElementById('stat-strategi');
-        const elProgram = document.getElementById('stat-program');
-        if (elSasaran) elSasaran.textContent = countSasaran;
-        if (elStrategi) elStrategi.textContent = countStrategi;
-        if (elProgram) elProgram.textContent = countProgram;
+                    ${r.strategiNama || r.programNama ? `
+                    <div class="pl-2 mt-2">
+                        ${r.strategiNama ? `
+                        <div class="tree-child">
+                            <div class="flex items-center gap-3 p-3 bg-indigo-50/60 border border-indigo-100/60 rounded-xl shadow-sm">
+                                <div class="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider mb-0.5">Strategi RENSTRA</p>
+                                    <p class="text-sm font-bold text-slate-800">${r.strategiNama}</p>
+                                </div>
+                            </div>
+                        </div>
+                        ` : ''}
+                        ${r.programNama ? `
+                        <div class="tree-grandchild mt-3">
+                            <div class="flex items-center gap-3 p-3 bg-sky-50/60 border border-sky-100/60 rounded-xl shadow-sm">
+                                <div class="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-semibold text-sky-400 uppercase tracking-wider mb-0.5">Program Tahunan</p>
+                                    <p class="text-sm font-bold text-slate-800">${r.programNama}</p>
+                                </div>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
     }
 
-    // ── Form Modal ───────────────────────────────────────────────────
     function openModal(id = null) {
         document.getElementById('form-error').classList.add('hidden');
         document.getElementById('edit-id').value = id || '';
-        
+
         if (id) {
             const row = renstraData.find(d => d.id === id);
             if (row) {
                 document.getElementById('modal-title-text').textContent = 'Edit Data RENSTRA';
-                document.getElementById('f-tahun').value = row.tahun;
-                document.getElementById('f-fakultas').value = row.fakultas || document.getElementById('f-fakultas').options[0]?.value || '';
-                document.getElementById('f-sasaran-kode').value = row.sasaranKode;
-                document.getElementById('f-sasaran-nama').value = row.sasaranNama;
-                document.getElementById('f-strategi-kode').value = row.strategiKode;
-                document.getElementById('f-strategi-nama').value = row.strategiNama;
-                document.getElementById('f-program-kode').value = row.programKode;
-                document.getElementById('f-program-nama').value = row.programNama;
+                document.getElementById('f-fakultas').value = row.fakultas_id || '';
+                document.getElementById('f-kode').value = row.sasaranKode || '';
+                document.getElementById('f-sasaran').value = row.sasaranNama || '';
+                document.getElementById('f-strategi').value = row.strategiNama || '';
+                document.getElementById('f-program').value = row.programNama || '';
+                document.getElementById('f-tahun-mulai').value = row.tahunMulai || '';
+                document.getElementById('f-tahun-selesai').value = row.tahunSelesai || '';
                 document.getElementById('f-status').value = row.status || 'belum_tercapai';
             }
         } else {
             document.getElementById('modal-title-text').textContent = 'Tambah Data RENSTRA';
-            document.getElementById('f-tahun').value = document.getElementById('filter-tahun').value || new Date().getFullYear();
-            
-            let currentFilterFakultas = document.getElementById('filter-fakultas').value;
-            if (currentFilterFakultas === 'Semua') {
-                document.getElementById('f-fakultas').selectedIndex = 0;
-            } else {
-                document.getElementById('f-fakultas').value = currentFilterFakultas;
-            }
-            
-            // Clear inputs except year and fakultas
-            ['sasaran-kode','sasaran-nama','strategi-kode','strategi-nama','program-kode','program-nama'].forEach(f => {
-                document.getElementById('f-' + f).value = '';
-            });
+            document.getElementById('f-fakultas').value = document.getElementById('filter-fakultas').value || '';
+            document.getElementById('f-kode').value = '';
+            document.getElementById('f-sasaran').value = '';
+            document.getElementById('f-strategi').value = '';
+            document.getElementById('f-program').value = '';
+            document.getElementById('f-tahun-mulai').value = '';
+            document.getElementById('f-tahun-selesai').value = '';
             document.getElementById('f-status').value = 'belum_tercapai';
         }
-        
+
         document.getElementById('renstra-modal').classList.remove('modal-closed');
         document.body.style.overflow = 'hidden';
     }
@@ -438,30 +388,38 @@
 
     function saveRenstra() {
         const id = document.getElementById('edit-id').value;
-        const tahun = parseInt(document.getElementById('f-tahun').value);
-        const sasaranKode = document.getElementById('f-sasaran-kode').value.trim();
-        const sasaranNama = document.getElementById('f-sasaran-nama').value.trim();
-        const strategiKode = document.getElementById('f-strategi-kode').value.trim();
-        const strategiNama = document.getElementById('f-strategi-nama').value.trim();
-        const programKode = document.getElementById('f-program-kode').value.trim();
-        const programNama = document.getElementById('f-program-nama').value.trim();
+        const fakultasId = document.getElementById('f-fakultas').value;
+        const kode = document.getElementById('f-kode').value.trim();
+        const sasaran = document.getElementById('f-sasaran').value.trim();
+        const strategi = document.getElementById('f-strategi').value.trim();
+        const program = document.getElementById('f-program').value.trim();
+        const tahunMulai = parseInt(document.getElementById('f-tahun-mulai').value);
+        const tahunSelesai = parseInt(document.getElementById('f-tahun-selesai').value);
+        const status = document.getElementById('f-status').value;
 
         const errEl = document.getElementById('form-error');
 
-        if (!tahun || !sasaranKode || !sasaranNama || !strategiNama || !programNama) {
-            errEl.textContent = 'Tahun, Sasaran, Strategi, dan Program Tahunan wajib diisi.';
+        if (!fakultasId || !sasaran || !tahunMulai || !tahunSelesai) {
+            errEl.textContent = 'Fakultas, Sasaran, Tahun Mulai, dan Tahun Selesai wajib diisi.';
+            errEl.classList.remove('hidden');
+            return;
+        }
+        if (tahunSelesai < tahunMulai) {
+            errEl.textContent = 'Tahun Selesai harus >= Tahun Mulai.';
             errEl.classList.remove('hidden');
             return;
         }
         errEl.classList.add('hidden');
 
         const payload = {
-            kode: sasaranKode,
-            sasaran: sasaranNama,
-            strategi: strategiNama,
-            program_tahunan: programNama,
-            periode: tahun.toString(),
-            status: document.getElementById('f-status').value,
+            fakultas_id: fakultasId || null,
+            kode: kode || null,
+            sasaran: sasaran,
+            strategi: strategi || null,
+            program_tahunan: program || null,
+            tahun_mulai: tahunMulai,
+            tahun_selesai: tahunSelesai,
+            status: status,
         };
 
         const url  = id ? '/renstra/' + id : '/renstra';
@@ -480,11 +438,8 @@
         });
     }
 
-    function editRenstra(id) {
-        openModal(id);
-    }
+    function editRenstra(id) { openModal(id); }
 
-    // ── Delete Action ────────────────────────────────────────────────
     function deleteRenstra(id) {
         deleteTargetId = id;
         document.getElementById('del-modal').classList.remove('modal-closed');
@@ -508,36 +463,23 @@
         closeDelModal();
     }
 
-    // ── Populate Dynamic Year Filter ────────────────────────────────
-    function populateTahunFilter() {
-        const select = document.getElementById('filter-tahun');
-        const currentSelected = select.value;
-        const years = [...new Set(renstraData.map(d => d.tahun))].sort((a, b) => b - a);
-        
-        select.innerHTML = '';
-        if (years.length === 0) {
-            const currentYear = new Date().getFullYear();
-            select.innerHTML = `<option value="${currentYear}">Tahun ${currentYear}</option>`;
-        } else {
-            years.forEach(yr => {
-                const opt = document.createElement('option');
-                opt.value = yr;
-                opt.textContent = `Tahun ${yr}`;
-                select.appendChild(opt);
-            });
-        }
-        
-        if (currentSelected && Array.from(select.options).some(opt => opt.value == currentSelected)) {
-            select.value = currentSelected;
-        }
+    function populatePeriodeFilter() {
+        const select = document.getElementById('filter-periode');
+        const periods = [...new Set(renstraData.map(d => d.tahunMulai + '-' + d.tahunSelesai))].sort();
+        select.innerHTML = '<option value="">Semua Periode</option>';
+        periods.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p;
+            opt.textContent = p;
+            select.appendChild(opt);
+        });
     }
 
-    // ── Init ─────────────────────────────────────────────────────────
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') { closeModal(); closeDelModal(); }
     });
 
-    populateTahunFilter();
+    populatePeriodeFilter();
     renderTree();
     </script>
 </x-app-layout>

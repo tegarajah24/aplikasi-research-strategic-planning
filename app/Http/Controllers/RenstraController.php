@@ -11,7 +11,7 @@ class RenstraController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Renstra::query();
+        $query = Renstra::with('fakultas', 'programs');
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -22,6 +22,10 @@ class RenstraController extends Controller
             });
         }
 
+        if ($request->filled('fakultas_id')) {
+            $query->where('fakultas_id', $request->fakultas_id);
+        }
+
         $renstras = $query->latest()->paginate(10)->withQueryString();
 
         $fakultasList = Fakultas::orderBy('kode_fakultas', 'asc')->get();
@@ -29,15 +33,16 @@ class RenstraController extends Controller
         $flatRenstra = $renstras->map(function ($r) {
             return [
                 'id' => $r->id,
-                'tahun' => (int) $r->periode,
-                'fakultas' => 'Semua',
+                'fakultas_id' => $r->fakultas_id,
+                'fakultas' => $r->fakultas?->nama_fakultas ?? 'Semua',
+                'tahunMulai' => $r->tahun_mulai,
+                'tahunSelesai' => $r->tahun_selesai,
                 'sasaranKode' => $r->kode,
                 'sasaranNama' => $r->sasaran,
-                'strategiKode' => 'STR1',
                 'strategiNama' => $r->strategi,
-                'programKode' => 'PT' . $r->id,
                 'programNama' => $r->program_tahunan,
                 'status' => $r->status ?? 'belum_tercapai',
+                'totalProgram' => $r->programs->count(),
             ];
         })->toArray();
 
@@ -51,11 +56,13 @@ class RenstraController extends Controller
         }
 
         $validated = $request->validate([
+            'fakultas_id'     => 'nullable|exists:fakultas,id',
             'kode'            => 'nullable|string|max:20',
             'sasaran'         => 'required|string|max:255',
             'strategi'        => 'nullable|string|max:255',
             'program_tahunan' => 'nullable|string|max:255',
-            'periode'         => 'nullable|string|max:10',
+            'tahun_mulai'     => 'required|integer|min:2000|max:2099',
+            'tahun_selesai'   => 'required|integer|min:2000|max:2099|gte:tahun_mulai',
             'status'          => 'nullable|string|in:tercapai,dalam_proses,belum_tercapai',
         ]);
 
@@ -71,11 +78,13 @@ class RenstraController extends Controller
         }
 
         $validated = $request->validate([
+            'fakultas_id'     => 'nullable|exists:fakultas,id',
             'kode'            => 'nullable|string|max:20',
             'sasaran'         => 'required|string|max:255',
             'strategi'        => 'nullable|string|max:255',
             'program_tahunan' => 'nullable|string|max:255',
-            'periode'         => 'nullable|string|max:10',
+            'tahun_mulai'     => 'required|integer|min:2000|max:2099',
+            'tahun_selesai'   => 'required|integer|min:2000|max:2099|gte:tahun_mulai',
             'status'          => 'nullable|string|in:tercapai,dalam_proses,belum_tercapai',
         ]);
 

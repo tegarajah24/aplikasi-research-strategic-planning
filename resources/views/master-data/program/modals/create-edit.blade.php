@@ -13,6 +13,21 @@
         <div class="px-6 py-5 space-y-4 max-h-[70vh] overflow-y-auto">
             <input type="hidden" id="edit-id">
 
+            {{-- Renstra --}}
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1.5">RENSTRA <span class="text-red-400">*</span></label>
+                <select id="f-renstra"
+                    class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    <option value="">-- Pilih RENSTRA --</option>
+                    @foreach($renstraList as $r)
+                    <option value="{{ $r->id }}">
+                        [{{ $r->kode }}] {{ $r->sasaran }} ({{ $r->tahun_mulai }}-{{ $r->tahun_selesai }})
+                        {{ $r->fakultas ? '- ' . $r->fakultas->kode_fakultas : '' }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+
             {{-- Bidang (select) --}}
             <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1.5">Bidang <span class="text-red-400">*</span></label>
@@ -37,27 +52,6 @@
             <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1.5">Nama Program <span class="text-red-400">*</span></label>
                 <input id="f-nama" type="text" placeholder="Contoh: Peningkatan Kualitas Penelitian Dosen"
-                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-violet-400 focus:ring-2 transition">
-            </div>
-
-            {{-- Sasaran --}}
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Sasaran Program</label>
-                <textarea id="f-sasaran" rows="2" placeholder="Deskripsi sasaran yang ingin dicapai..."
-                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-violet-400 focus:ring-2 transition resize-none"></textarea>
-            </div>
-
-            {{-- Strategi RENSTRA --}}
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Strategi RENSTRA</label>
-                <input id="f-strategi" type="text" placeholder="Contoh: Meningkatkan kompetensi riset dosen"
-                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-violet-400 focus:ring-2 transition">
-            </div>
-
-            {{-- Program Tahunan / RKT --}}
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Program Tahunan (RKT)</label>
-                <input id="f-rkt" type="text" placeholder="Contoh: RKT 2026 — Prioritas Utama"
                     class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-violet-400 focus:ring-2 transition">
             </div>
 
