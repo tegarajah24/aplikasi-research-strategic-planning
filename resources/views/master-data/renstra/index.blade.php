@@ -5,18 +5,6 @@
                 <h1 class="text-xl font-bold text-slate-800 leading-tight">Master Data RENSTRA</h1>
                 <p class="text-sm text-slate-400 mt-0.5">Sasaran Strategis — Periode 5 Tahun per Fakultas</p>
             </div>
-            @if(auth()->user()->canWrite('renstra'))
-            <div class="flex items-center gap-2">
-                <button onclick="openModal()"
-                    class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition shadow-sm"
-                    style="background:#0ea5e9">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                    </svg>
-                    Tambah Data
-                </button>
-            </div>
-            @endif
         </div>
     </x-slot>
 
@@ -94,6 +82,16 @@
                         <select id="filter-periode" onchange="renderTree()"
                             class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
                         </select>
+                        @if(auth()->user()->canWrite('renstra'))
+                        <button onclick="openModal()"
+                            class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition shadow-sm"
+                            style="background:#0ea5e9">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                            </svg>
+                            Tambah Data
+                        </button>
+                        @endif
                     </div>
                 </div>
 
