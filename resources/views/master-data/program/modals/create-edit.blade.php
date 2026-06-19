@@ -55,13 +55,6 @@
                     class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-violet-400 focus:ring-2 transition">
             </div>
 
-            {{-- Anggaran --}}
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Total Anggaran (Rp)</label>
-                <input id="f-anggaran" type="number" min="0" placeholder="0"
-                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-violet-400 focus:ring-2 transition">
-            </div>
-
             {{-- Status --}}
             <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1.5">Status</label>

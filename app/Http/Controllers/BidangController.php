@@ -42,7 +42,6 @@ class BidangController extends Controller
                 'nama'      => $b->nama_bidang,
                 'deskripsi' => $b->deskripsi,
                 'status'    => $b->status,
-                'anggaran'  => $b->programs->sum('anggaran'),
                 'programs'  => $b->programs->map(function ($p) {
                     return [
                         'id'       => $p->id,

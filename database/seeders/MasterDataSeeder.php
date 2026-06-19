@@ -124,11 +124,11 @@ class MasterDataSeeder extends Seeder
         $defaultRenstraId = !empty($ftikRenstra) ? $ftikRenstra[0] : null;
 
         $program = [
-            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd1, 'kode_program' => 'P-001', 'nama_program' => 'Reguler Pagi',                             'deskripsi' => 'Program perkuliahan reguler pagi hari untuk mahasiswa penuh waktu',               'anggaran' => 50000000,  'status' => 'Aktif'],
-            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd2, 'kode_program' => 'P-002', 'nama_program' => 'Reguler Malam / Kelas Karyawan',            'deskripsi' => 'Program perkuliahan malam hari untuk mahasiswa yang sudah bekerja',               'anggaran' => 40000000,  'status' => 'Aktif'],
-            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd3, 'kode_program' => 'P-003', 'nama_program' => 'Program Internasional',                    'deskripsi' => 'Program perkuliahan dengan kurikulum dan standar internasional',                  'anggaran' => 75000000,  'status' => 'Aktif'],
-            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd4, 'kode_program' => 'P-004', 'nama_program' => 'Program Eksekutif',                        'deskripsi' => 'Program pendidikan eksekutif untuk profesional dan pemimpin bisnis',             'anggaran' => 90000000,  'status' => 'Aktif'],
-            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd5, 'kode_program' => 'P-005', 'nama_program' => 'Blended Learning (Online-Offline)',        'deskripsi' => 'Program pembelajaran hybrid yang menggabungkan tatap muka dan daring',            'anggaran' => 60000000,  'status' => 'Aktif'],
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd1, 'kode_program' => 'P-001', 'nama_program' => 'Reguler Pagi',                             'deskripsi' => 'Program perkuliahan reguler pagi hari untuk mahasiswa penuh waktu',               'status' => 'Aktif'],
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd2, 'kode_program' => 'P-002', 'nama_program' => 'Reguler Malam / Kelas Karyawan',            'deskripsi' => 'Program perkuliahan malam hari untuk mahasiswa yang sudah bekerja',               'status' => 'Aktif'],
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd3, 'kode_program' => 'P-003', 'nama_program' => 'Program Internasional',                    'deskripsi' => 'Program perkuliahan dengan kurikulum dan standar internasional',                  'status' => 'Aktif'],
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd4, 'kode_program' => 'P-004', 'nama_program' => 'Program Eksekutif',                        'deskripsi' => 'Program pendidikan eksekutif untuk profesional dan pemimpin bisnis',             'status' => 'Aktif'],
+            ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd5, 'kode_program' => 'P-005', 'nama_program' => 'Blended Learning (Online-Offline)',        'deskripsi' => 'Program pembelajaran hybrid yang menggabungkan tatap muka dan daring',            'status' => 'Aktif'],
         ];
         foreach ($program as $p) {
             Program::create($p);

@@ -27,10 +27,6 @@
                 <p id="stat-kegiatan" class="text-2xl font-extrabold count-anim">—</p>
                 <p class="text-[11px] text-blue-200 mt-0.5 font-medium">Kegiatan</p>
             </div>
-            <div class="bg-white/15 backdrop-blur rounded-xl px-4 py-3 text-center min-w-[70px]">
-                <p id="stat-anggaran" class="text-lg font-extrabold count-anim">—</p>
-                <p class="text-[11px] text-blue-200 mt-0.5 font-medium">Anggaran</p>
-            </div>
         </div>
     </div>
 </div>

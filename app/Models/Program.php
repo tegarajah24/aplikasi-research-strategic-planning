@@ -12,7 +12,6 @@ class Program extends Model
         'kode_program',
         'nama_program',
         'deskripsi',
-        'anggaran',
         'status',
     ];
 

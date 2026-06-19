@@ -24,7 +24,6 @@ function rupiah(n) {
 function getBidang(id) { return bidangMaster.find(b => b.id === id); }
 function programsForBidang(bid) { return programData.filter(p => p.bidangId === bid); }
 function totalKegiatan()  { return programData.reduce((s,p) => s + p.kegiatan.length, 0); }
-function totalAnggaran()  { return programData.reduce((s,p) => s + p.anggaran, 0); }
 function totalSelesai()   { return programData.reduce((s,p) => s + p.kegiatan.filter(k=>k.selesai).length, 0); }
 function progressPct(p)   {
     if (!p.kegiatan.length) return 0;
@@ -34,12 +33,10 @@ function progressPct(p)   {
 function renderStats() {
     const elProgram = document.getElementById('stat-program');
     const elKegiatan = document.getElementById('stat-kegiatan');
-    const elAnggaran = document.getElementById('stat-anggaran');
     const elProgress = document.getElementById('stat-progress');
 
     if (elProgram) elProgram.textContent  = programData.length;
     if (elKegiatan) elKegiatan.textContent = totalKegiatan();
-    if (elAnggaran) elAnggaran.textContent = rupiah(totalAnggaran());
     if (elProgress) {
         const pct = totalKegiatan() ? Math.round(totalSelesai()/totalKegiatan()*100) : 0;
         elProgress.textContent = pct+'%';
@@ -218,10 +215,10 @@ function renderProgChart() {
                     <span class="text-[11px] font-semibold text-slate-600">${pct}%</span>
                 </div>
             </div>
-            <div class="prog-track">
+                <div class="prog-track">
                 <div class="prog-fill" style="width:${pct}%;background-color:${barColor}"></div>
             </div>
-            <p class="text-[10px] text-slate-400 mt-1">${doneKeg}/${totalKeg} kegiatan selesai · ${rupiah(progs.reduce((s,p)=>s+p.anggaran,0))}</p>
+            <p class="text-[10px] text-slate-400 mt-1">${doneKeg}/${totalKeg} kegiatan selesai</p>
         </div>`;
     }).join('');
 }
@@ -247,7 +244,7 @@ function openDrawer(id) {
             </div>
             <div class="flex-1 min-w-0">
                 <p class="text-xs font-medium ${k.selesai ? 'text-slate-500 line-through' : 'text-slate-700'}">${k.nama}</p>
-                <p class="text-[11px] text-slate-400 mt-0.5">${rupiah(k.anggaran)}</p>
+                <p class="text-[11px] text-slate-400 mt-0.5">&nbsp;</p>
             </div>
         </div>`).join('');
 
@@ -279,11 +276,7 @@ function openDrawer(id) {
                 <p class="text-lg font-extrabold text-slate-800">${p.kegiatan.length}</p>
                 <p class="text-[11px] text-slate-500 mt-0.5">Total Kegiatan</p>
             </div>
-            <div class="bg-slate-50 rounded-xl p-3 text-center">
-                <p class="text-base font-extrabold text-slate-800">${rupiah(p.anggaran)}</p>
-                <p class="text-[11px] text-slate-500 mt-0.5">Total Anggaran</p>
             </div>
-        </div>
 
         <div class="space-y-2 text-xs">
             ${p.sasaran ? `<div class="flex gap-2"><span class="text-slate-400 flex-shrink-0 w-20">Sasaran</span><span class="text-slate-600">${p.sasaran}</span></div>` : ''}
@@ -324,7 +317,6 @@ function openModal(id = null) {
     document.getElementById('f-bidang').value    = '';
     document.getElementById('f-kode').value      = '';
     document.getElementById('f-nama').value      = '';
-    document.getElementById('f-anggaran').value  = '';
     document.getElementById('f-status').value    = 'Aktif';
     document.getElementById('kode-preview').classList.add('hidden');
     document.getElementById('form-error').classList.add('hidden');
@@ -337,7 +329,6 @@ function openModal(id = null) {
             document.getElementById('f-bidang').value   = p.bidangId;
             document.getElementById('f-kode').value     = p.kode;
             document.getElementById('f-nama').value     = p.nama;
-            document.getElementById('f-anggaran').value = p.anggaran;
             document.getElementById('f-status').value   = p.status;
             const prev = document.getElementById('kode-preview');
             prev.textContent = p.kode;
@@ -360,7 +351,6 @@ function saveProgram() {
     const bidangId = parseInt(document.getElementById('f-bidang').value);
     const kode     = document.getElementById('f-kode').value.trim();
     const nama     = document.getElementById('f-nama').value.trim();
-    const anggaran = parseInt(document.getElementById('f-anggaran').value) || 0;
     const status   = document.getElementById('f-status').value;
     const errEl    = document.getElementById('form-error');
 
@@ -383,7 +373,6 @@ function saveProgram() {
             kode_program: kode,
             nama_program: nama,
             deskripsi: '',
-            anggaran: anggaran,
             status: status
         })
     }).then(r => {

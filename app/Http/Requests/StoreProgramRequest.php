@@ -19,7 +19,6 @@ class StoreProgramRequest extends FormRequest
             'kode_program'     => 'required|string|max:20',
             'nama_program'     => 'required|string|max:255',
             'deskripsi'        => 'nullable|string',
-            'anggaran'         => 'nullable|numeric|min:0',
             'status'           => 'required|in:Aktif,Tidak Aktif',
         ];
     }

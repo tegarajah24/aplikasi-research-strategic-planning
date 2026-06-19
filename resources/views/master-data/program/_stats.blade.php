@@ -21,10 +21,6 @@
                 <p class="text-[11px] font-medium mt-0.5" style="color:#c4b5fd">Kegiatan</p>
             </div>
             <div class="rounded-xl px-4 py-3 text-center min-w-[70px]" style="background:rgba(255,255,255,.15)">
-                <p id="stat-anggaran" class="text-lg font-extrabold count-anim">—</p>
-                <p class="text-[11px] font-medium mt-0.5" style="color:#c4b5fd">Anggaran</p>
-            </div>
-            <div class="rounded-xl px-4 py-3 text-center min-w-[70px]" style="background:rgba(255,255,255,.15)">
                 <p id="stat-progress" class="text-2xl font-extrabold count-anim">—</p>
                 <p class="text-[11px] font-medium mt-0.5" style="color:#c4b5fd">Selesai</p>
             </div>

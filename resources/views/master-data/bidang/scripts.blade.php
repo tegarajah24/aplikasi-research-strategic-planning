@@ -18,25 +18,17 @@ function iconChevronRight(id) {
 }
 
 // ── Helpers ──────────────────────────────────────────────────────
-function rupiah(n) {
-    if (n >= 1000000000) return 'Rp ' + (n/1000000000).toFixed(1) + ' M';
-    if (n >= 1000000) return 'Rp ' + (n/1000000).toFixed(0) + ' Jt';
-    return 'Rp ' + n.toLocaleString('id-ID');
-}
 function totalPrograms() { return bidangData.reduce((s,b) => s + b.programs.length, 0); }
 function totalKegiatan()  { return bidangData.reduce((s,b) => s + b.programs.reduce((p,pr) => p + pr.kegiatan, 0), 0); }
-function totalAnggaran()  { return bidangData.reduce((s,b) => s + b.anggaran, 0); }
 
 // ── Stats ────────────────────────────────────────────────────────
 function renderStats() {
     const elBidang = document.getElementById('stat-bidang');
     const elProgram = document.getElementById('stat-program');
     const elKegiatan = document.getElementById('stat-kegiatan');
-    const elAnggaran = document.getElementById('stat-anggaran');
     if (elBidang) elBidang.textContent = bidangData.length;
     if (elProgram) elProgram.textContent = totalPrograms();
     if (elKegiatan) elKegiatan.textContent = totalKegiatan();
-    if (elAnggaran) elAnggaran.textContent = rupiah(totalAnggaran());
 }
 
 // ── Table ────────────────────────────────────────────────────────
@@ -65,7 +57,6 @@ function renderTable() {
     }
     empty.classList.add('hidden');
 
-    const totalAng = totalAnggaran() || 1;
     tbody.innerHTML = filtered.map((b, i) => {
         const kgtCount = b.programs.reduce((s, p) => s + p.kegiatan, 0);
         const badgeCls = b.status === 'Aktif' ? 'badge-active' : 'badge-inactive';
@@ -87,12 +78,6 @@ function renderTable() {
             </td>
             <td class="px-3 py-3 text-center">
                 <span class="inline-block bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-0.5 rounded-lg">${kgtCount}</span>
-            </td>
-            <td class="px-3 py-3">
-                <p class="text-xs font-semibold text-slate-700">${rupiah(b.anggaran)}</p>
-                <div class="w-full h-1 rounded-full bg-slate-100 mt-1">
-                    <div class="h-1 rounded-full" style="width:${Math.round(b.anggaran/totalAng*100)}%; background-color: ${colorDot}"></div>
-                </div>
             </td>
             <td class="px-3 py-3 text-center">
                 <span class="inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${badgeCls}">${b.status}</span>
@@ -176,20 +161,21 @@ function collapseAll() {
 // ── Bar Chart ────────────────────────────────────────────────────
 function renderBarChart() {
     const container  = document.getElementById('bar-chart');
-    const total      = totalAnggaran() || 1;
+    const totalProg  = totalPrograms() || 1;
     container.innerHTML = bidangData.map((b, i) => {
-        const pct = Math.round(b.anggaran / total * 100);
+        const progCount = b.programs.length;
+        const pct = Math.round(progCount / totalProg * 100);
         const colorBar = COLORS[i % COLORS.length];
         return `
         <div>
             <div class="flex items-center justify-between mb-1">
                 <span class="text-xs font-medium text-slate-600 truncate">${b.nama}</span>
-                <span class="text-[11px] text-slate-400 ml-2 flex-shrink-0">${pct}%</span>
+                <span class="text-[11px] text-slate-400 ml-2 flex-shrink-0">${progCount} prog</span>
             </div>
             <div class="w-full h-2 rounded-full bg-slate-100">
                 <div class="h-2 rounded-full transition-all duration-700" style="width:${pct}%; background-color: ${colorBar}"></div>
             </div>
-            <p class="text-[10px] text-slate-400 mt-0.5">${rupiah(b.anggaran)}</p>
+            <p class="text-[10px] text-slate-400 mt-0.5">${pct}% dari total program</p>
         </div>`;
     }).join('');
 }

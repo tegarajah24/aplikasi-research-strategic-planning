@@ -41,7 +41,6 @@ class ProgramController extends Controller
 
         $totalProgram  = Program::count();
         $totalKegiatan = Kegiatan::count();
-        $totalAnggaran = Program::sum('anggaran');
         $bidangs       = Bidang::withCount('programs')->get();
         $renstraList   = Renstra::with('fakultas')->orderBy('tahun_mulai', 'desc')->get();
 
@@ -65,7 +64,6 @@ class ProgramController extends Controller
                 'sasaran'      => $p->renstra?->sasaran ?? '',
                 'strategi'     => $p->renstra?->strategi ?? '',
                 'rkt'          => $p->renstra?->program_tahunan ?? '',
-                'anggaran'     => (float) ($p->anggaran ?? 0),
                 'status'       => $p->status,
                 'kegiatan'     => $p->kegiatans->map(function ($k) {
                     return [
@@ -78,7 +76,7 @@ class ProgramController extends Controller
         });
 
         return view('master-data.program.index', compact(
-            'programs', 'totalProgram', 'totalKegiatan', 'totalAnggaran', 'bidangs', 'bidangMaster', 'programList', 'renstraList'
+            'programs', 'totalProgram', 'totalKegiatan', 'bidangs', 'bidangMaster', 'programList', 'renstraList'
         ));
     }
 
