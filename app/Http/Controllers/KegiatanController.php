@@ -13,7 +13,7 @@ class KegiatanController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Kegiatan::query();
+        $query = Kegiatan::query()->with('program.renstra');
 
         // Search by name, code, or PIC
         if ($request->filled('search')) {
@@ -53,6 +53,9 @@ class KegiatanController extends Controller
         $tahunAkademikOptions   = Kegiatan::select('tahun_akademik')->distinct()->whereNotNull('tahun_akademik')->orderBy('tahun_akademik', 'desc')->pluck('tahun_akademik');
         $penanggungJawabOptions = Kegiatan::select('penanggung_jawab')->distinct()->orderBy('penanggung_jawab')->pluck('penanggung_jawab');
 
+        // Fetch active programs with their renstra range
+        $programs = \App\Models\Program::with('renstra')->where('status', 'Aktif')->orderBy('kode_program')->get();
+
         return view('kegiatan.index', compact(
             'kegiatans',
             'totalKegiatan',
@@ -60,7 +63,8 @@ class KegiatanController extends Controller
             'totalAnggaran',
             'kegiatanAktif',
             'tahunAkademikOptions',
-            'penanggungJawabOptions'
+            'penanggungJawabOptions',
+            'programs'
         ));
     }
 
@@ -74,20 +78,24 @@ class KegiatanController extends Controller
         }
 
         $validated = $request->validate([
+            'program_id'        => 'required|exists:programs,id',
             'kode_kegiatan'     => 'required|string|max:20',
             'nama_kegiatan'     => 'required|string|max:255',
             'indikator_kinerja' => 'required|string',
             'target_kegiatan'   => 'required|string|max:100',
             'penanggung_jawab'  => 'required|string|max:100',
             'waktu_pelaksanaan' => 'required|string|max:150',
-            'waktu_mulai'       => 'nullable|date',
-            'waktu_selesai'     => 'nullable|date',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|string|max:200',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
             'catatan'           => 'nullable|string',
             'dokumen'           => 'nullable|string',
         ]);
+
+        // Auto map waktu_mulai and waktu_selesai based on selected single year
+        $year = (int)$validated['waktu_pelaksanaan'];
+        $validated['waktu_mulai'] = "{$year}-01-01";
+        $validated['waktu_selesai'] = "{$year}-12-31";
 
         $kegiatan = Kegiatan::create($validated);
         ActivityLog::log('Menambahkan kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);
@@ -105,20 +113,24 @@ class KegiatanController extends Controller
         }
 
         $validated = $request->validate([
+            'program_id'        => 'required|exists:programs,id',
             'kode_kegiatan'     => 'required|string|max:20',
             'nama_kegiatan'     => 'required|string|max:255',
             'indikator_kinerja' => 'required|string',
             'target_kegiatan'   => 'required|string|max:100',
             'penanggung_jawab'  => 'required|string|max:100',
             'waktu_pelaksanaan' => 'required|string|max:150',
-            'waktu_mulai'       => 'nullable|date',
-            'waktu_selesai'     => 'nullable|date',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|string|max:200',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
             'catatan'           => 'nullable|string',
             'dokumen'           => 'nullable|string',
         ]);
+
+        // Auto map waktu_mulai and waktu_selesai based on selected single year
+        $year = (int)$validated['waktu_pelaksanaan'];
+        $validated['waktu_mulai'] = "{$year}-01-01";
+        $validated['waktu_selesai'] = "{$year}-12-31";
 
         $kegiatan->update($validated);
         ActivityLog::log('Memperbarui kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);

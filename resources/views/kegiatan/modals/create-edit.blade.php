@@ -40,6 +40,24 @@
                 </div>
 
                 <div class="px-6 py-5 space-y-4 max-h-[65vh] overflow-y-auto">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Program <span class="text-rose-500">*</span></label>
+                        <select name="program_id" id="create-program" required onchange="updateYears('create')"
+                            class="mt-1 block w-full border border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="">Pilih Program</option>
+                            @foreach($programs as $prog)
+                            <option value="{{ $prog->id }}" 
+                                data-tahun-mulai="{{ $prog->renstra?->tahun_mulai }}" 
+                                data-tahun-selesai="{{ $prog->renstra?->tahun_selesai }}">
+                                [{{ $prog->kode_program }}] {{ $prog->nama_program }}
+                                @if($prog->renstra)
+                                 ({{ $prog->renstra->tahun_mulai }} - {{ $prog->renstra->tahun_selesai }})
+                                @endif
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Kegiatan <span class="text-rose-500">*</span></label>
@@ -81,21 +99,11 @@
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Waktu Pelaksanaan <span class="text-rose-500">*</span></label>
-                            <input type="text" name="waktu_pelaksanaan" id="create-waktu" placeholder="Cth: September 2023 - Juni 2024" required
-                                class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tanggal Mulai (Kalender)</label>
-                            <input type="date" name="waktu_mulai" id="create-mulai"
-                                class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tanggal Selesai (Kalender)</label>
-                            <input type="date" name="waktu_selesai" id="create-selesai"
-                                class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tahun Pelaksanaan (RKT) <span class="text-rose-500">*</span></label>
+                            <select name="waktu_pelaksanaan" id="create-waktu" required
+                                class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <option value="">Pilih Tahun Pelaksanaan</option>
+                            </select>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Status <span class="text-rose-500">*</span></label>
@@ -183,6 +191,24 @@
                 </div>
 
                 <div class="px-6 py-5 space-y-4 max-h-[65vh] overflow-y-auto">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Program <span class="text-rose-500">*</span></label>
+                        <select name="program_id" id="edit-program" x-model="editData.program_id" required @change="window.updateYears('edit', editData.waktu_pelaksanaan)"
+                            class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="">Pilih Program</option>
+                            @foreach($programs as $prog)
+                            <option value="{{ $prog->id }}" 
+                                data-tahun-mulai="{{ $prog->renstra?->tahun_mulai }}" 
+                                data-tahun-selesai="{{ $prog->renstra?->tahun_selesai }}">
+                                [{{ $prog->kode_program }}] {{ $prog->nama_program }}
+                                @if($prog->renstra)
+                                 ({{ $prog->renstra->tahun_mulai }} - {{ $prog->renstra->tahun_selesai }})
+                                @endif
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Kegiatan <span class="text-rose-500">*</span></label>
@@ -224,21 +250,11 @@
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Waktu Pelaksanaan <span class="text-rose-500">*</span></label>
-                            <input type="text" name="waktu_pelaksanaan" x-model="editData.waktu_pelaksanaan" required
-                                class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tanggal Mulai (Kalender)</label>
-                            <input type="date" name="waktu_mulai" x-model="editData.waktu_mulai"
-                                class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tanggal Selesai (Kalender)</label>
-                            <input type="date" name="waktu_selesai" x-model="editData.waktu_selesai"
-                                class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Tahun Pelaksanaan (RKT) <span class="text-rose-500">*</span></label>
+                            <select name="waktu_pelaksanaan" id="edit-waktu" x-model="editData.waktu_pelaksanaan" required
+                                class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <option value="">Pilih Tahun Pelaksanaan</option>
+                            </select>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Status <span class="text-rose-500">*</span></label>
@@ -282,3 +298,31 @@
         </div>
     </div>
 </div>
+
+<script>
+window.updateYears = function(type, selectedYear = null) {
+    const progSelect = document.getElementById(type + '-program');
+    const waktuSelect = document.getElementById(type + '-waktu');
+    if (!progSelect || !waktuSelect) return;
+
+    const selectedOpt = progSelect.options[progSelect.selectedIndex];
+    waktuSelect.innerHTML = '<option value="">Pilih Tahun Pelaksanaan</option>';
+
+    if (selectedOpt && selectedOpt.value) {
+        const startYear = parseInt(selectedOpt.getAttribute('data-tahun-mulai'));
+        const endYear = parseInt(selectedOpt.getAttribute('data-tahun-selesai'));
+
+        if (startYear && endYear) {
+            for (let y = startYear; y <= endYear; y++) {
+                const opt = document.createElement('option');
+                opt.value = y;
+                opt.textContent = y;
+                if (selectedYear && parseInt(selectedYear) === y) {
+                    opt.selected = true;
+                }
+                waktuSelect.appendChild(opt);
+            }
+        }
+    }
+}
+</script>
