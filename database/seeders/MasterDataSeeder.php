@@ -32,31 +32,26 @@ class MasterDataSeeder extends Seeder
 
         // ===== 1. FAKULTAS =====
         $fakultas = [
-            ['kode_fakultas' => 'FTIK', 'nama_fakultas' => 'Fakultas Teknik & Ilmu Komputer',   'dekan' => 'Dr. Rizky Amalia, S.T., M.Kom.'],
-            ['kode_fakultas' => 'FEB',  'nama_fakultas' => 'Fakultas Ekonomi & Bisnis',          'dekan' => 'Prof. Dr. H. Bambang Sutopo, M.M.'],
-            ['kode_fakultas' => 'FISIP','nama_fakultas' => 'Fakultas Ilmu Sosial & Ilmu Politik', 'dekan' => 'Dr. Ari Prabowo, M.Si.'],
-            ['kode_fakultas' => 'FKIK', 'nama_fakultas' => 'Fakultas Kedokteran & Ilmu Kesehatan','dekan' => 'dr. Hj. Fatimah Nurhayati, Sp.A., M.Kes.'],
-            ['kode_fakultas' => 'FIPH', 'nama_fakultas' => 'Fakultas Ilmu Pendidikan & Humaniora','dekan' => 'Dr. Elisa Kusumawati, M.Pd.'],
+            ['kode_fakultas' => 'FST', 'nama_fakultas' => 'Fakultas Sains & Teknologi', 'dekan' => 'Dr. Rizky Amalia, S.T., M.Kom.'],
+            ['kode_fakultas' => 'FIS', 'nama_fakultas' => 'Fakultas Ilmu Sosial',        'dekan' => 'Dr. Ari Prabowo, M.Si.'],
+            ['kode_fakultas' => 'FK',  'nama_fakultas' => 'Fakultas Kesehatan',          'dekan' => 'dr. Hj. Fatimah Nurhayati, Sp.A., M.Kes.'],
         ];
         foreach ($fakultas as $f) {
             Fakultas::create($f);
         }
 
-        $ftik  = Fakultas::where('kode_fakultas', 'FTIK')->value('id');
-        $feb   = Fakultas::where('kode_fakultas', 'FEB')->value('id');
-        $fisip = Fakultas::where('kode_fakultas', 'FISIP')->value('id');
-        $fkik  = Fakultas::where('kode_fakultas', 'FKIK')->value('id');
-        $fiph  = Fakultas::where('kode_fakultas', 'FIPH')->value('id');
+        $fst = Fakultas::where('kode_fakultas', 'FST')->value('id');
+        $fis = Fakultas::where('kode_fakultas', 'FIS')->value('id');
+        $fk  = Fakultas::where('kode_fakultas', 'FK')->value('id');
 
         // ===== 2. PROGRAM STUDI =====
         $prodi = [
-            ['kode_prodi' => 'IF',   'nama_prodi' => 'S1 Informatika',               'fakultas_id' => $ftik],
-            ['kode_prodi' => 'SI',   'nama_prodi' => 'S1 Sistem Informasi',           'fakultas_id' => $ftik],
-            ['kode_prodi' => 'MNG',  'nama_prodi' => 'S1 Manajemen',                  'fakultas_id' => $feb],
-            ['kode_prodi' => 'AKT',  'nama_prodi' => 'S1 Akuntansi',                  'fakultas_id' => $feb],
-            ['kode_prodi' => 'ILKOM','nama_prodi' => 'S1 Ilmu Komunikasi',            'fakultas_id' => $fisip],
-            ['kode_prodi' => 'HI',   'nama_prodi' => 'S1 Hubungan Internasional',     'fakultas_id' => $fisip],
-            ['kode_prodi' => 'PBI',  'nama_prodi' => 'S1 Pendidikan Bahasa Inggris',  'fakultas_id' => $fiph],
+            ['kode_prodi' => 'IF',   'nama_prodi' => 'S1 Informatika',              'fakultas_id' => $fst],
+            ['kode_prodi' => 'SI',   'nama_prodi' => 'S1 Sistem Informasi',          'fakultas_id' => $fst],
+            ['kode_prodi' => 'ILKOM','nama_prodi' => 'S1 Ilmu Komunikasi',           'fakultas_id' => $fis],
+            ['kode_prodi' => 'HI',   'nama_prodi' => 'S1 Hubungan Internasional',    'fakultas_id' => $fis],
+            ['kode_prodi' => 'KEP',  'nama_prodi' => 'S1 Keperawatan',               'fakultas_id' => $fk],
+            ['kode_prodi' => 'FARM', 'nama_prodi' => 'S1 Farmasi',                   'fakultas_id' => $fk],
         ];
         foreach ($prodi as $p) {
             Prodi::create($p);
@@ -64,21 +59,19 @@ class MasterDataSeeder extends Seeder
 
         $if    = Prodi::where('kode_prodi', 'IF')->value('id');
         $si    = Prodi::where('kode_prodi', 'SI')->value('id');
-        $mng   = Prodi::where('kode_prodi', 'MNG')->value('id');
-        $akt   = Prodi::where('kode_prodi', 'AKT')->value('id');
         $ilkom = Prodi::where('kode_prodi', 'ILKOM')->value('id');
         $hi    = Prodi::where('kode_prodi', 'HI')->value('id');
-        $pbi   = Prodi::where('kode_prodi', 'PBI')->value('id');
+        $kep   = Prodi::where('kode_prodi', 'KEP')->value('id');
+        $farm  = Prodi::where('kode_prodi', 'FARM')->value('id');
 
         // ===== 3. DOSEN =====
         $dosen = [
             ['nidn' => '0012037801', 'nama_dosen' => 'Prof. Dr. Ahmad Subarjo',           'prodi_id' => $if],
             ['nidn' => '0015038201', 'nama_dosen' => 'Citra Lestari, M.T.',                'prodi_id' => $si],
-            ['nidn' => '0010067502', 'nama_dosen' => 'Dr. Dian Wijaya, M.M.',              'prodi_id' => $mng],
-            ['nidn' => '0017088301', 'nama_dosen' => 'Rian Hidayat, S.E., M.Ak.',          'prodi_id' => $akt],
             ['nidn' => '0020118602', 'nama_dosen' => 'Nadia Utami, M.I.Kom.',              'prodi_id' => $ilkom],
             ['nidn' => '0014097703', 'nama_dosen' => 'Budi Dermawan, Ph.D.',               'prodi_id' => $hi],
-            ['nidn' => '0022058101', 'nama_dosen' => 'Dr. dr. Siti Aminah, Sp.PD.',        'prodi_id' => null],
+            ['nidn' => '0022058101', 'nama_dosen' => 'Dr. dr. Siti Aminah, Sp.PD.',        'prodi_id' => $kep],
+            ['nidn' => '0015038201', 'nama_dosen' => 'apt. Citra Lestari, M.Farm.',        'prodi_id' => $farm],
         ];
         foreach ($dosen as $d) {
             Dosen::create($d);
@@ -106,22 +99,21 @@ class MasterDataSeeder extends Seeder
 
         // ===== 5. RENSTRA =====
         $renstra = [
-            ['fakultas_id' => $ftik, 'kode' => 'R-001', 'sasaran' => 'Pengembangan Kurikulum Berbasis AI & IoT 2026-2030',                       'strategi' => 'Mengintegrasikan kecerdasan buatan dan IoT ke dalam kurikulum lintas prodi',                          'program_tahunan' => 'Program review & pengembangan kurikulum berbasis AI',     'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
-            ['fakultas_id' => $ftik, 'kode' => 'R-002', 'sasaran' => 'Digitalisasi Tata Kelola Kampus & UMKM Daerah',                            'strategi' => 'Mengembangkan sistem digital terpadu untuk tata kelola kampus dan pendampingan UMKM',                'program_tahunan' => 'Program pengembangan aplikasi tata kelola & digitalisasi UMKM', 'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
-            ['fakultas_id' => $feb,  'kode' => 'R-003', 'sasaran' => 'Akselerasi Startup Mahasiswa & Inkubator Bisnis',                           'strategi' => 'Membangun ekosistem kewirausahaan mahasiswa melalui inkubator bisnis dan pendanaan awal',            'program_tahunan' => 'Program inkubasi startup & kompetisi bisnis mahasiswa',   'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
-            ['fakultas_id' => $feb,  'kode' => 'R-004', 'sasaran' => 'Penerapan Standar Akuntansi Hijau (Green Accounting)',                      'strategi' => 'Mengimplementasikan akuntansi lingkungan dalam pelaporan keuangan institusi',                        'program_tahunan' => 'Program pelatihan & penerapan green accounting',           'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
-            ['fakultas_id' => $fisip,'kode' => 'R-005', 'sasaran' => 'Literasi Digital & Pengabdian Masyarakat Anti-Hoaks',                      'strategi' => 'Meningkatkan literasi digital masyarakat dan memerangi penyebaran hoaks',                            'program_tahunan' => 'Program pengabdian masyarakat literasi digital & anti-hoaks', 'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
-            ['fakultas_id' => $fisip,'kode' => 'R-006', 'sasaran' => 'Peningkatan Kerja Sama Akademik Internasional Asia-Pasifik',                'strategi' => 'Memperluas jaringan kerja sama dengan universitas mitra di kawasan Asia-Pasifik',                    'program_tahunan' => 'Program mobilitas mahasiswa & dosen internasional',        'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
-            ['fakultas_id' => $ftik, 'kode' => 'R-007', 'sasaran' => 'Internasionalisasi Jurnal Ilmiah Terakreditasi Scopus',                    'strategi' => 'Mendorong publikasi ilmiah dosen pada jurnal bereputasi internasional dan indeks Scopus',           'program_tahunan' => 'Program pendanaan publikasi & pelatihan penulisan jurnal internasional', 'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $fst, 'kode' => 'R-001', 'sasaran' => 'Pengembangan Kurikulum Berbasis AI & IoT 2026-2030',                       'strategi' => 'Mengintegrasikan kecerdasan buatan dan IoT ke dalam kurikulum lintas prodi',                          'program_tahunan' => 'Program review & pengembangan kurikulum berbasis AI',     'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $fst, 'kode' => 'R-002', 'sasaran' => 'Digitalisasi Tata Kelola Kampus & UMKM Daerah',                            'strategi' => 'Mengembangkan sistem digital terpadu untuk tata kelola kampus dan pendampingan UMKM',                'program_tahunan' => 'Program pengembangan aplikasi tata kelola & digitalisasi UMKM', 'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $fis, 'kode' => 'R-003', 'sasaran' => 'Literasi Digital & Pengabdian Masyarakat Anti-Hoaks',                      'strategi' => 'Meningkatkan literasi digital masyarakat dan memerangi penyebaran hoaks',                            'program_tahunan' => 'Program pengabdian masyarakat literasi digital & anti-hoaks', 'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $fis, 'kode' => 'R-004', 'sasaran' => 'Peningkatan Kerja Sama Akademik Internasional Asia-Pasifik',                'strategi' => 'Memperluas jaringan kerja sama dengan universitas mitra di kawasan Asia-Pasifik',                    'program_tahunan' => 'Program mobilitas mahasiswa & dosen internasional',        'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $fk,  'kode' => 'R-005', 'sasaran' => 'Peningkatan Kualitas Pelayanan Kesehatan Masyarakat',                      'strategi' => 'Mengembangkan program kesehatan berbasis riset dan pengabdian masyarakat',                            'program_tahunan' => 'Program pengabdian kesehatan masyarakat desa binaan',    'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $fk,  'kode' => 'R-006', 'sasaran' => 'Inovasi Teknologi Farmasi & Kesehatan',                                    'strategi' => 'Mendorong penelitian dan inovasi di bidang farmasi dan kesehatan',                                   'program_tahunan' => 'Program riset dan pengembangan obat herbal',             'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
+            ['fakultas_id' => $fst, 'kode' => 'R-007', 'sasaran' => 'Internasionalisasi Jurnal Ilmiah Terakreditasi Scopus',                    'strategi' => 'Mendorong publikasi ilmiah dosen pada jurnal bereputasi internasional dan indeks Scopus',           'program_tahunan' => 'Program pendanaan publikasi & pelatihan penulisan jurnal internasional', 'tahun_mulai' => 2026, 'tahun_selesai' => 2030, 'status' => 'belum_tercapai'],
         ];
         foreach ($renstra as $r) {
             Renstra::create($r);
         }
 
         // ===== 6. PROGRAM =====
-        $ftikRenstra = Renstra::where('fakultas_id', $ftik)->pluck('id')->toArray();
-        $febRenstra  = Renstra::where('fakultas_id', $feb)->pluck('id')->toArray();
-        $defaultRenstraId = !empty($ftikRenstra) ? $ftikRenstra[0] : null;
+        $fstRenstra = Renstra::where('fakultas_id', $fst)->pluck('id')->toArray();
+        $defaultRenstraId = !empty($fstRenstra) ? $fstRenstra[0] : null;
 
         $program = [
             ['renstra_id' => $defaultRenstraId, 'bidang_id' => $bd1, 'kode_program' => 'P-001', 'nama_program' => 'Reguler Pagi',                             'deskripsi' => 'Program perkuliahan reguler pagi hari untuk mahasiswa penuh waktu',               'status' => 'Aktif'],
