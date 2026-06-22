@@ -9,6 +9,7 @@ class Renstra extends Model
     protected $table = 'renstra';
 
     protected $fillable = [
+        'bidang_id',
         'fakultas_id',
         'kode',
         'sasaran',
@@ -18,6 +19,11 @@ class Renstra extends Model
         'tahun_selesai',
         'status',
     ];
+
+    public function bidang()
+    {
+        return $this->belongsTo(Bidang::class);
+    }
 
     public function fakultas()
     {

@@ -69,9 +69,16 @@
                 <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-slate-100 flex-wrap bg-slate-50/50">
                     <div>
                         <h2 class="text-sm font-bold text-slate-700">Hierarki RENSTRA</h2>
-                        <p class="text-xs text-slate-400 mt-0.5">Tampilan berdasarkan fakultas & periode</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Tampilan berdasarkan bidang, fakultas & periode</p>
                     </div>
                     <div class="flex items-center gap-3">
+                        <select id="filter-bidang" onchange="renderTree()"
+                            class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
+                            <option value="">Semua Bidang</option>
+                            @foreach($bidangList as $b)
+                            <option value="{{ $b->id }}">{{ $b->kode_bidang }} - {{ $b->nama_bidang }}</option>
+                            @endforeach
+                        </select>
                         <select id="filter-fakultas" onchange="renderTree()"
                             class="simple-select border border-slate-200 rounded-xl px-3 py-3 text-xs text-slate-600 outline-none focus:border-blue-400 cursor-pointer">
                             <option value="">Semua Fakultas</option>
@@ -129,7 +136,25 @@
             <div class="px-6 py-5 space-y-5 max-h-[75vh] overflow-y-auto bg-slate-50/30">
                 <input type="hidden" id="edit-id">
 
-                {{-- Fakultas & Periode --}}
+                {{-- Bidang & Kode Sasaran --}}
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Bidang <span class="text-red-500">*</span></label>
+                        <select id="f-bidang"
+                            class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="">Pilih Bidang</option>
+                            @foreach($bidangList as $b)
+                            <option value="{{ $b->id }}">{{ $b->kode_bidang }} - {{ $b->nama_bidang }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Sasaran</label>
+                        <input id="f-kode" type="text" placeholder="SS1" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
+                    </div>
+                </div>
+
+                {{-- Fakultas --}}
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">Fakultas <span class="text-red-500">*</span></label>
@@ -142,8 +167,6 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Sasaran</label>
-                        <input id="f-kode" type="text" placeholder="SS1" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
                     </div>
                 </div>
 
@@ -241,6 +264,7 @@
     let renstraData = @json($flatRenstra ?? []);
     let canWriteRenstra = @json(auth()->user()->canWrite('renstra'));
     let fakultasList = @json($fakultasList);
+    let bidangList = @json($bidangList);
     let deleteTargetId = null;
 
     function getFakultasName(id) {
@@ -248,19 +272,26 @@
         return f ? f.kode_fakultas + ' (' + f.nama_fakultas + ')' : 'Semua';
     }
 
-    function getGroupedData(fakultasId, periodeKey) {
+    function getBidangName(id) {
+        const b = bidangList.find(x => x.id === id);
+        return b ? b.nama_bidang : 'Tanpa Bidang';
+    }
+
+    function getGroupedData(bidangId, fakultasId, periodeKey) {
         const filtered = renstraData.filter(d => {
+            let matchBid = !bidangId || d.bidang_id == bidangId;
             let matchFak = !fakultasId || d.fakultas_id == fakultasId;
             let matchPeriode = !periodeKey || (d.tahunMulai + '-' + d.tahunSelesai) === periodeKey;
-            return matchFak && matchPeriode;
+            return matchBid && matchFak && matchPeriode;
         });
         return filtered;
     }
 
     function renderTree() {
+        const bidangId = document.getElementById('filter-bidang').value;
         const fakultasId = document.getElementById('filter-fakultas').value;
         const periodeKey = document.getElementById('filter-periode').value;
-        const data = getGroupedData(fakultasId, periodeKey);
+        const data = getGroupedData(bidangId, fakultasId, periodeKey);
         const container = document.getElementById('tree-container');
         const emptyState = document.getElementById('empty-state');
 
@@ -271,76 +302,101 @@
         }
         emptyState.classList.add('hidden');
 
-        let html = '';
+        // Group data by bidang
+        const grouped = {};
         data.forEach(r => {
-            const programCount = r.totalProgram || 0;
-            const statusBadge = r.status === 'tercapai' ? 'bg-emerald-100 text-emerald-700' :
-                                r.status === 'dalam_proses' ? 'bg-amber-100 text-amber-700' :
-                                'bg-slate-100 text-slate-500';
+            const bid = r.bidang_id || 'null';
+            if (!grouped[bid]) grouped[bid] = { bidang: r.bidang || 'Tanpa Bidang', items: [] };
+            grouped[bid].items.push(r);
+        });
 
+        let html = '';
+        Object.keys(grouped).forEach(bid => {
+            const g = grouped[bid];
             html += `
-                <div class="tree-node mb-4 last:mb-0">
-                    <div class="flex items-center justify-between gap-3 p-4 bg-white border-2 border-sky-100 rounded-xl shadow-sm relative z-10">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-sky-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-sky-500/20">
-                                <span class="text-[11px] font-bold text-white">${r.sasaranKode || 'RS'}</span>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-bold text-sky-500 uppercase tracking-wider mb-0.5">Sasaran Strategis</p>
-                                <p class="text-base font-extrabold text-slate-800">${r.sasaranNama}</p>
-                                <div class="flex items-center gap-3 mt-1">
-                                    <span class="text-[11px] text-slate-400">${getFakultasName(r.fakultas_id)}</span>
-                                    <span class="text-[11px] text-slate-400">Periode ${r.tahunMulai} - ${r.tahunSelesai}</span>
-                                    <span class="text-[11px] text-slate-400">${programCount} Program</span>
+                <div class="mb-6">
+                    <div class="flex items-center gap-3 mb-3 px-1">
+                        <div class="w-8 h-8 rounded-lg bg-violet-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-violet-500/20">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 003.182 0l5.178-5.178a2.25 2.25 0 000-3.182l-9.581-9.581A2.25 2.25 0 009.568 3z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-extrabold text-slate-800">${g.bidang}</p>
+                            <p class="text-[11px] text-slate-400">${g.items.length} Sasaran Strategis</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3 pl-6 border-l-2 border-violet-100">`;
+
+            g.items.forEach(r => {
+                const programCount = r.totalProgram || 0;
+                const statusBadge = r.status === 'tercapai' ? 'bg-emerald-100 text-emerald-700' :
+                                    r.status === 'dalam_proses' ? 'bg-amber-100 text-amber-700' :
+                                    'bg-slate-100 text-slate-500';
+
+                html += `
+                    <div class="tree-node mb-3 last:mb-0">
+                        <div class="flex items-center justify-between gap-3 p-4 bg-white border-2 border-sky-100 rounded-xl shadow-sm relative z-10">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-sky-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-sky-500/20">
+                                    <span class="text-[11px] font-bold text-white">${r.sasaranKode || 'RS'}</span>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-bold text-sky-500 uppercase tracking-wider mb-0.5">Sasaran Strategis</p>
+                                    <p class="text-base font-extrabold text-slate-800">${r.sasaranNama}</p>
+                                    <div class="flex items-center gap-3 mt-1">
+                                        <span class="text-[11px] text-slate-400">${getFakultasName(r.fakultas_id)}</span>
+                                        <span class="text-[11px] text-slate-400">Periode ${r.tahunMulai} - ${r.tahunSelesai}</span>
+                                        <span class="text-[11px] text-slate-400">${programCount} Program</span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${statusBadge}">${r.status?.replace('_', ' ') || 'Belum Tercapai'}</span>
+                                ${canWriteRenstra ? `
+                                <div class="flex gap-1">
+                                    <button onclick="editRenstra(${r.id})" class="p-2 bg-slate-50 text-sky-600 rounded-lg hover:bg-sky-100 transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125"/></svg>
+                                    </button>
+                                    <button onclick="deleteRenstra(${r.id})" class="p-2 bg-slate-50 text-red-500 rounded-lg hover:bg-red-100 transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
+                                    </button>
+                                </div>
+                                ` : ''}
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${statusBadge}">${r.status?.replace('_', ' ') || 'Belum Tercapai'}</span>
-                            ${canWriteRenstra ? `
-                            <div class="flex gap-1">
-                                <button onclick="editRenstra(${r.id})" class="p-2 bg-slate-50 text-sky-600 rounded-lg hover:bg-sky-100 transition">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125"/></svg>
-                                </button>
-                                <button onclick="deleteRenstra(${r.id})" class="p-2 bg-slate-50 text-red-500 rounded-lg hover:bg-red-100 transition">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
-                                </button>
+                        ${r.strategiNama || r.programNama ? `
+                        <div class="pl-2 mt-2">
+                            ${r.strategiNama ? `
+                            <div class="tree-child">
+                                <div class="flex items-center gap-3 p-3 bg-indigo-50/60 border border-indigo-100/60 rounded-xl shadow-sm">
+                                    <div class="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider mb-0.5">Strategi RENSTRA</p>
+                                        <p class="text-sm font-bold text-slate-800">${r.strategiNama}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            ` : ''}
+                            ${r.programNama ? `
+                            <div class="tree-grandchild mt-3">
+                                <div class="flex items-center gap-3 p-3 bg-sky-50/60 border border-sky-100/60 rounded-xl shadow-sm">
+                                    <div class="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-semibold text-sky-400 uppercase tracking-wider mb-0.5">Program Tahunan</p>
+                                        <p class="text-sm font-bold text-slate-800">${r.programNama}</p>
+                                    </div>
+                                </div>
                             </div>
                             ` : ''}
                         </div>
-                    </div>
-                    ${r.strategiNama || r.programNama ? `
-                    <div class="pl-2 mt-2">
-                        ${r.strategiNama ? `
-                        <div class="tree-child">
-                            <div class="flex items-center gap-3 p-3 bg-indigo-50/60 border border-indigo-100/60 rounded-xl shadow-sm">
-                                <div class="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"/></svg>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider mb-0.5">Strategi RENSTRA</p>
-                                    <p class="text-sm font-bold text-slate-800">${r.strategiNama}</p>
-                                </div>
-                            </div>
-                        </div>
                         ` : ''}
-                        ${r.programNama ? `
-                        <div class="tree-grandchild mt-3">
-                            <div class="flex items-center gap-3 p-3 bg-sky-50/60 border border-sky-100/60 rounded-xl shadow-sm">
-                                <div class="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] font-semibold text-sky-400 uppercase tracking-wider mb-0.5">Program Tahunan</p>
-                                    <p class="text-sm font-bold text-slate-800">${r.programNama}</p>
-                                </div>
-                            </div>
-                        </div>
-                        ` : ''}
-                    </div>
-                    ` : ''}
-                </div>
-            `;
+                    </div>`;
+            });
+
+            html += `</div></div>`;
         });
 
         container.innerHTML = html;
@@ -354,6 +410,7 @@
             const row = renstraData.find(d => d.id === id);
             if (row) {
                 document.getElementById('modal-title-text').textContent = 'Edit Data RENSTRA';
+                document.getElementById('f-bidang').value = row.bidang_id || '';
                 document.getElementById('f-fakultas').value = row.fakultas_id || '';
                 document.getElementById('f-kode').value = row.sasaranKode || '';
                 document.getElementById('f-sasaran').value = row.sasaranNama || '';
@@ -365,6 +422,7 @@
             }
         } else {
             document.getElementById('modal-title-text').textContent = 'Tambah Data RENSTRA';
+            document.getElementById('f-bidang').value = document.getElementById('filter-bidang').value || '';
             document.getElementById('f-fakultas').value = document.getElementById('filter-fakultas').value || '';
             document.getElementById('f-kode').value = '';
             document.getElementById('f-sasaran').value = '';
@@ -386,6 +444,7 @@
 
     function saveRenstra() {
         const id = document.getElementById('edit-id').value;
+        const bidangId = document.getElementById('f-bidang').value;
         const fakultasId = document.getElementById('f-fakultas').value;
         const kode = document.getElementById('f-kode').value.trim();
         const sasaran = document.getElementById('f-sasaran').value.trim();
@@ -397,8 +456,8 @@
 
         const errEl = document.getElementById('form-error');
 
-        if (!fakultasId || !sasaran || !tahunMulai || !tahunSelesai) {
-            errEl.textContent = 'Fakultas, Sasaran, Tahun Mulai, dan Tahun Selesai wajib diisi.';
+        if (!bidangId || !fakultasId || !sasaran || !tahunMulai || !tahunSelesai) {
+            errEl.textContent = 'Bidang, Fakultas, Sasaran, Tahun Mulai, dan Tahun Selesai wajib diisi.';
             errEl.classList.remove('hidden');
             return;
         }
@@ -410,6 +469,7 @@
         errEl.classList.add('hidden');
 
         const payload = {
+            bidang_id: bidangId || null,
             fakultas_id: fakultasId || null,
             kode: kode || null,
             sasaran: sasaran,

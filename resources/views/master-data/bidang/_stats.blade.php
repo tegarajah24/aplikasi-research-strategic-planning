@@ -8,11 +8,13 @@
                     Bidang
                 </span>
                 <x-icon name="chevron-right" class="w-4 h-4 text-blue-300" />
+                <span class="bg-white/10 rounded-lg px-3 py-1.5 text-blue-100">RENSTRA</span>
+                <x-icon name="chevron-right" class="w-4 h-4 text-blue-300" />
                 <span class="bg-white/10 rounded-lg px-3 py-1.5 text-blue-100">Program</span>
                 <x-icon name="chevron-right" class="w-4 h-4 text-blue-300" />
                 <span class="bg-white/10 rounded-lg px-3 py-1.5 text-blue-100">Kegiatan</span>
             </div>
-            <p class="text-blue-200/80 text-xs mt-3 leading-relaxed">Bidang adalah master kategori paling atas. Setiap bidang memiliki beberapa program, dan setiap program memiliki kegiatan yang dapat dijadwalkan dalam RKT.</p>
+            <p class="text-blue-200/80 text-xs mt-3 leading-relaxed">Bidang adalah payung kategori tertinggi dalam perencanaan RENOP. Setiap bidang membawahi beberapa RENSTRA (sasaran strategis), yang kemudian memiliki program dan kegiatan operasional.</p>
         </div>
         <div class="flex gap-3 flex-wrap">
             <div class="bg-white/15 backdrop-blur rounded-xl px-4 py-3 text-center min-w-[70px]">

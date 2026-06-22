@@ -45,25 +45,27 @@ function renderStats() {
 
 function populateSelects() {
     const filterSel = document.getElementById('filter-bidang');
-    const formSel   = document.getElementById('f-bidang');
     bidangMaster.forEach(b => {
-        [filterSel, formSel].forEach(sel => {
-            const opt = document.createElement('option');
-            opt.value = b.id;
-            opt.textContent = b.nama;
-            sel.appendChild(opt);
-        });
+        const opt = document.createElement('option');
+        opt.value = b.id;
+        opt.textContent = b.nama;
+        filterSel.appendChild(opt);
     });
 }
 
+function getBidangFromRenstra(renstraId) {
+    const p = programData.find(p => p.renstraId === renstraId);
+    if (p) return getBidang(p.bidangId);
+    return null;
+}
+
 function autoKode() {
-    const bidId = parseInt(document.getElementById('f-bidang').value);
+    const renstraId = parseInt(document.getElementById('f-renstra').value);
     const editId = document.getElementById('edit-id').value;
-    if (!bidId) { document.getElementById('f-kode').value=''; document.getElementById('kode-preview').classList.add('hidden'); return; }
-    const b = getBidang(bidId);
-    const existing = programData.filter(p => p.bidangId === bidId && (!editId || p.id !== parseInt(editId)));
+    if (!renstraId) { document.getElementById('f-kode').value=''; document.getElementById('kode-preview').classList.add('hidden'); return; }
+    const existing = programData.filter(p => p.renstraId === renstraId && (!editId || p.id !== parseInt(editId)));
     const nextNum = existing.length + 1;
-    const kode = `${b.no}.${nextNum}`;
+    const kode = `${renstraId}.${nextNum}`;
     document.getElementById('f-kode').value = kode;
     const prev = document.getElementById('kode-preview');
     prev.textContent = kode;
@@ -314,7 +316,6 @@ function closeDrawer() {
 function openModal(id = null) {
     document.getElementById('edit-id').value     = id || '';
     document.getElementById('f-renstra').value   = '';
-    document.getElementById('f-bidang').value    = '';
     document.getElementById('f-kode').value      = '';
     document.getElementById('f-nama').value      = '';
     document.getElementById('f-status').value    = 'Aktif';
@@ -326,7 +327,6 @@ function openModal(id = null) {
         const p = programData.find(x => x.id === id);
         if (p) {
             document.getElementById('f-renstra').value  = p.renstraId || '';
-            document.getElementById('f-bidang').value   = p.bidangId;
             document.getElementById('f-kode').value     = p.kode;
             document.getElementById('f-nama').value     = p.nama;
             document.getElementById('f-status').value   = p.status;
@@ -348,14 +348,13 @@ function closeModal() {
 function saveProgram() {
     const id       = document.getElementById('edit-id').value;
     const renstraId = parseInt(document.getElementById('f-renstra').value);
-    const bidangId = parseInt(document.getElementById('f-bidang').value);
     const kode     = document.getElementById('f-kode').value.trim();
     const nama     = document.getElementById('f-nama').value.trim();
     const status   = document.getElementById('f-status').value;
     const errEl    = document.getElementById('form-error');
 
-    if (!renstraId || !bidangId || !kode || !nama) {
-        errEl.textContent = 'RENSTRA, Bidang, Kode Program, dan Nama Program wajib diisi.';
+    if (!renstraId || !kode || !nama) {
+        errEl.textContent = 'RENSTRA, Kode Program, dan Nama Program wajib diisi.';
         errEl.classList.remove('hidden');
         return;
     }
@@ -369,7 +368,6 @@ function saveProgram() {
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
         body: JSON.stringify({
             renstra_id: renstraId,
-            bidang_id: bidangId,
             kode_program: kode,
             nama_program: nama,
             deskripsi: '',

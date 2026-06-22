@@ -15,7 +15,6 @@ class UpdateProgramRequest extends FormRequest
     {
         return [
             'renstra_id'       => 'required|exists:renstra,id',
-            'bidang_id'        => 'required|exists:bidangs,id',
             'kode_program'     => 'required|string|max:20',
             'nama_program'     => 'required|string|max:255',
             'deskripsi'        => 'nullable|string',

@@ -14,7 +14,7 @@ class BidangController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Bidang::with('programs.kegiatans');
+        $query = Bidang::with('renstras.fakultas', 'renstras.programs.kegiatans');
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -35,18 +35,29 @@ class BidangController extends Controller
         $totalProgram  = Program::count();
         $totalKegiatan = Kegiatan::count();
 
-        $bidangList = Bidang::with('programs.kegiatans')->get()->map(function ($b) {
+        $bidangList = Bidang::with('renstras.programs.kegiatans')->get()->map(function ($b) {
             return [
                 'id'        => $b->id,
                 'kode'      => $b->kode_bidang,
                 'nama'      => $b->nama_bidang,
                 'deskripsi' => $b->deskripsi,
                 'status'    => $b->status,
-                'programs'  => $b->programs->map(function ($p) {
+                'renstras'  => $b->renstras->map(function ($r) {
                     return [
-                        'id'       => $p->id,
-                        'nama'     => $p->nama_program,
-                        'kegiatan' => $p->kegiatans->count(),
+                        'id'           => $r->id,
+                        'fakultas'     => $r->fakultas?->nama_fakultas ?? '-',
+                        'tahunMulai'   => $r->tahun_mulai,
+                        'tahunSelesai' => $r->tahun_selesai,
+                        'sasaran'      => $r->sasaran,
+                        'strategi'     => $r->strategi,
+                        'programTahunan'=> $r->program_tahunan,
+                        'programs'     => $r->programs->map(function ($p) {
+                            return [
+                                'id'       => $p->id,
+                                'nama'     => $p->nama_program,
+                                'kegiatan' => $p->kegiatans->count(),
+                            ];
+                        }),
                     ];
                 }),
             ];

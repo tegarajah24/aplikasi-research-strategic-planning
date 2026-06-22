@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
 use App\Models\Fakultas;
+use App\Models\Bidang;
 use App\Models\Renstra;
 use Illuminate\Http\Request;
 
@@ -11,14 +12,15 @@ class RenstraController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Renstra::with('fakultas', 'programs');
+        $query = Renstra::with('fakultas', 'bidang', 'programs');
 
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('sasaran', 'like', "%{$search}%")
                   ->orWhere('strategi', 'like', "%{$search}%")
-                  ->orWhere('program_tahunan', 'like', "%{$search}%");
+                  ->orWhere('program_tahunan', 'like', "%{$search}%")
+                  ->orWhere('kode', 'like', "%{$search}%");
             });
         }
 
@@ -26,15 +28,22 @@ class RenstraController extends Controller
             $query->where('fakultas_id', $request->fakultas_id);
         }
 
+        if ($request->filled('bidang_id')) {
+            $query->where('bidang_id', $request->bidang_id);
+        }
+
         $renstras = $query->latest()->paginate(10)->withQueryString();
 
         $fakultasList = Fakultas::orderBy('kode_fakultas', 'asc')->get();
+        $bidangList = Bidang::orderBy('kode_bidang', 'asc')->get();
 
         $flatRenstra = $renstras->map(function ($r) {
             return [
                 'id' => $r->id,
                 'fakultas_id' => $r->fakultas_id,
+                'bidang_id' => $r->bidang_id,
                 'fakultas' => $r->fakultas?->nama_fakultas ?? 'Semua',
+                'bidang' => $r->bidang?->nama_bidang ?? 'Tanpa Bidang',
                 'tahunMulai' => $r->tahun_mulai,
                 'tahunSelesai' => $r->tahun_selesai,
                 'sasaranKode' => $r->kode,
@@ -46,7 +55,7 @@ class RenstraController extends Controller
             ];
         })->toArray();
 
-        return view('master-data.renstra.index', compact('renstras', 'flatRenstra', 'fakultasList'));
+        return view('master-data.renstra.index', compact('renstras', 'flatRenstra', 'fakultasList', 'bidangList'));
     }
 
     public function store(Request $request)
@@ -56,6 +65,7 @@ class RenstraController extends Controller
         }
 
         $validated = $request->validate([
+            'bidang_id'       => 'nullable|exists:bidangs,id',
             'fakultas_id'     => 'nullable|exists:fakultas,id',
             'kode'            => 'nullable|string|max:20',
             'sasaran'         => 'required|string|max:255',
@@ -78,6 +88,7 @@ class RenstraController extends Controller
         }
 
         $validated = $request->validate([
+            'bidang_id'       => 'nullable|exists:bidangs,id',
             'fakultas_id'     => 'nullable|exists:fakultas,id',
             'kode'            => 'nullable|string|max:20',
             'sasaran'         => 'required|string|max:255',

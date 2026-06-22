@@ -28,15 +28,6 @@
                 </select>
             </div>
 
-            {{-- Bidang (select) --}}
-            <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Bidang <span class="text-red-400">*</span></label>
-                <select id="f-bidang" onchange="autoKode()"
-                    class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                    <option value="">-- Pilih Bidang --</option>
-                </select>
-            </div>
-
             {{-- Kode (auto-generated tapi bisa diedit) --}}
             <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1.5">Kode Program <span class="text-red-400">*</span></label>

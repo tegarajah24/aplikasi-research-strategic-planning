@@ -5,11 +5,13 @@
             <div class="flex items-center gap-2 flex-wrap text-sm font-medium mt-2">
                 <span class="rounded-lg px-3 py-1.5 text-sm" style="background:rgba(255,255,255,.12);color:#e0e7ff">Bidang</span>
                 <x-icon name="chevron-right" class="w-4 h-4" style="color:#a5b4fc" />
+                <span class="rounded-lg px-3 py-1.5 text-sm" style="background:rgba(255,255,255,.12);color:#e0e7ff">RENSTRA</span>
+                <x-icon name="chevron-right" class="w-4 h-4" style="color:#a5b4fc" />
                 <span class="rounded-lg px-3 py-1.5 text-sm font-bold" style="background:rgba(255,255,255,.25);color:#fff">Program</span>
                 <x-icon name="chevron-right" class="w-4 h-4" style="color:#a5b4fc" />
                 <span class="rounded-lg px-3 py-1.5 text-sm" style="background:rgba(255,255,255,.12);color:#e0e7ff">Kegiatan</span>
             </div>
-            <p class="text-xs mt-3 leading-relaxed" style="color:rgba(224,231,255,.75)">Program merupakan turunan langsung dari Bidang. Setiap program memiliki beberapa kegiatan yang dijadwalkan dalam RKT. Kode program di-generate otomatis berdasarkan urutan dalam bidang.</p>
+            <p class="text-xs mt-3 leading-relaxed" style="color:rgba(224,231,255,.75)">Program merupakan turunan dari RENSTRA per Bidang. Setiap program memiliki kegiatan yang dijadwalkan dalam RKT. Kode program di-generate otomatis berdasarkan RENSTRA.</p>
         </div>
         <div class="flex gap-3 flex-wrap">
             <div class="rounded-xl px-4 py-3 text-center min-w-[70px]" style="background:rgba(255,255,255,.15)">

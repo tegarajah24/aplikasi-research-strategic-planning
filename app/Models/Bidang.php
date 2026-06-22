@@ -13,8 +13,18 @@ class Bidang extends Model
         'status',
     ];
 
+    public function renstras()
+    {
+        return $this->hasMany(Renstra::class);
+    }
+
     public function programs()
     {
-        return $this->hasMany(Program::class);
+        return $this->hasManyThrough(Program::class, Renstra::class);
+    }
+
+    public function kegiatans()
+    {
+        return $this->hasManyThrough(Kegiatan::class, Program::class, 'renstra_id', 'program_id');
     }
 }
