@@ -21,7 +21,7 @@
                     <option value="">-- Pilih RENSTRA --</option>
                     @foreach($renstraList as $r)
                     <option value="{{ $r->id }}">
-                        [{{ $r->kode }}] {{ $r->sasaran }} ({{ $r->tahun_mulai }}-{{ $r->tahun_selesai }})
+                        [{{ $r->kode }}] {{ $r->sasarans->first()?->sasaran ?? 'Tanpa Sasaran' }} ({{ $r->tahun_mulai }}-{{ $r->tahun_selesai }})
                         {{ $r->fakultas ? '- ' . $r->fakultas->kode_fakultas : '' }}
                     </option>
                     @endforeach

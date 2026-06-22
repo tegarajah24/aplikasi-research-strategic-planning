@@ -44,7 +44,7 @@ class ProgramController extends Controller
         $totalProgram  = Program::count();
         $totalKegiatan = Kegiatan::count();
         $bidangs       = Bidang::withCount('programs')->get();
-        $renstraList   = Renstra::with('fakultas', 'bidang')->orderBy('tahun_mulai', 'desc')->get();
+        $renstraList   = Renstra::with('fakultas', 'bidang', 'sasarans')->orderBy('tahun_mulai', 'desc')->get();
 
         $bidangMaster = Bidang::all()->map(function ($b, $i) {
             $colors = ['#3b82f6','#6366f1','#8b5cf6','#10b981','#f59e0b','#ef4444','#ec4899','#14b8a6'];
@@ -56,7 +56,9 @@ class ProgramController extends Controller
             ];
         });
 
-        $programList = Program::with('renstra.bidang', 'renstra.fakultas', 'kegiatans')->get()->map(function ($p) {
+        $programList = Program::with('renstra.bidang', 'renstra.fakultas', 'renstra.sasarans.strategis.programs', 'kegiatans')->get()->map(function ($p) {
+            $firstSasaran  = $p->renstra?->sasarans->first();
+            $firstStrategi = $firstSasaran?->strategis->first();
             return [
                 'id'           => $p->id,
                 'renstraId'    => $p->renstra_id,
@@ -64,9 +66,9 @@ class ProgramController extends Controller
                 'fakultasId'   => $p->renstra?->fakultas_id,
                 'kode'         => $p->kode_program,
                 'nama'         => $p->nama_program,
-                'sasaran'      => $p->renstra?->sasaran ?? '',
-                'strategi'     => $p->renstra?->strategi ?? '',
-                'rkt'          => $p->renstra?->program_tahunan ?? '',
+                'sasaran'      => $firstSasaran?->sasaran ?? '',
+                'strategi'     => $firstStrategi?->strategi ?? '',
+                'rkt'          => $firstStrategi?->programs->first()?->program_tahunan ?? '',
                 'status'       => $p->status,
                 'kegiatan'     => $p->kegiatans->map(function ($k) {
                     return [

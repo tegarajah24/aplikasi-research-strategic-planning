@@ -12,9 +12,6 @@ class Renstra extends Model
         'bidang_id',
         'fakultas_id',
         'kode',
-        'sasaran',
-        'strategi',
-        'program_tahunan',
         'tahun_mulai',
         'tahun_selesai',
         'status',
@@ -28,6 +25,11 @@ class Renstra extends Model
     public function fakultas()
     {
         return $this->belongsTo(Fakultas::class);
+    }
+
+    public function sasarans()
+    {
+        return $this->hasMany(RenstraSasaran::class)->orderBy('urutan');
     }
 
     public function programs()

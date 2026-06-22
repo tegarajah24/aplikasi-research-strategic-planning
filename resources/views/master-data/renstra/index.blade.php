@@ -29,6 +29,7 @@
             background:#e2e8f0;
         }
         .tree-child:last-child::before { height:22px; }
+        .tree-child:only-child::after { top:18px; }
 
         .tree-grandchild { position:relative; padding-left:36px; margin-top:4px; }
         .tree-grandchild::before {
@@ -42,6 +43,7 @@
             background:#e2e8f0;
         }
         .tree-grandchild:last-child::before { height:18px; }
+        .tree-grandchild:only-child::after { top:14px; }
 
         #renstra-modal, #del-modal { transition: opacity .25s ease, visibility .25s ease; }
         #renstra-modal.modal-closed, #del-modal.modal-closed {
@@ -59,6 +61,15 @@
         #renstra-modal:not(.modal-closed) > .modal-panel,
         #del-modal:not(.modal-closed) > .modal-panel {
             transform: scale(1) translateY(0);
+        }
+        .btn-add { transition: all .15s; }
+        .btn-add:hover { transform: translateY(-1px); }
+        .btn-remove { transition: all .15s; }
+        .btn-remove:hover { background: #fef2f2; color: #dc2626; }
+        .repeater-item { animation: slideIn .2s ease; }
+        @keyframes slideIn {
+            from { opacity:0; transform:translateY(-6px); }
+            to { opacity:1; transform:translateY(0); }
         }
     </style>
 
@@ -121,7 +132,7 @@
     {{-- ── Add/Edit Modal ── --}}
     <div id="renstra-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-900/50" onclick="closeModal()"></div>
-        <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-xl z-10">
+        <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl z-10">
             <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
                     <h3 id="modal-title-text" class="text-base font-bold text-slate-800">Tambah Data RENSTRA</h3>
@@ -194,30 +205,21 @@
                     </div>
                 </div>
 
-                <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm space-y-4">
-                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Sasaran Strategis</h4>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nama Sasaran <span class="text-red-500">*</span></label>
-                        <input id="f-sasaran" type="text" placeholder="Contoh: Meningkatkan kualitas penelitian dosen" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
+                {{-- Nested Repeater: Sasaran → Strategi → Program Tahunan --}}
+                <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
+                        <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Sasaran Strategis</h4>
+                        <button onclick="addSasaran()" type="button" class="btn-add text-[11px] font-semibold text-sky-600 hover:text-sky-800 bg-sky-50 hover:bg-sky-100 px-3 py-1.5 rounded-lg flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                            Tambah Sasaran
+                        </button>
                     </div>
+                    <div id="sasaran-container" class="space-y-3">
+                    </div>
+                    <p id="sasaran-empty" class="text-xs text-slate-400 text-center py-2">Belum ada sasaran. Klik "Tambah Sasaran" untuk mulai.</p>
                 </div>
 
-                <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm space-y-4">
-                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Strategi RENSTRA</h4>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nama Strategi</label>
-                        <input id="f-strategi" type="text" placeholder="Contoh: Mendorong penelitian nasional" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
-                    </div>
-                </div>
-
-                <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm space-y-4">
-                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Program Tahunan</h4>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nama Program Tahunan</label>
-                        <input id="f-program" type="text" placeholder="Contoh: Program peningkatan publikasi ilmiah" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
-                    </div>
-                </div>
-
+                {{-- Status --}}
                 <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
                     <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 border-b border-slate-100 pb-2">Status Capaian</h4>
                     <div>
@@ -267,6 +269,11 @@
     let bidangList = @json($bidangList);
     let deleteTargetId = null;
 
+    // ── Repeater state ──
+    let sasaranCounter = 0;
+    let strategiCounters = {};
+    let programCounters = {};
+
     function getFakultasName(id) {
         const f = fakultasList.find(x => x.id === id);
         return f ? f.kode_fakultas + ' (' + f.nama_fakultas + ')' : 'Semua';
@@ -287,6 +294,165 @@
         return filtered;
     }
 
+    // ── Repeater helpers ──
+    function sasaranTemplate(sasaranVal, strategisHtml) {
+        sasaranCounter++;
+        const idx = sasaranCounter;
+        return `
+            <div class="repeater-item sasaran-group p-3 bg-sky-50/40 border border-sky-100 rounded-xl" data-sasaran-idx="${idx}">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold text-sky-600 uppercase tracking-wider">Sasaran #${idx}</span>
+                    <button onclick="removeSasaran(this)" type="button" class="btn-remove text-[11px] text-slate-400 hover:text-red-600 bg-white hover:bg-red-50 px-2 py-1 rounded-lg flex items-center gap-1 border border-slate-200">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        Hapus
+                    </button>
+                </div>
+                <input type="text" class="sasaran-input w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition" placeholder="Contoh: Meningkatkan kualitas penelitian dosen" value="${sasaranVal || ''}">
+                <div class="mt-3 pl-4 border-l-2 border-sky-100 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-semibold text-indigo-500 uppercase tracking-wider">Strategi</span>
+                        <button onclick="addStrategi(this)" type="button" class="btn-add text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-lg flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                            Tambah Strategi
+                        </button>
+                    </div>
+                    <div class="strategi-container space-y-2">
+                        ${strategisHtml || ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function strategiTemplate(strategiVal, programsHtml) {
+        const sIdx = sasaranCounter;
+        if (!strategiCounters[sIdx]) strategiCounters[sIdx] = 0;
+        strategiCounters[sIdx]++;
+        const stIdx = strategiCounters[sIdx];
+        return `
+            <div class="repeater-item strategi-group p-2.5 bg-indigo-50/30 border border-indigo-100/60 rounded-lg" data-strategi-idx="${stIdx}">
+                <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">Strategi #${stIdx}</span>
+                    <button onclick="removeStrategi(this)" type="button" class="btn-remove text-[10px] text-slate-400 hover:text-red-600 bg-white hover:bg-red-50 px-2 py-0.5 rounded-lg border border-slate-200">
+                        <svg class="w-2.5 h-2.5 inline" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        Hapus
+                    </button>
+                </div>
+                <input type="text" class="strategi-input w-full border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400 transition" placeholder="Contoh: Mendorong penelitian nasional" value="${strategiVal || ''}">
+                <div class="mt-2 pl-3 border-l-2 border-indigo-100 space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-semibold text-sky-500 uppercase tracking-wider">Program Tahunan</span>
+                        <button onclick="addProgram(this)" type="button" class="btn-add text-[10px] font-semibold text-sky-600 hover:text-sky-800 bg-sky-50 hover:bg-sky-100 px-2 py-0.5 rounded-lg flex items-center gap-1">
+                            <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                            Tambah Program
+                        </button>
+                    </div>
+                    <div class="program-container space-y-1.5">
+                        ${programsHtml || ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function programTemplate(programVal) {
+        return `
+            <div class="repeater-item program-group flex items-center gap-2 p-2 bg-sky-50/40 border border-sky-100/60 rounded-lg">
+                <input type="text" class="program-input flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-sm outline-none focus:border-sky-400 transition" placeholder="Contoh: Program peningkatan publikasi" value="${programVal || ''}">
+                <button onclick="removeProgram(this)" type="button" class="btn-remove text-slate-400 hover:text-red-600 bg-white hover:bg-red-50 p-1 rounded-lg border border-slate-200 flex-shrink-0">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+        `;
+    }
+
+    function addSasaran(sasaranVal, strategisData) {
+        const container = document.getElementById('sasaran-container');
+        const empty = document.getElementById('sasaran-empty');
+        if (empty) empty.style.display = 'none';
+
+        let strategisHtml = '';
+        if (strategisData && strategisData.length) {
+            strategisData.forEach(sd => {
+                let programsHtml = '';
+                if (sd.programs && sd.programs.length) {
+                    sd.programs.forEach(pd => {
+                        programsHtml += programTemplate(pd.program_tahunan || '');
+                    });
+                }
+                strategisHtml += strategiTemplate(sd.strategi || '', programsHtml);
+            });
+        }
+
+        container.insertAdjacentHTML('beforeend', sasaranTemplate(sasaranVal || '', strategisHtml));
+    }
+
+    function addStrategi(btn, strategiVal, programsData) {
+        const container = btn.closest('.sasaran-group').querySelector('.strategi-container');
+        let programsHtml = '';
+        if (programsData && programsData.length) {
+            programsData.forEach(pd => {
+                programsHtml += programTemplate(pd.program_tahunan || '');
+            });
+        }
+        container.insertAdjacentHTML('beforeend', strategiTemplate(strategiVal || '', programsHtml));
+    }
+
+    function addProgram(btn, programVal) {
+        const container = btn.closest('.strategi-group').querySelector('.program-container');
+        container.insertAdjacentHTML('beforeend', programTemplate(programVal || ''));
+    }
+
+    function removeSasaran(btn) {
+        btn.closest('.sasaran-group').remove();
+        const container = document.getElementById('sasaran-container');
+        if (container.children.length === 0) {
+            document.getElementById('sasaran-empty').style.display = 'block';
+        }
+    }
+
+    function removeStrategi(btn) {
+        btn.closest('.strategi-group').remove();
+    }
+
+    function removeProgram(btn) {
+        btn.closest('.program-group').remove();
+    }
+
+    // ── Collect form data ──
+    function collectSasarans() {
+        const groups = document.querySelectorAll('#sasaran-container > .sasaran-group');
+        const result = [];
+        groups.forEach(g => {
+            const sasaranInput = g.querySelector('.sasaran-input');
+            const sasaranVal = sasaranInput ? sasaranInput.value.trim() : '';
+            if (!sasaranVal) return;
+
+            const strategiGroups = g.querySelectorAll('.strategi-container > .strategi-group');
+            const strategis = [];
+            strategiGroups.forEach(sg => {
+                const strategiInput = sg.querySelector('.strategi-input');
+                const strategiVal = strategiInput ? strategiInput.value.trim() : '';
+                if (!strategiVal) return;
+
+                const programGroups = sg.querySelectorAll('.program-container > .program-group');
+                const programs = [];
+                programGroups.forEach(pg => {
+                    const progInput = pg.querySelector('.program-input');
+                    const progVal = progInput ? progInput.value.trim() : '';
+                    if (!progVal) return;
+                    programs.push({ program_tahunan: progVal });
+                });
+
+                strategis.push({ strategi: strategiVal, programs });
+            });
+
+            result.push({ sasaran: sasaranVal, strategis });
+        });
+        return result;
+    }
+
+    // ── Tree rendering ──
     function renderTree() {
         const bidangId = document.getElementById('filter-bidang').value;
         const fakultasId = document.getElementById('filter-fakultas').value;
@@ -302,7 +468,6 @@
         }
         emptyState.classList.add('hidden');
 
-        // Group data by bidang
         const grouped = {};
         data.forEach(r => {
             const bid = r.bidang_id || 'null';
@@ -321,13 +486,15 @@
                         </div>
                         <div>
                             <p class="text-sm font-extrabold text-slate-800">${g.bidang}</p>
-                            <p class="text-[11px] text-slate-400">${g.items.length} Sasaran Strategis</p>
+                            <p class="text-[11px] text-slate-400">${g.items.length} Entri RENSTRA</p>
                         </div>
                     </div>
                     <div class="space-y-3 pl-6 border-l-2 border-violet-100">`;
 
             g.items.forEach(r => {
-                const programCount = r.totalProgram || 0;
+                const sasarans = r.sasarans || [];
+                const totalProgram = sasarans.reduce((sum, s) => sum + (s.strategis || []).reduce((ss, st) => ss + (st.programs || []).length, 0), 0);
+                const totalStrategi = sasarans.reduce((sum, s) => sum + (s.strategis || []).length, 0);
                 const statusBadge = r.status === 'tercapai' ? 'bg-emerald-100 text-emerald-700' :
                                     r.status === 'dalam_proses' ? 'bg-amber-100 text-amber-700' :
                                     'bg-slate-100 text-slate-500';
@@ -337,20 +504,20 @@
                         <div class="flex items-center justify-between gap-3 p-4 bg-white border-2 border-sky-100 rounded-xl shadow-sm relative z-10">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-xl bg-sky-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-sky-500/20">
-                                    <span class="text-[11px] font-bold text-white">${r.sasaranKode || 'RS'}</span>
+                                    <span class="text-[11px] font-bold text-white">${r.kode || 'RS'}</span>
                                 </div>
                                 <div>
-                                    <p class="text-[10px] font-bold text-sky-500 uppercase tracking-wider mb-0.5">Sasaran Strategis</p>
-                                    <p class="text-base font-extrabold text-slate-800">${r.sasaranNama}</p>
+                                    <p class="text-[10px] font-bold text-sky-500 uppercase tracking-wider mb-0.5">RENSTRA</p>
+                                    <p class="text-xs font-semibold text-slate-600">${getFakultasName(r.fakultas_id)} — Periode ${r.tahunMulai} - ${r.tahunSelesai}</p>
                                     <div class="flex items-center gap-3 mt-1">
-                                        <span class="text-[11px] text-slate-400">${getFakultasName(r.fakultas_id)}</span>
-                                        <span class="text-[11px] text-slate-400">Periode ${r.tahunMulai} - ${r.tahunSelesai}</span>
-                                        <span class="text-[11px] text-slate-400">${programCount} Program</span>
+                                        <span class="text-[11px] text-slate-400">${sasarans.length} Sasaran</span>
+                                        <span class="text-[11px] text-slate-400">${totalStrategi} Strategi</span>
+                                        <span class="text-[11px] text-slate-400">${totalProgram} Program Tahunan</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${statusBadge}">${r.status?.replace('_', ' ') || 'Belum Tercapai'}</span>
+                                <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${statusBadge}">${r.status?.replace(/_/g, ' ') || 'Belum Tercapai'}</span>
                                 ${canWriteRenstra ? `
                                 <div class="flex gap-1">
                                     <button onclick="editRenstra(${r.id})" class="p-2 bg-slate-50 text-sky-600 rounded-lg hover:bg-sky-100 transition">
@@ -362,38 +529,65 @@
                                 </div>
                                 ` : ''}
                             </div>
-                        </div>
-                        ${r.strategiNama || r.programNama ? `
-                        <div class="pl-2 mt-2">
-                            ${r.strategiNama ? `
-                            <div class="tree-child">
-                                <div class="flex items-center gap-3 p-3 bg-indigo-50/60 border border-indigo-100/60 rounded-xl shadow-sm">
-                                    <div class="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"/></svg>
+                        </div>`;
+
+                if (sasarans.length > 0) {
+                    html += `<div class="pl-2 mt-2">`;
+                    sasarans.forEach((s, si) => {
+                        const isLastSasaran = si === sasarans.length - 1;
+                        html += `
+                            <div class="tree-child ${isLastSasaran ? 'last-sasaran' : ''}">
+                                <div class="flex items-center gap-3 p-3 bg-sky-50/60 border border-sky-100/60 rounded-xl shadow-sm mb-2">
+                                    <div class="w-9 h-9 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75 2.25 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg>
                                     </div>
                                     <div>
-                                        <p class="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider mb-0.5">Strategi RENSTRA</p>
-                                        <p class="text-sm font-bold text-slate-800">${r.strategiNama}</p>
+                                        <p class="text-[10px] font-semibold text-sky-400 uppercase tracking-wider mb-0.5">Sasaran Strategis #${si + 1}</p>
+                                        <p class="text-sm font-bold text-slate-800">${s.sasaran}</p>
                                     </div>
-                                </div>
-                            </div>
-                            ` : ''}
-                            ${r.programNama ? `
-                            <div class="tree-grandchild mt-3">
-                                <div class="flex items-center gap-3 p-3 bg-sky-50/60 border border-sky-100/60 rounded-xl shadow-sm">
-                                    <div class="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
-                                    </div>
-                                    <div>
-                                        <p class="text-[10px] font-semibold text-sky-400 uppercase tracking-wider mb-0.5">Program Tahunan</p>
-                                        <p class="text-sm font-bold text-slate-800">${r.programNama}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            ` : ''}
-                        </div>
-                        ` : ''}
-                    </div>`;
+                                </div>`;
+
+                        const strategis = s.strategis || [];
+                        if (strategis.length > 0) {
+                            strategis.forEach((st, sti) => {
+                                html += `
+                                    <div class="tree-grandchild">
+                                        <div class="flex items-center gap-3 p-3 bg-indigo-50/60 border border-indigo-100/60 rounded-xl shadow-sm mb-1">
+                                            <div class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"/></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider mb-0.5">Strategi #${sti + 1}</p>
+                                                <p class="text-sm font-bold text-slate-800">${st.strategi}</p>
+                                            </div>
+                                        </div>`;
+
+                                const programs = st.programs || [];
+                                programs.forEach((pr, pri) => {
+                                    html += `
+                                        <div class="tree-grandchild" style="margin-top:2px;padding-left:36px;">
+                                            <div class="flex items-center gap-3 p-2.5 bg-emerald-50/60 border border-emerald-100/60 rounded-xl shadow-sm">
+                                                <div class="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                                                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75 2.25 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg>
+                                                </div>
+                                                <div>
+                                                    <p class="text-[10px] font-semibold text-emerald-500 uppercase tracking-wider mb-0.5">Program Tahunan #${pri + 1}</p>
+                                                    <p class="text-sm font-bold text-slate-800">${pr.program_tahunan}</p>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                });
+
+                                html += `</div>`;
+                            });
+                        }
+
+                        html += `</div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                html += `</div>`;
             });
 
             html += `</div></div>`;
@@ -402,9 +596,18 @@
         container.innerHTML = html;
     }
 
+    // ── Modal ──
     function openModal(id = null) {
         document.getElementById('form-error').classList.add('hidden');
         document.getElementById('edit-id').value = id || '';
+
+        // Reset repeater state
+        sasaranCounter = 0;
+        strategiCounters = {};
+        programCounters = {};
+        const container = document.getElementById('sasaran-container');
+        container.innerHTML = '';
+        document.getElementById('sasaran-empty').style.display = 'block';
 
         if (id) {
             const row = renstraData.find(d => d.id === id);
@@ -412,25 +615,29 @@
                 document.getElementById('modal-title-text').textContent = 'Edit Data RENSTRA';
                 document.getElementById('f-bidang').value = row.bidang_id || '';
                 document.getElementById('f-fakultas').value = row.fakultas_id || '';
-                document.getElementById('f-kode').value = row.sasaranKode || '';
-                document.getElementById('f-sasaran').value = row.sasaranNama || '';
-                document.getElementById('f-strategi').value = row.strategiNama || '';
-                document.getElementById('f-program').value = row.programNama || '';
+                document.getElementById('f-kode').value = row.kode || '';
                 document.getElementById('f-tahun-mulai').value = row.tahunMulai || '';
                 document.getElementById('f-tahun-selesai').value = row.tahunSelesai || '';
                 document.getElementById('f-status').value = row.status || 'belum_tercapai';
+
+                const sasarans = row.sasarans || [];
+                if (sasarans.length > 0) {
+                    sasarans.forEach(s => {
+                        addSasaran(s.sasaran, s.strategis || []);
+                    });
+                } else {
+                    addSasaran('', []);
+                }
             }
         } else {
             document.getElementById('modal-title-text').textContent = 'Tambah Data RENSTRA';
             document.getElementById('f-bidang').value = document.getElementById('filter-bidang').value || '';
             document.getElementById('f-fakultas').value = document.getElementById('filter-fakultas').value || '';
             document.getElementById('f-kode').value = '';
-            document.getElementById('f-sasaran').value = '';
-            document.getElementById('f-strategi').value = '';
-            document.getElementById('f-program').value = '';
             document.getElementById('f-tahun-mulai').value = '';
             document.getElementById('f-tahun-selesai').value = '';
             document.getElementById('f-status').value = 'belum_tercapai';
+            addSasaran('', []);
         }
 
         document.getElementById('renstra-modal').classList.remove('modal-closed');
@@ -447,17 +654,15 @@
         const bidangId = document.getElementById('f-bidang').value;
         const fakultasId = document.getElementById('f-fakultas').value;
         const kode = document.getElementById('f-kode').value.trim();
-        const sasaran = document.getElementById('f-sasaran').value.trim();
-        const strategi = document.getElementById('f-strategi').value.trim();
-        const program = document.getElementById('f-program').value.trim();
         const tahunMulai = parseInt(document.getElementById('f-tahun-mulai').value);
         const tahunSelesai = parseInt(document.getElementById('f-tahun-selesai').value);
         const status = document.getElementById('f-status').value;
+        const sasarans = collectSasarans();
 
         const errEl = document.getElementById('form-error');
 
-        if (!bidangId || !fakultasId || !sasaran || !tahunMulai || !tahunSelesai) {
-            errEl.textContent = 'Bidang, Fakultas, Sasaran, Tahun Mulai, dan Tahun Selesai wajib diisi.';
+        if (!bidangId || !fakultasId || !tahunMulai || !tahunSelesai) {
+            errEl.textContent = 'Bidang, Fakultas, Tahun Mulai, dan Tahun Selesai wajib diisi.';
             errEl.classList.remove('hidden');
             return;
         }
@@ -466,18 +671,22 @@
             errEl.classList.remove('hidden');
             return;
         }
+        if (sasarans.length === 0) {
+            errEl.textContent = 'Minimal satu sasaran strategis harus diisi.';
+            errEl.classList.remove('hidden');
+            return;
+        }
+
         errEl.classList.add('hidden');
 
         const payload = {
             bidang_id: bidangId || null,
             fakultas_id: fakultasId || null,
             kode: kode || null,
-            sasaran: sasaran,
-            strategi: strategi || null,
-            program_tahunan: program || null,
             tahun_mulai: tahunMulai,
             tahun_selesai: tahunSelesai,
             status: status,
+            sasarans: sasarans,
         };
 
         const url  = id ? '/renstra/' + id : '/renstra';

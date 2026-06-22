@@ -14,7 +14,7 @@ class BidangController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Bidang::with('renstras.fakultas', 'renstras.programs.kegiatans');
+        $query = Bidang::with('renstras.fakultas', 'renstras.sasarans.strategis.programs', 'renstras.programs.kegiatans');
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -35,7 +35,7 @@ class BidangController extends Controller
         $totalProgram  = Program::count();
         $totalKegiatan = Kegiatan::count();
 
-        $bidangList = Bidang::with('renstras.programs.kegiatans')->get()->map(function ($b) {
+        $bidangList = Bidang::with('renstras.sasarans.strategis.programs', 'renstras.programs.kegiatans')->get()->map(function ($b) {
             return [
                 'id'        => $b->id,
                 'kode'      => $b->kode_bidang,
@@ -48,9 +48,24 @@ class BidangController extends Controller
                         'fakultas'     => $r->fakultas?->nama_fakultas ?? '-',
                         'tahunMulai'   => $r->tahun_mulai,
                         'tahunSelesai' => $r->tahun_selesai,
-                        'sasaran'      => $r->sasaran,
-                        'strategi'     => $r->strategi,
-                        'programTahunan'=> $r->program_tahunan,
+                        'sasarans'     => $r->sasarans->map(function ($s) {
+                            return [
+                                'id'      => $s->id,
+                                'sasaran' => $s->sasaran,
+                                'strategis' => $s->strategis->map(function ($st) {
+                                    return [
+                                        'id'       => $st->id,
+                                        'strategi' => $st->strategi,
+                                        'programs' => $st->programs->map(function ($pr) {
+                                            return [
+                                                'id' => $pr->id,
+                                                'program_tahunan' => $pr->program_tahunan,
+                                            ];
+                                        }),
+                                    ];
+                                }),
+                            ];
+                        }),
                         'programs'     => $r->programs->map(function ($p) {
                             return [
                                 'id'       => $p->id,
