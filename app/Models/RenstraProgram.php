@@ -11,6 +11,7 @@ class RenstraProgram extends Model
     protected $fillable = [
         'strategi_id',
         'nama_program',
+        'tahun_akademik',
         'kode_program',
         'deskripsi',
         'status',

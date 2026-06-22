@@ -73,6 +73,7 @@ class RenstraController extends Controller
                                     return [
                                         'id' => $p->id,
                                         'nama_program' => $p->nama_program,
+                                        'tahun_akademik' => $p->tahun_akademik,
                                         'urutan' => $p->urutan,
                                     ];
                                 }),
@@ -119,7 +120,11 @@ class RenstraController extends Controller
                 foreach ($strategiData['programs'] ?? [] as $pi => $programData) {
                     $program = $strategi->programs()->updateOrCreate(
                         ['id' => $programData['id'] ?? null],
-                        ['nama_program' => $programData['nama_program'], 'urutan' => $pi + 1]
+                        [
+                            'nama_program' => $programData['nama_program'],
+                            'tahun_akademik' => $programData['tahun_akademik'] ?? null,
+                            'urutan' => $pi + 1,
+                        ]
                     );
                     $incomingProgramIds[] = $program->id;
                 }
@@ -162,6 +167,7 @@ class RenstraController extends Controller
             'sasarans.*.strategis.*.nama_strategi' => 'required|string|max:255',
             'sasarans.*.strategis.*.programs'     => 'nullable|array',
             'sasarans.*.strategis.*.programs.*.nama_program' => 'required|string|max:255',
+            'sasarans.*.strategis.*.programs.*.tahun_akademik' => 'nullable|string|max:20',
         ]);
 
         $renstra = Renstra::create([
@@ -198,6 +204,7 @@ class RenstraController extends Controller
             'sasarans.*.strategis.*.nama_strategi' => 'required|string|max:255',
             'sasarans.*.strategis.*.programs'     => 'nullable|array',
             'sasarans.*.strategis.*.programs.*.nama_program' => 'required|string|max:255',
+            'sasarans.*.strategis.*.programs.*.tahun_akademik' => 'nullable|string|max:20',
         ]);
 
         $renstra->update([

@@ -348,13 +348,21 @@
         `;
     }
 
-    function programTemplate(programVal) {
+    function programTemplate(programVal, tahunAkademik) {
+        const taOptions = ['', '2023/2024', '2024/2025', '2025/2026', '2026/2027', '2027/2028'];
+        let taHtml = '';
+        taOptions.forEach(opt => {
+            taHtml += `<option value="${opt}" ${opt === (tahunAkademik || '') ? 'selected' : ''}>${opt || 'Pilih Tahun'}</option>`;
+        });
         return `
-            <div class="repeater-item program-group flex items-center gap-2 p-2 bg-sky-50/40 border border-sky-100/60 rounded-lg">
-                <input type="text" class="program-input flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-sm outline-none focus:border-sky-400 transition" placeholder="Contoh: Program peningkatan publikasi" value="${programVal || ''}">
-                <button onclick="removeProgram(this)" type="button" class="btn-remove text-slate-400 hover:text-red-600 bg-white hover:bg-red-50 p-1 rounded-lg border border-slate-200 flex-shrink-0">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
+            <div class="repeater-item program-group p-2 bg-sky-50/40 border border-sky-100/60 rounded-lg">
+                <div class="flex items-center gap-2">
+                    <input type="text" class="program-input flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-sm outline-none focus:border-sky-400 transition" placeholder="Contoh: Program peningkatan publikasi" value="${programVal || ''}">
+                    <button onclick="removeProgram(this)" type="button" class="btn-remove text-slate-400 hover:text-red-600 bg-white hover:bg-red-50 p-1 rounded-lg border border-slate-200 flex-shrink-0">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <select class="program-tahun-select mt-1.5 w-full border border-slate-200 rounded-lg px-2.5 py-1.5 text-sm outline-none focus:border-sky-400 transition">${taHtml}</select>
             </div>
         `;
     }
@@ -370,7 +378,7 @@
                 let programsHtml = '';
                 if (sd.programs && sd.programs.length) {
                     sd.programs.forEach(pd => {
-                        programsHtml += programTemplate(pd.nama_program || '');
+                        programsHtml += programTemplate(pd.nama_program || '', pd.tahun_akademik || '');
                     });
                 }
                 strategisHtml += strategiTemplate(sd.nama_strategi || '', programsHtml);
@@ -385,7 +393,7 @@
         let programsHtml = '';
         if (programsData && programsData.length) {
             programsData.forEach(pd => {
-                programsHtml += programTemplate(pd.nama_program || '');
+                programsHtml += programTemplate(pd.nama_program || '', pd.tahun_akademik || '');
             });
         }
         container.insertAdjacentHTML('beforeend', strategiTemplate(strategiVal || '', programsHtml));
@@ -436,7 +444,9 @@
                     const progInput = pg.querySelector('.program-input');
                     const progVal = progInput ? progInput.value.trim() : '';
                     if (!progVal) return;
-                    programs.push({ nama_program: progVal });
+                    const taSelect = pg.querySelector('.program-tahun-select');
+                    const taVal = taSelect ? taSelect.value : '';
+                    programs.push({ nama_program: progVal, tahun_akademik: taVal });
                 });
 
                 strategis.push({ nama_strategi: strategiVal, programs });
@@ -581,6 +591,7 @@
                                                 <div>
                                                     <p class="text-[10px] font-semibold text-emerald-500 uppercase tracking-wider mb-0.5">Program Tahunan #${pri + 1}</p>
                                                     <p class="text-sm font-bold text-slate-800">${pr.nama_program}</p>
+                                                    ${pr.tahun_akademik ? `<p class="text-[10px] text-emerald-600 font-medium mt-0.5">${pr.tahun_akademik}</p>` : ''}
                                                 </div>
                                             </div>
                                         </div>`;
