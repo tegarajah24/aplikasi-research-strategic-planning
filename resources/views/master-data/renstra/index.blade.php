@@ -616,6 +616,17 @@
     }
 
     // ── Modal ──
+    function setSelectValue(selectId, value) {
+        const el = document.getElementById(selectId);
+        if (!el) return;
+        for (let i = 0; i < el.options.length; i++) {
+            if (String(el.options[i].value) === String(value)) {
+                el.selectedIndex = i;
+                break;
+            }
+        }
+    }
+
     function openModal(id = null) {
         document.getElementById('form-error').classList.add('hidden');
         document.getElementById('edit-id').value = id || '';
@@ -632,10 +643,10 @@
             const row = renstraData.find(d => d.id === id);
             if (row) {
                 document.getElementById('modal-title-text').textContent = 'Edit Data RENSTRA';
-                document.getElementById('f-fakultas').value = row.fakultas_id || '';
+                setSelectValue('f-fakultas', row.fakultas_id);
                 document.getElementById('f-kode').value = row.kode || '';
-                document.getElementById('f-tahun-mulai').value = row.tahunMulai || '';
-                document.getElementById('f-tahun-selesai').value = row.tahunSelesai || '';
+                setSelectValue('f-tahun-mulai', row.tahunMulai);
+                setSelectValue('f-tahun-selesai', row.tahunSelesai);
                 document.getElementById('f-status').value = row.status || 'belum_tercapai';
 
                 const sasarans = row.sasarans || [];
