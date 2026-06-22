@@ -56,7 +56,7 @@ class RenstraController extends Controller
                 'tahunMulai' => $r->tahun_mulai,
                 'tahunSelesai' => $r->tahun_selesai,
                 'kode' => $r->kode,
-                'status' => $r->status ?? 'belum_tercapai',
+                'status' => $r->status ?? Renstra::STATUS_BELUM_TERCAPAI,
                 'sasarans' => $r->sasarans->map(function ($s) {
                     return [
                         'id' => $s->id,
@@ -153,7 +153,7 @@ class RenstraController extends Controller
             'kode'            => 'nullable|string|max:20',
             'tahun_mulai'     => 'required|integer|min:2000|max:2099',
             'tahun_selesai'   => 'required|integer|min:2000|max:2099|gte:tahun_mulai',
-            'status'          => 'nullable|string|in:tercapai,dalam_proses,belum_tercapai',
+            'status'          => 'nullable|string|in:' . implode(',', array_keys(Renstra::STATUSES)),
             'sasarans'        => 'required|array|min:1',
             'sasarans.*.bidang_id'                => 'nullable|exists:bidangs,id',
             'sasarans.*.kode_sasaran'             => 'nullable|string|max:20',
@@ -169,7 +169,7 @@ class RenstraController extends Controller
             'kode'          => $validated['kode'],
             'tahun_mulai'   => $validated['tahun_mulai'],
             'tahun_selesai' => $validated['tahun_selesai'],
-            'status'        => $validated['status'] ?? 'belum_tercapai',
+            'status'        => $validated['status'] ?? Renstra::STATUS_BELUM_TERCAPAI,
         ]);
 
         $this->syncSasarans($renstra, $request->input('sasarans', []));
@@ -189,7 +189,7 @@ class RenstraController extends Controller
             'kode'            => 'nullable|string|max:20',
             'tahun_mulai'     => 'required|integer|min:2000|max:2099',
             'tahun_selesai'   => 'required|integer|min:2000|max:2099|gte:tahun_mulai',
-            'status'          => 'nullable|string|in:tercapai,dalam_proses,belum_tercapai',
+            'status'          => 'nullable|string|in:' . implode(',', array_keys(Renstra::STATUSES)),
             'sasarans'        => 'required|array|min:1',
             'sasarans.*.bidang_id'                => 'nullable|exists:bidangs,id',
             'sasarans.*.kode_sasaran'             => 'nullable|string|max:20',
@@ -205,7 +205,7 @@ class RenstraController extends Controller
             'kode'          => $validated['kode'],
             'tahun_mulai'   => $validated['tahun_mulai'],
             'tahun_selesai' => $validated['tahun_selesai'],
-            'status'        => $validated['status'] ?? 'belum_tercapai',
+            'status'        => $validated['status'] ?? Renstra::STATUS_BELUM_TERCAPAI,
         ]);
 
         $this->syncSasarans($renstra, $request->input('sasarans', []));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Bidang;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBidangRequest extends FormRequest
@@ -17,7 +18,7 @@ class StoreBidangRequest extends FormRequest
             'kode_bidang' => 'required|string|max:20|unique:bidangs,kode_bidang',
             'nama_bidang' => 'required|string|max:255',
             'deskripsi'   => 'nullable|string',
-            'status'      => 'required|in:Aktif,Tidak Aktif',
+            'status'      => 'required|in:' . implode(',', array_keys(Bidang::STATUSES)),
         ];
     }
 }

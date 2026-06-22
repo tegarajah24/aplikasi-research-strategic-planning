@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bidang extends Model
 {
+    const STATUS_AKTIF = 'Aktif';
+    const STATUS_TIDAK_AKTIF = 'Tidak Aktif';
+
+    const STATUSES = [
+        self::STATUS_AKTIF => 'Aktif',
+        self::STATUS_TIDAK_AKTIF => 'Tidak Aktif',
+    ];
+
     protected $fillable = [
         'kode_bidang',
         'nama_bidang',
@@ -23,8 +31,4 @@ class Bidang extends Model
         return $this->hasMany(RenstraSasaran::class);
     }
 
-    public function kegiatans()
-    {
-        return $this->hasManyThrough(Kegiatan::class, RenstraProgram::class, null, 'program_id', null, 'id');
-    }
 }

@@ -22,11 +22,26 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    const ROLE_ADMIN = 'Admin';
+    const ROLE_DEKAN = 'Dekan';
+    const ROLE_LPPM = 'LPPM';
+    const ROLE_KAPRODI = 'Kaprodi';
+
+    const ROLES = [
+        self::ROLE_ADMIN,
+        self::ROLE_DEKAN,
+        self::ROLE_LPPM,
+        self::ROLE_KAPRODI,
+    ];
+
+    const STATUS_AKTIF = 'Aktif';
+    const STATUS_NONAKTIF = 'Nonaktif';
+
+    const STATUSES = [
+        self::STATUS_AKTIF => 'Aktif',
+        self::STATUS_NONAKTIF => 'Nonaktif',
+    ];
+
     protected $fillable = [
         'name',
         'username',
@@ -38,11 +53,6 @@ class User extends Authenticatable
         'prodi_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -50,20 +60,10 @@ class User extends Authenticatable
         'two_factor_secret',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
-     */
     protected $appends = [
         'profile_photo_url',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -79,41 +79,41 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role === 'Admin';
+        return $this->role === self::ROLE_ADMIN;
     }
 
     public function isDekan(): bool
     {
-        return $this->role === 'Dekan';
+        return $this->role === self::ROLE_DEKAN;
     }
 
     public function isLppm(): bool
     {
-        return $this->role === 'LPPM';
+        return $this->role === self::ROLE_LPPM;
     }
 
     public function isKaprodi(): bool
     {
-        return $this->role === 'Kaprodi';
+        return $this->role === self::ROLE_KAPRODI;
     }
 
     public function canWrite(string $module): bool
     {
         $permissions = [
-            'user'               => ['Admin'],
-            'fakultas'           => ['Admin'],
-            'prodi'              => ['Admin'],
-            'dosen'              => ['Admin', 'Kaprodi'],
-            'bidang'             => ['Admin', 'LPPM'],
-            'program'            => ['Admin', 'LPPM'],
-            'renstra'            => ['Admin', 'Dekan'],
-            'hki'                => ['Admin', 'LPPM', 'Kaprodi'],
-            'buku'               => ['Admin', 'LPPM', 'Kaprodi'],
-            'artikel'            => ['Admin', 'LPPM', 'Kaprodi'],
-            'kegiatan'           => ['Admin', 'LPPM', 'Kaprodi'],
-            'kerjasama'          => ['Admin', 'LPPM'],
-            'prestasi-akademik'  => ['Admin', 'Kaprodi'],
-            'prestasi-non-akademik' => ['Admin', 'Kaprodi'],
+            'user'               => [self::ROLE_ADMIN],
+            'fakultas'           => [self::ROLE_ADMIN],
+            'prodi'              => [self::ROLE_ADMIN],
+            'dosen'              => [self::ROLE_ADMIN, self::ROLE_KAPRODI],
+            'bidang'             => [self::ROLE_ADMIN, self::ROLE_LPPM],
+            'program'            => [self::ROLE_ADMIN, self::ROLE_LPPM],
+            'renstra'            => [self::ROLE_ADMIN, self::ROLE_DEKAN],
+            'hki'                => [self::ROLE_ADMIN, self::ROLE_LPPM, self::ROLE_KAPRODI],
+            'buku'               => [self::ROLE_ADMIN, self::ROLE_LPPM, self::ROLE_KAPRODI],
+            'artikel'            => [self::ROLE_ADMIN, self::ROLE_LPPM, self::ROLE_KAPRODI],
+            'kegiatan'           => [self::ROLE_ADMIN, self::ROLE_LPPM, self::ROLE_KAPRODI],
+            'kerjasama'          => [self::ROLE_ADMIN, self::ROLE_LPPM],
+            'prestasi-akademik'  => [self::ROLE_ADMIN, self::ROLE_KAPRODI],
+            'prestasi-non-akademik' => [self::ROLE_ADMIN, self::ROLE_KAPRODI],
         ];
 
         return in_array($this->role, $permissions[$module] ?? []);

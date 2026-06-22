@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Kegiatan;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreKegiatanRequest extends FormRequest
@@ -23,7 +24,7 @@ class StoreKegiatanRequest extends FormRequest
             'waktu_pelaksanaan' => 'required|string|max:150',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|numeric|min:0',
-            'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
+            'status'            => 'required|in:' . implode(',', array_keys(Kegiatan::STATUSES)),
             'catatan'           => 'nullable|string',
         ];
     }

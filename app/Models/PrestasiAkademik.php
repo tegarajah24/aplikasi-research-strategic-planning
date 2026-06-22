@@ -8,6 +8,13 @@ class PrestasiAkademik extends Model
 {
     protected $table = 'prestasi_akademiks';
 
+    protected $casts = [
+        'tahun' => 'integer',
+        'regional' => 'integer',
+        'nasional' => 'integer',
+        'internasional' => 'integer',
+    ];
+
     protected $fillable = [
         'tahun',
         'nama_mahasiswa',

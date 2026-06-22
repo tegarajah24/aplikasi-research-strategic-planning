@@ -45,18 +45,18 @@ class UserController extends Controller
             'name'     => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:8',
-            'role'     => 'required|in:Admin,Dekan,LPPM,Kaprodi',
+            'role'     => 'required|in:' . implode(',', User::ROLES),
             'prodi_id' => 'nullable|exists:prodis,id',
         ]);
 
-        if ($validated['role'] === 'Kaprodi' && !$validated['prodi_id']) {
+        if ($validated['role'] === User::ROLE_KAPRODI && !$validated['prodi_id']) {
             return back()->withErrors(['prodi_id' => 'Prodi wajib dipilih untuk role Kaprodi.'])->withInput();
         }
 
         if (empty($validated['prodi_id'])) {
             $validated['prodi_id'] = null;
         }
-        $validated['status'] = 'Aktif';
+        $validated['status'] = User::STATUS_AKTIF;
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
@@ -71,12 +71,12 @@ class UserController extends Controller
             'name'     => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'password' => 'nullable|string|min:8',
-            'role'     => 'required|in:Admin,Dekan,LPPM,Kaprodi',
-            'status'   => 'required|in:Aktif,Nonaktif',
+            'role'     => 'required|in:' . implode(',', User::ROLES),
+            'status'   => 'required|in:' . implode(',', array_keys(User::STATUSES)),
             'prodi_id' => 'nullable|exists:prodis,id',
         ]);
 
-        if ($validated['role'] === 'Kaprodi' && !$validated['prodi_id']) {
+        if ($validated['role'] === User::ROLE_KAPRODI && !$validated['prodi_id']) {
             return back()->withErrors(['prodi_id' => 'Prodi wajib dipilih untuk role Kaprodi.'])->withInput();
         }
 
@@ -114,10 +114,10 @@ class UserController extends Controller
             return redirect()->route('pengguna')->with('error', 'Tidak dapat menonaktifkan akun sendiri.');
         }
 
-        $user->status = $user->status === 'Aktif' ? 'Nonaktif' : 'Aktif';
+        $user->status = $user->status === User::STATUS_AKTIF ? User::STATUS_NONAKTIF : User::STATUS_AKTIF;
         $user->save();
 
-        $action = $user->status === 'Aktif' ? 'Mengaktifkan' : 'Menonaktifkan';
+        $action = $user->status === User::STATUS_AKTIF ? 'Mengaktifkan' : 'Menonaktifkan';
         ActivityLog::log("$action pengguna", 'Pengguna', $user->id, $user->name);
 
         return redirect()->route('pengguna')->with('success', "Pengguna berhasil di{$action}kan.");

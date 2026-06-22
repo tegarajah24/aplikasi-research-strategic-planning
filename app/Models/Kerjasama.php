@@ -8,6 +8,10 @@ class Kerjasama extends Model
 {
     protected $table = 'kerjasamas';
 
+    protected $casts = [
+        'tanggal' => 'date',
+    ];
+
     protected $fillable = [
         'nomor_surat',
         'tanggal',

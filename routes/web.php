@@ -13,58 +13,7 @@ Route::middleware([
 ])->group(function () {
 
     // Dashboard utama — semua role bisa akses
-    Route::get('/dashboard', function () {
-        $totalUsers = \App\Models\User::count();
-        $totalFakultas = \App\Models\Fakultas::count();
-        $totalProdi = \App\Models\Prodi::count();
-        $totalDosen = \App\Models\Dosen::count();
-        $totalHki = \App\Models\Hki::count();
-        $totalBuku = \App\Models\Buku::count();
-        $totalArtikel = \App\Models\Artikel::count();
-        $totalLuaran = $totalHki + $totalBuku + $totalArtikel;
-        $totalKerjasama = \App\Models\Kerjasama::count();
-        $totalPrestasi = \App\Models\PrestasiAkademik::count() + \App\Models\PrestasiNonAkademik::count();
-
-        $upcomingKegiatans = \App\Models\Kegiatan::where('tgl_mulai_pelaksanaan', '>=', now())
-            ->orderBy('tgl_mulai_pelaksanaan')
-            ->take(5)
-            ->get();
-
-        $recentLogs = \App\Models\ActivityLog::with('user')
-            ->latest()
-            ->take(10)
-            ->get();
-
-        $artikelPerTahun = \App\Models\Artikel::selectRaw('tahun as year, count(*) as total')
-            ->groupBy('tahun')->orderBy('tahun')->pluck('total', 'year');
-        $bukuPerTahun = \App\Models\Buku::selectRaw('tahun_terbit as year, count(*) as total')
-            ->groupBy('tahun_terbit')->orderBy('tahun_terbit')->pluck('total', 'year');
-        $hkiPerTahun = \App\Models\Hki::selectRaw('tahun as year, count(*) as total')
-            ->groupBy('tahun')->orderBy('tahun')->pluck('total', 'year');
-
-        $allYears = collect([$artikelPerTahun, $bukuPerTahun, $hkiPerTahun])
-            ->flatMap(fn($c) => $c->keys())
-            ->unique()
-            ->sort()
-            ->values();
-
-        $chartLabels = $allYears->toArray();
-        $chartArtikel = $allYears->map(fn($y) => $artikelPerTahun[$y] ?? 0)->toArray();
-        $chartBuku = $allYears->map(fn($y) => $bukuPerTahun[$y] ?? 0)->toArray();
-        $chartHki = $allYears->map(fn($y) => $hkiPerTahun[$y] ?? 0)->toArray();
-
-        $renstraStatus = \App\Models\Renstra::selectRaw('status, count(*) as total')
-            ->groupBy('status')->pluck('total', 'status');
-        $totalRenstra = \App\Models\Renstra::count();
-
-        return view('dashboard.index', compact(
-            'totalUsers', 'totalFakultas', 'totalProdi', 'totalDosen',
-            'totalHki', 'totalBuku', 'totalArtikel', 'totalLuaran',
-            'totalKerjasama', 'totalPrestasi', 'upcomingKegiatans',
-            'recentLogs', 'chartLabels', 'chartArtikel', 'chartBuku', 'chartHki',
-            'renstraStatus', 'totalRenstra'
-        ));
-    })->name('dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // ── Admin Only ──
     Route::middleware(['role:Admin'])->group(function () {
@@ -122,39 +71,7 @@ Route::middleware([
             ->except(['create', 'show', 'edit'])
             ->names('kegiatan');
 
-        Route::get('/rkt/kalender', function () {
-            $kegiatans = \App\Models\Kegiatan::with('program.renstraStrategi.renstraSasaran.bidang')
-                ->whereNotNull('tgl_mulai_pelaksanaan')
-                ->orderBy('tgl_mulai_pelaksanaan')
-                ->get();
-
-            $eventsData = $kegiatans->map(function ($k) {
-                $statusMap = [
-                    'perencanaan' => 'upcoming',
-                    'berjalan'    => 'running',
-                    'selesai'     => 'done',
-                    'tertunda'    => 'late',
-                ];
-                return [
-                    'id'        => $k->id,
-                    'title'     => $k->nama_kegiatan,
-                    'program'   => $k->program?->nama_program ?? '-',
-                    'bidang'    => $k->program?->renstraStrategi?->renstraSasaran?->bidang?->nama_bidang ?? '-',
-                    'start'     => $k->tgl_mulai_pelaksanaan,
-                    'end'       => $k->tgl_selesai_pelaksanaan ?? $k->tgl_mulai_pelaksanaan,
-                    'pj'        => $k->penanggung_jawab,
-                    'status'    => $statusMap[$k->status] ?? 'upcoming',
-                    'anggaran'  => $k->kebutuhan_anggaran,
-                    'indikator' => $k->indikator_kinerja,
-                    'target'    => $k->target_kegiatan,
-                    'dokumen'   => $k->dokumen ?? '-',
-                ];
-            })->values();
-
-            $bidangList = \App\Models\Bidang::where('status', 'Aktif')->orderBy('nama_bidang')->get();
-
-            return view('rkt.kalender.index', compact('eventsData', 'bidangList'));
-        })->name('rkt.kalender');
+        Route::get('/rkt/kalender', [App\Http\Controllers\KalenderController::class, 'index'])->name('rkt.kalender');
     });
 
 });

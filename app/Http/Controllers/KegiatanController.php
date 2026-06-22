@@ -39,9 +39,9 @@ class KegiatanController extends Controller
         $kegiatans = $query->latest()->paginate(10)->withQueryString();
 
         $totalKegiatan    = Kegiatan::count();
-        $targetTercapai   = Kegiatan::where('status', 'selesai')->count();
+        $targetTercapai   = Kegiatan::where('status', Kegiatan::STATUS_SELESAI)->count();
         $totalAnggaran    = Kegiatan::sum('kebutuhan_anggaran');
-        $kegiatanAktif    = Kegiatan::where('status', 'berjalan')->count();
+        $kegiatanAktif    = Kegiatan::where('status', Kegiatan::STATUS_BERJALAN)->count();
 
         $tahunAkademikOptions   = Kegiatan::select('tahun_akademik')->distinct()->whereNotNull('tahun_akademik')->orderBy('tahun_akademik', 'desc')->pluck('tahun_akademik');
         $penanggungJawabOptions = Kegiatan::select('penanggung_jawab')->distinct()->orderBy('penanggung_jawab')->pluck('penanggung_jawab');
@@ -85,7 +85,7 @@ class KegiatanController extends Controller
             'tgl_selesai_pelaksanaan'     => 'required|date_format:Y-m',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|numeric|min:0',
-            'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
+            'status'            => 'required|in:' . implode(',', array_keys(Kegiatan::STATUSES)),
             'catatan'           => 'nullable|string',
             'dokumen'           => 'nullable|string',
         ]);
@@ -125,7 +125,7 @@ class KegiatanController extends Controller
             'tgl_selesai_pelaksanaan'     => 'required|date_format:Y-m',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|numeric|min:0',
-            'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
+            'status'            => 'required|in:' . implode(',', array_keys(Kegiatan::STATUSES)),
             'catatan'           => 'nullable|string',
             'dokumen'           => 'nullable|string',
         ]);
