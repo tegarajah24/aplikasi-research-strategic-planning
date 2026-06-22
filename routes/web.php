@@ -32,6 +32,8 @@ Route::middleware([
         Route::post('renstra', [App\Http\Controllers\RenstraController::class, 'store'])->name('renstra.store');
         Route::match(['PUT', 'PATCH', 'POST'], 'renstra/{renstra}', [App\Http\Controllers\RenstraController::class, 'update'])->name('renstra.update');
         Route::delete('renstra/{renstra}', [App\Http\Controllers\RenstraController::class, 'destroy'])->name('renstra.destroy');
+        Route::get('renstra/export/excel', [App\Http\Controllers\RenstraController::class, 'exportExcel'])->name('renstra.export.excel');
+        Route::get('renstra/export/word', [App\Http\Controllers\RenstraController::class, 'exportWord'])->name('renstra.export.word');
     });
 
     // ── Admin, LPPM ──

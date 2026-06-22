@@ -45,21 +45,22 @@
         .tree-grandchild:last-child::before { height:18px; }
         .tree-grandchild:only-child::after { top:14px; }
 
-        #renstra-modal, #del-modal { transition: opacity .25s ease, visibility .25s ease; }
-        #renstra-modal.modal-closed, #del-modal.modal-closed {
+        #renstra-modal, #del-modal, #table-modal { transition: opacity .25s ease, visibility .25s ease; }
+        #renstra-modal.modal-closed, #del-modal.modal-closed, #table-modal.modal-closed {
             opacity: 0; visibility: hidden; pointer-events: none;
         }
-        #renstra-modal:not(.modal-closed), #del-modal:not(.modal-closed) {
+        #renstra-modal:not(.modal-closed), #del-modal:not(.modal-closed), #table-modal:not(.modal-closed) {
             opacity: 1; visibility: visible; pointer-events: all;
         }
-        #renstra-modal > div:first-child, #del-modal > div:first-child { transition: opacity .25s ease; }
-        #renstra-modal.modal-closed > div:first-child, #del-modal.modal-closed > div:first-child { opacity: 0; }
-        #renstra-modal > .modal-panel, #del-modal > .modal-panel {
+        #renstra-modal > div:first-child, #del-modal > div:first-child, #table-modal > div:first-child { transition: opacity .25s ease; }
+        #renstra-modal.modal-closed > div:first-child, #del-modal.modal-closed > div:first-child, #table-modal.modal-closed > div:first-child { opacity: 0; }
+        #renstra-modal > .modal-panel, #del-modal > .modal-panel, #table-modal > .modal-panel {
             transform: scale(0.92) translateY(12px);
             transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         #renstra-modal:not(.modal-closed) > .modal-panel,
-        #del-modal:not(.modal-closed) > .modal-panel {
+        #del-modal:not(.modal-closed) > .modal-panel,
+        #table-modal:not(.modal-closed) > .modal-panel {
             transform: scale(1) translateY(0);
         }
         .btn-add { transition: all .15s; }
@@ -110,6 +111,14 @@
                             Tambah Data
                         </button>
                         @endif
+                        <button onclick="openTableModal()"
+                            class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition shadow-sm"
+                            style="background:#2563eb">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0112 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c.621 0 1.125-.504 1.125-1.125m-1.125 1.125v1.5m-7.5 0A1.125 1.125 0 013.375 12m9.75 0a1.125 1.125 0 011.125-1.125"/>
+                            </svg>
+                            Tampilkan Tabel
+                        </button>
                     </div>
                 </div>
 
@@ -221,6 +230,55 @@
             <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-100 bg-slate-50">
                 <button onclick="closeModal()" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-200 transition">Batal</button>
                 <button onclick="saveRenstra()" class="px-5 py-2 rounded-xl text-sm font-bold text-white shadow-sm hover:opacity-90 transition" style="background:#0ea5e9">Simpan Data</button>
+            </div>
+        </div>
+    </div>
+
+    {{-- ── Table Modal ── --}}
+    <div id="table-modal" class="modal-closed fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/50" onclick="closeTableModal()"></div>
+        <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-5xl z-10">
+            <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+                <div>
+                    <h3 class="text-base font-bold text-slate-800">Tabel Data Program RENSTRA</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Seluruh data program dalam bentuk tabel</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('renstra.export.excel') }}"
+                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white hover:opacity-90 transition shadow-sm"
+                       style="background:#0ea5e9">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                        Excel
+                    </a>
+                    <a href="{{ route('renstra.export.word') }}"
+                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white hover:opacity-90 transition shadow-sm"
+                       style="background:#2563eb">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+                        Word
+                    </a>
+                    <button onclick="closeTableModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="px-6 py-5 max-h-[70vh] overflow-auto">
+                <div id="table-modal-empty" class="hidden py-12 text-center text-sm text-slate-500">Tidak ada data.</div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[900px] text-sm">
+                        <thead>
+                            <tr class="bg-slate-800 text-white">
+                                <th class="py-2.5 px-3 text-xs font-bold uppercase tracking-wider text-center w-10">No</th>
+                                <th class="py-2.5 px-3 text-xs font-bold uppercase tracking-wider">Bidang</th>
+                                <th class="py-2.5 px-3 text-xs font-bold uppercase tracking-wider min-w-[180px]">Sasaran</th>
+                                <th class="py-2.5 px-3 text-xs font-bold uppercase tracking-wider min-w-[180px]">Strategi</th>
+                                <th class="py-2.5 px-3 text-xs font-bold uppercase tracking-wider min-w-[180px]">Program Tahunan</th>
+                                <th class="py-2.5 px-3 text-xs font-bold uppercase tracking-wider text-center w-28">Tahun Akademik</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-modal-body" class="divide-y divide-slate-200">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -755,6 +813,69 @@
         closeDelModal();
     }
 
+    function renderTable() {
+        const tbody = document.getElementById('table-modal-body');
+        const empty = document.getElementById('table-modal-empty');
+        tbody.innerHTML = '';
+
+        const items = [];
+        renstraData.forEach(r => {
+            (r.sasarans || []).forEach(s => {
+                (s.strategis || []).forEach(st => {
+                    (st.programs || []).forEach(p => {
+                        items.push({
+                            bidang: s.nama_bidang || s.bidang_nama || '-',
+                            sasaran: s.nama_sasaran || '-',
+                            strategi: st.nama_strategi || '-',
+                            program: p.nama_program || '-',
+                            tahun: p.tahun_akademik || '-',
+                        });
+                    });
+                });
+            });
+        });
+
+        if (items.length === 0) {
+            empty.classList.remove('hidden');
+            tbody.closest('.overflow-x-auto').classList.add('hidden');
+            return;
+        }
+
+        empty.classList.add('hidden');
+        tbody.closest('.overflow-x-auto').classList.remove('hidden');
+
+        items.forEach((item, i) => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-slate-50 transition';
+            tr.innerHTML = `
+                <td class="py-2.5 px-3 text-center text-slate-500 text-xs">${i + 1}</td>
+                <td class="py-2.5 px-3 text-slate-700">${esc(item.bidang)}</td>
+                <td class="py-2.5 px-3 text-slate-700">${esc(item.sasaran)}</td>
+                <td class="py-2.5 px-3 text-slate-700">${esc(item.strategi)}</td>
+                <td class="py-2.5 px-3 text-slate-700 font-medium">${esc(item.program)}</td>
+                <td class="py-2.5 px-3 text-center text-slate-600">${esc(item.tahun)}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function esc(str) {
+        const d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+    }
+
+    function openTableModal() {
+        renderTable();
+        document.getElementById('table-modal').classList.remove('modal-closed');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeTableModal() {
+        document.getElementById('table-modal').classList.add('modal-closed');
+        document.body.style.overflow = '';
+    }
+
     function populatePeriodeFilter() {
         const select = document.getElementById('filter-periode');
         const periods = [...new Set(renstraData.map(d => d.tahunMulai + '-' + d.tahunSelesai))].sort();
@@ -768,7 +889,7 @@
     }
 
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') { closeModal(); closeDelModal(); }
+        if (e.key === 'Escape') { closeModal(); closeDelModal(); closeTableModal(); }
     });
 
     populatePeriodeFilter();

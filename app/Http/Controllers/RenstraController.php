@@ -9,6 +9,7 @@ use App\Models\RenstraStrategi;
 use App\Models\RenstraProgram;
 use App\Models\Fakultas;
 use App\Models\Bidang;
+use App\Exports\RenstraTableExport;
 use Illuminate\Http\Request;
 
 class RenstraController extends Controller
@@ -230,5 +231,29 @@ class RenstraController extends Controller
         ActivityLog::log('Menghapus renstra', 'Renstra', $renstra->id, $renstra->kode);
         $renstra->delete();
         return redirect()->route('renstra.index')->with('success', 'Data RENSTRA berhasil dihapus.');
+    }
+
+    public function exportExcel()
+    {
+        return (new RenstraTableExport)->download('data-program-renstra.xlsx');
+    }
+
+    public function exportWord()
+    {
+        $programs = RenstraProgram::with([
+            'renstraStrategi.renstraSasaran.bidang'
+        ])->get()->sortBy(function ($p) {
+            return $p->renstraStrategi?->renstraSasaran?->bidang?->nama_bidang
+                . $p->renstraStrategi?->renstraSasaran?->nama_sasaran
+                . $p->renstraStrategi?->nama_strategi
+                . $p->nama_program;
+        });
+
+        $headers = [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'Content-Disposition' => 'attachment; filename="data-program-renstra.doc"',
+        ];
+
+        return response()->view('master-data.renstra.export-word', compact('programs'), 200, $headers);
     }
 }
