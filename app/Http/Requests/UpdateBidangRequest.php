@@ -14,7 +14,7 @@ class UpdateBidangRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kode_bidang' => 'required|string|max:20|unique:bidangs,kode_bidang,' . $this->route('bidang'),
+            'kode_bidang' => 'required|string|max:20|unique:bidangs,kode_bidang,' . $this->route('bidang')->id,
             'nama_bidang' => 'required|string|max:255',
             'deskripsi'   => 'nullable|string',
             'status'      => 'required|in:Aktif,Tidak Aktif',
