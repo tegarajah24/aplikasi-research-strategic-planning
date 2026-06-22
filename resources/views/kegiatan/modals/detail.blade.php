@@ -79,7 +79,7 @@
 
                 <div class="bg-amber-50 border border-amber-100 rounded-xl p-3">
                     <p class="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-1">Kebutuhan Anggaran</p>
-                    <p class="text-sm font-medium text-slate-800" x-text="detailData.kebutuhan_anggaran"></p>
+                    <p class="text-sm font-medium text-slate-800" x-text="'Rp ' + (detailData.kebutuhan_anggaran / 1000000).toLocaleString('id-ID', {maximumFractionDigits: 1}) + ' Juta'"></p>
                 </div>
 
                 <div class="flex items-center gap-3">

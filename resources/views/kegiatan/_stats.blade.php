@@ -37,7 +37,7 @@
                 </svg>
             </div>
         </div>
-        <p class="text-3xl font-bold text-slate-800">{{ $totalAnggaran }}</p>
+        <p class="text-3xl font-bold text-slate-800">Rp {{ number_format($totalAnggaran / 1_000_000, 0) }} Juta</p>
         <p class="text-xs text-slate-400 mt-1">Total Anggaran</p>
         <p class="text-[11px] text-slate-400/80 mt-0.5">Sumber anggaran aktif</p>
     </div>

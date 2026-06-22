@@ -84,7 +84,7 @@ class KegiatanController extends Controller
             'tgl_mulai_pelaksanaan'       => 'required|date_format:Y-m',
             'tgl_selesai_pelaksanaan'     => 'required|date_format:Y-m',
             'tahun_akademik'    => 'nullable|string|max:20',
-            'kebutuhan_anggaran'=> 'required|string|max:200',
+            'kebutuhan_anggaran'=> 'required|numeric|min:0',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
             'catatan'           => 'nullable|string',
             'dokumen'           => 'nullable|string',
@@ -100,6 +100,7 @@ class KegiatanController extends Controller
         $validated['tgl_mulai_pelaksanaan']   = $startDate->toDateString();
         $validated['tgl_selesai_pelaksanaan'] = $endDate->toDateString();
         $validated['waktu_pelaksanaan'] = self::formatWaktuPelaksanaan($startDate, $endDate);
+        $validated['kebutuhan_anggaran'] = (float) $validated['kebutuhan_anggaran'] * 1_000_000;
 
         $kegiatan = Kegiatan::create($validated);
         ActivityLog::log('Menambahkan kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);
@@ -123,7 +124,7 @@ class KegiatanController extends Controller
             'tgl_mulai_pelaksanaan'       => 'required|date_format:Y-m',
             'tgl_selesai_pelaksanaan'     => 'required|date_format:Y-m',
             'tahun_akademik'    => 'nullable|string|max:20',
-            'kebutuhan_anggaran'=> 'required|string|max:200',
+            'kebutuhan_anggaran'=> 'required|numeric|min:0',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
             'catatan'           => 'nullable|string',
             'dokumen'           => 'nullable|string',
@@ -139,6 +140,7 @@ class KegiatanController extends Controller
         $validated['tgl_mulai_pelaksanaan']   = $startDate->toDateString();
         $validated['tgl_selesai_pelaksanaan'] = $endDate->toDateString();
         $validated['waktu_pelaksanaan'] = self::formatWaktuPelaksanaan($startDate, $endDate);
+        $validated['kebutuhan_anggaran'] = (float) $validated['kebutuhan_anggaran'] * 1_000_000;
 
         $kegiatan->update($validated);
         ActivityLog::log('Memperbarui kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);

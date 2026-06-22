@@ -125,7 +125,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kebutuhan Anggaran <span class="text-rose-500">*</span></label>
-                        <input type="text" name="kebutuhan_anggaran" id="create-anggaran" placeholder="Cth: Anggaran LPPM" required
+                        <input type="number" name="kebutuhan_anggaran" id="create-anggaran" placeholder="Cth: 15 (dalam juta)" step="any" required
                             class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                     </div>
                     <div>
@@ -283,7 +283,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kebutuhan Anggaran <span class="text-rose-500">*</span></label>
-                        <input type="text" name="kebutuhan_anggaran" x-model="editData.kebutuhan_anggaran" required
+                        <input type="number" name="kebutuhan_anggaran" x-model="editData.kebutuhan_anggaran" step="any" required
                             class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
                     </div>
                     <div>

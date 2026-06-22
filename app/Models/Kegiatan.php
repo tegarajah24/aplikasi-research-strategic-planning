@@ -8,6 +8,10 @@ class Kegiatan extends Model
 {
     protected $table = 'rkt_kegiatan';
 
+    protected $casts = [
+        'kebutuhan_anggaran' => 'decimal:2',
+    ];
+
     public function program()
     {
         return $this->belongsTo(RenstraProgram::class, 'program_id');
@@ -29,6 +33,15 @@ class Kegiatan extends Model
         'catatan',
         'dokumen',
     ];
+
+    public function getKebutuhanAnggaranFormattedAttribute(): string
+    {
+        $val = $this->kebutuhan_anggaran / 1_000_000;
+        if ($val == intval($val)) {
+            return 'Rp ' . number_format($val, 0) . ' Juta';
+        }
+        return 'Rp ' . number_format($val, 1) . ' Juta';
+    }
 
     public function getStatusLabelAttribute(): string
     {

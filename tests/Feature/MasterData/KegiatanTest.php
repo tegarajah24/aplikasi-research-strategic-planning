@@ -92,7 +92,7 @@ class KegiatanTest extends TestCase
             'tgl_mulai_pelaksanaan' => date('Y-m'),
             'tgl_selesai_pelaksanaan' => date('Y-m', strtotime('+2 months')),
             'tahun_akademik' => date('Y') . '/' . (date('Y') + 1),
-            'kebutuhan_anggaran' => 'Anggaran Test',
+            'kebutuhan_anggaran' => 15,
             'status' => 'perencanaan',
         ]);
 
@@ -135,7 +135,7 @@ class KegiatanTest extends TestCase
             'tgl_mulai_pelaksanaan' => \Carbon\Carbon::createFromFormat('Y-m', $start)->startOfMonth(),
             'tgl_selesai_pelaksanaan' => \Carbon\Carbon::createFromFormat('Y-m', $end)->endOfMonth(),
             'waktu_pelaksanaan' => 'Jan - Mar ' . date('Y'),
-            'kebutuhan_anggaran' => 'Test',
+            'kebutuhan_anggaran' => 15000000,
             'status' => 'perencanaan',
         ]);
 
@@ -148,7 +148,7 @@ class KegiatanTest extends TestCase
             'penanggung_jawab' => 'Dekan',
             'tgl_mulai_pelaksanaan' => $start,
             'tgl_selesai_pelaksanaan' => $end,
-            'kebutuhan_anggaran' => 'Updated',
+            'kebutuhan_anggaran' => 20,
             'status' => 'berjalan',
         ]);
 
@@ -178,7 +178,7 @@ class KegiatanTest extends TestCase
             'tgl_mulai_pelaksanaan' => \Carbon\Carbon::createFromFormat('Y-m', $start)->startOfMonth(),
             'tgl_selesai_pelaksanaan' => \Carbon\Carbon::createFromFormat('Y-m', $start)->endOfMonth(),
             'waktu_pelaksanaan' => date('M Y'),
-            'kebutuhan_anggaran' => 'Test',
+            'kebutuhan_anggaran' => 15000000,
             'status' => 'perencanaan',
         ]);
 
@@ -203,7 +203,7 @@ class KegiatanTest extends TestCase
             'penanggung_jawab' => 'LPPM',
             'tgl_mulai_pelaksanaan' => '2026-12',
             'tgl_selesai_pelaksanaan' => '2026-01',
-            'kebutuhan_anggaran' => 'Test',
+            'kebutuhan_anggaran' => 15,
             'status' => 'perencanaan',
         ]);
 
