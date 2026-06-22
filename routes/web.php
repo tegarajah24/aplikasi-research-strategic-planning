@@ -75,9 +75,6 @@ Route::middleware([
             ->names('kegiatan');
 
         Route::get('/rkt/kalender', [App\Http\Controllers\KalenderController::class, 'index'])->name('rkt.kalender');
-
-        Route::get('/laporan/renop', [App\Http\Controllers\LaporanRenopController::class, 'index'])->name('laporan.renop');
-        Route::get('/laporan/renop/export/{tahunAkademik}', [App\Http\Controllers\LaporanRenopController::class, 'exportExcel'])->name('laporan.renop.export');
     });
 
 });
