@@ -28,7 +28,10 @@ Route::middleware([
     Route::middleware(['role:Admin,Dekan'])->group(function () {
         Route::resource('fakultas', App\Http\Controllers\FakultasController::class)->parameters(['fakultas' => 'fakultas'])->except(['create', 'show', 'edit']);
         Route::resource('prodi', App\Http\Controllers\ProdiController::class)->except(['create', 'show', 'edit']);
-        Route::resource('renstra', App\Http\Controllers\RenstraController::class)->except(['create', 'show', 'edit']);
+        Route::get('renstra', [App\Http\Controllers\RenstraController::class, 'index'])->name('renstra.index');
+        Route::post('renstra', [App\Http\Controllers\RenstraController::class, 'store'])->name('renstra.store');
+        Route::match(['PUT', 'PATCH', 'POST'], 'renstra/{renstra}', [App\Http\Controllers\RenstraController::class, 'update'])->name('renstra.update');
+        Route::delete('renstra/{renstra}', [App\Http\Controllers\RenstraController::class, 'destroy'])->name('renstra.destroy');
     });
 
     // ── Admin, LPPM ──

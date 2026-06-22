@@ -705,10 +705,9 @@
         };
 
         const url  = id ? '/renstra/' + id : '/renstra';
-        const method = id ? 'PUT' : 'POST';
 
         fetch(url, {
-            method: method,
+            method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
             body: JSON.stringify(payload)
         }).then(r => {
