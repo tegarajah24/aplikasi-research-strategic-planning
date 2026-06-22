@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
 use App\Models\Kegiatan;
+use App\Models\RenstraProgram;
 use Illuminate\Http\Request;
 
 class KegiatanController extends Controller
 {
-    /**
-     * Display a listing of kegiatan with search, filter, and pagination.
-     */
     public function index(Request $request)
     {
-        $query = Kegiatan::query()->with('program.renstra');
+        $query = Kegiatan::query()->with('program.renstraStrategi.renstraSasaran.renstra');
 
-        // Search by name, code, or PIC
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -26,35 +23,32 @@ class KegiatanController extends Controller
             });
         }
 
-        // Filter by tahun_akademik
         if ($request->filled('tahun_akademik')) {
             $query->where('tahun_akademik', $request->tahun_akademik);
         }
 
-        // Filter by penanggung_jawab
         if ($request->filled('penanggung_jawab')) {
             $query->where('penanggung_jawab', $request->penanggung_jawab);
         }
 
-        // Filter by status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
         $kegiatans = $query->latest()->paginate(10)->withQueryString();
 
-        // Dashboard stats
         $totalKegiatan    = Kegiatan::count();
         $targetTercapai   = Kegiatan::where('status', 'selesai')->count();
         $totalAnggaran    = Kegiatan::sum('kebutuhan_anggaran');
         $kegiatanAktif    = Kegiatan::where('status', 'berjalan')->count();
 
-        // Options for filters
         $tahunAkademikOptions   = Kegiatan::select('tahun_akademik')->distinct()->whereNotNull('tahun_akademik')->orderBy('tahun_akademik', 'desc')->pluck('tahun_akademik');
         $penanggungJawabOptions = Kegiatan::select('penanggung_jawab')->distinct()->orderBy('penanggung_jawab')->pluck('penanggung_jawab');
 
-        // Fetch active programs with their renstra range
-        $programs = \App\Models\Program::with('renstra')->where('status', 'Aktif')->orderBy('kode_program')->get();
+        $programs = RenstraProgram::with('renstraStrategi.renstraSasaran.renstra')
+            ->where('status', 'Aktif')
+            ->orderBy('kode_program')
+            ->get();
 
         return view('kegiatan.index', compact(
             'kegiatans',
@@ -68,9 +62,6 @@ class KegiatanController extends Controller
         ));
     }
 
-    /**
-     * Store a newly created kegiatan.
-     */
     public function store(Request $request)
     {
         if (!auth()->user()->canWrite('kegiatan')) {
@@ -78,14 +69,14 @@ class KegiatanController extends Controller
         }
 
         $validated = $request->validate([
-            'program_id'        => 'required|exists:programs,id',
+            'program_id'        => 'required|exists:renstra_program,id',
             'kode_kegiatan'     => 'required|string|max:20',
             'nama_kegiatan'     => 'required|string|max:255',
             'indikator_kinerja' => 'required|string',
             'target_kegiatan'   => 'required|string|max:100',
             'penanggung_jawab'  => 'required|string|max:100',
-            'waktu_mulai'       => 'required|date_format:Y-m',
-            'waktu_selesai'     => 'required|date_format:Y-m',
+            'tgl_mulai_pelaksanaan'       => 'required|date_format:Y-m',
+            'tgl_selesai_pelaksanaan'     => 'required|date_format:Y-m',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|string|max:200',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
@@ -93,15 +84,15 @@ class KegiatanController extends Controller
             'dokumen'           => 'nullable|string',
         ]);
 
-        $startDate = \Carbon\Carbon::createFromFormat('Y-m', $validated['waktu_mulai'])->startOfMonth();
-        $endDate   = \Carbon\Carbon::createFromFormat('Y-m', $validated['waktu_selesai'])->endOfMonth();
+        $startDate = \Carbon\Carbon::createFromFormat('Y-m', $validated['tgl_mulai_pelaksanaan'])->startOfMonth();
+        $endDate   = \Carbon\Carbon::createFromFormat('Y-m', $validated['tgl_selesai_pelaksanaan'])->endOfMonth();
 
         if ($endDate->lt($startDate)) {
-            return back()->withErrors(['waktu_selesai' => 'Waktu selesai harus setelah atau sama dengan waktu mulai.'])->withInput();
+            return back()->withErrors(['tgl_selesai_pelaksanaan' => 'Waktu selesai harus setelah atau sama dengan waktu mulai.'])->withInput();
         }
 
-        $validated['waktu_mulai']   = $startDate->toDateString();
-        $validated['waktu_selesai'] = $endDate->toDateString();
+        $validated['tgl_mulai_pelaksanaan']   = $startDate->toDateString();
+        $validated['tgl_selesai_pelaksanaan'] = $endDate->toDateString();
         $validated['waktu_pelaksanaan'] = self::formatWaktuPelaksanaan($startDate, $endDate);
 
         $kegiatan = Kegiatan::create($validated);
@@ -110,9 +101,6 @@ class KegiatanController extends Controller
         return redirect()->route('kegiatan.index')->with('success', 'Kegiatan berhasil ditambahkan.');
     }
 
-    /**
-     * Update the specified kegiatan.
-     */
     public function update(Request $request, Kegiatan $kegiatan)
     {
         if (!auth()->user()->canWrite('kegiatan')) {
@@ -120,14 +108,14 @@ class KegiatanController extends Controller
         }
 
         $validated = $request->validate([
-            'program_id'        => 'required|exists:programs,id',
+            'program_id'        => 'required|exists:renstra_program,id',
             'kode_kegiatan'     => 'required|string|max:20',
             'nama_kegiatan'     => 'required|string|max:255',
             'indikator_kinerja' => 'required|string',
             'target_kegiatan'   => 'required|string|max:100',
             'penanggung_jawab'  => 'required|string|max:100',
-            'waktu_mulai'       => 'required|date_format:Y-m',
-            'waktu_selesai'     => 'required|date_format:Y-m',
+            'tgl_mulai_pelaksanaan'       => 'required|date_format:Y-m',
+            'tgl_selesai_pelaksanaan'     => 'required|date_format:Y-m',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|string|max:200',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
@@ -135,15 +123,15 @@ class KegiatanController extends Controller
             'dokumen'           => 'nullable|string',
         ]);
 
-        $startDate = \Carbon\Carbon::createFromFormat('Y-m', $validated['waktu_mulai'])->startOfMonth();
-        $endDate   = \Carbon\Carbon::createFromFormat('Y-m', $validated['waktu_selesai'])->endOfMonth();
+        $startDate = \Carbon\Carbon::createFromFormat('Y-m', $validated['tgl_mulai_pelaksanaan'])->startOfMonth();
+        $endDate   = \Carbon\Carbon::createFromFormat('Y-m', $validated['tgl_selesai_pelaksanaan'])->endOfMonth();
 
         if ($endDate->lt($startDate)) {
-            return back()->withErrors(['waktu_selesai' => 'Waktu selesai harus setelah atau sama dengan waktu mulai.'])->withInput();
+            return back()->withErrors(['tgl_selesai_pelaksanaan' => 'Waktu selesai harus setelah atau sama dengan waktu mulai.'])->withInput();
         }
 
-        $validated['waktu_mulai']   = $startDate->toDateString();
-        $validated['waktu_selesai'] = $endDate->toDateString();
+        $validated['tgl_mulai_pelaksanaan']   = $startDate->toDateString();
+        $validated['tgl_selesai_pelaksanaan'] = $endDate->toDateString();
         $validated['waktu_pelaksanaan'] = self::formatWaktuPelaksanaan($startDate, $endDate);
 
         $kegiatan->update($validated);
@@ -169,9 +157,6 @@ class KegiatanController extends Controller
         return "{$startMonth} {$startYear} - {$endMonth} {$endYear}";
     }
 
-    /**
-     * Remove the specified kegiatan.
-     */
     public function destroy(Kegiatan $kegiatan)
     {
         if (!auth()->user()->canWrite('kegiatan')) {

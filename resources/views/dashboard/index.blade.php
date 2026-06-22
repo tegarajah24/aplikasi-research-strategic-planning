@@ -231,8 +231,8 @@
                         @forelse ($upcomingKegiatans as $kegiatan)
                         <div class="flex items-start gap-4 p-3 rounded-xl {{ $loop->index > 0 ? 'opacity-100' : '' }}">
                             <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-50 flex flex-col items-center justify-center text-center border border-blue-100">
-                                <span class="text-[9px] font-bold text-blue-600 uppercase leading-tight">{{ \Carbon\Carbon::parse($kegiatan->waktu_mulai)->format('d') }}</span>
-                                <span class="text-[8px] font-medium text-blue-400 leading-tight">{{ \Carbon\Carbon::parse($kegiatan->waktu_mulai)->locale('id')->isoFormat('MMM') }}</span>
+                                <span class="text-[9px] font-bold text-blue-600 uppercase leading-tight">{{ \Carbon\Carbon::parse($kegiatan->tgl_mulai_pelaksanaan)->format('d') }}</span>
+                                <span class="text-[8px] font-medium text-blue-400 leading-tight">{{ \Carbon\Carbon::parse($kegiatan->tgl_mulai_pelaksanaan)->locale('id')->isoFormat('MMM') }}</span>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-semibold text-slate-700 truncate">{{ $kegiatan->nama_kegiatan }}</p>

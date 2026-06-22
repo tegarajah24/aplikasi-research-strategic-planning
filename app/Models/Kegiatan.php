@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kegiatan extends Model
 {
-    protected $table = 'kegiatans';
+    protected $table = 'rkt_kegiatan';
 
     public function program()
     {
-        return $this->belongsTo(Program::class);
+        return $this->belongsTo(RenstraProgram::class, 'program_id');
     }
 
     protected $fillable = [
@@ -21,8 +21,8 @@ class Kegiatan extends Model
         'target_kegiatan',
         'penanggung_jawab',
         'waktu_pelaksanaan',
-        'waktu_mulai',
-        'waktu_selesai',
+        'tgl_mulai_pelaksanaan',
+        'tgl_selesai_pelaksanaan',
         'tahun_akademik',
         'kebutuhan_anggaran',
         'status',
@@ -30,9 +30,6 @@ class Kegiatan extends Model
         'dokumen',
     ];
 
-    /**
-     * Status label mapping
-     */
     public function getStatusLabelAttribute(): string
     {
         return match($this->status) {
@@ -44,9 +41,6 @@ class Kegiatan extends Model
         };
     }
 
-    /**
-     * Status color class mapping (Tailwind)
-     */
     public function getStatusColorAttribute(): string
     {
         return match($this->status) {

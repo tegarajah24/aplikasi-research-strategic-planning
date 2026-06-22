@@ -68,9 +68,8 @@
             $isProdi = request()->is('prodi*');
             $isDosen = request()->is('dosen*');
             $isBidang = request()->is('bidang') || request()->is('bidang/*');
-            $isProgram = request()->is('program*');
             $isRenstra = request()->is('renstra*');
-            $isMasterDataActive = $isFakultas || $isProdi || $isDosen || $isBidang || $isProgram || $isRenstra;
+            $isMasterDataActive = $isFakultas || $isProdi || $isDosen || $isBidang || $isRenstra;
         @endphp
         <div class="relative" x-data="{ open: {{ $isMasterDataActive ? 'true' : 'false' }} }">
             <button type="button" @click="open = !open" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
@@ -200,25 +199,6 @@
                     </a>
                     @endif
 
-                    {{-- Program --}}
-                    @if(auth()->user()->isAdmin() || auth()->user()->isLppm())
-                    <a href="/program"
-                       class="group relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium
-                              transition-all duration-150
-                              {{ $isProgram
-                                   ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/30'
-                                   : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}"
-                       aria-current="{{ $isProgram ? 'page' : 'false' }}">
-                        @if($isProgram)
-                            <span class="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[2px] bg-blue-300 rounded-full"></span>
-                        @endif
-                        <svg class="w-4 h-4 flex-shrink-0 {{ $isProgram ? 'text-blue-200' : 'text-slate-400 group-hover:text-slate-200' }} transition-colors"
-                             fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5"/>
-                        </svg>
-                        <span>Program</span>
-                    </a>
-                    @endif
                 </div>
             <!-- dropdown closed -->
         </div>

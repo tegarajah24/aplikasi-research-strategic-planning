@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
 use App\Models\Bidang;
-use App\Models\Program;
+use App\Models\RenstraProgram;
 use App\Models\Kegiatan;
 use App\Http\Requests\StoreBidangRequest;
 use App\Http\Requests\UpdateBidangRequest;
@@ -14,7 +14,7 @@ class BidangController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Bidang::with('renstras.fakultas', 'renstras.sasarans.strategis.programs', 'renstras.programs.kegiatans');
+        $query = Bidang::with('sasarans.renstra.fakultas', 'sasarans.strategis.programs.kegiatans');
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -32,49 +32,45 @@ class BidangController extends Controller
         $bidangs = $query->latest()->paginate(10)->withQueryString();
 
         $totalBidang   = Bidang::count();
-        $totalProgram  = Program::count();
+        $totalProgram  = RenstraProgram::count();
         $totalKegiatan = Kegiatan::count();
 
-        $bidangList = Bidang::with('renstras.sasarans.strategis.programs', 'renstras.programs.kegiatans')->get()->map(function ($b) {
+        $bidangList = Bidang::with('sasarans.renstra.fakultas', 'sasarans.strategis.programs.kegiatans')->get()->map(function ($b) {
             return [
                 'id'        => $b->id,
                 'kode'      => $b->kode_bidang,
                 'nama'      => $b->nama_bidang,
                 'deskripsi' => $b->deskripsi,
                 'status'    => $b->status,
-                'renstras'  => $b->renstras->map(function ($r) {
+                'renstras'  => $b->sasarans->groupBy('renstra_id')->map(function ($sasarans, $renstraId) {
+                    $firstS = $sasarans->first();
+                    $r = $firstS->renstra;
                     return [
                         'id'           => $r->id,
                         'fakultas'     => $r->fakultas?->nama_fakultas ?? '-',
                         'tahunMulai'   => $r->tahun_mulai,
                         'tahunSelesai' => $r->tahun_selesai,
-                        'sasarans'     => $r->sasarans->map(function ($s) {
+                        'sasarans'     => $sasarans->map(function ($s) {
                             return [
                                 'id'      => $s->id,
-                                'sasaran' => $s->sasaran,
+                                'nama_sasaran' => $s->nama_sasaran,
                                 'strategis' => $s->strategis->map(function ($st) {
                                     return [
                                         'id'       => $st->id,
-                                        'strategi' => $st->strategi,
+                                        'nama_strategi' => $st->nama_strategi,
                                         'programs' => $st->programs->map(function ($pr) {
                                             return [
                                                 'id' => $pr->id,
-                                                'program_tahunan' => $pr->program_tahunan,
+                                                'nama_program' => $pr->nama_program,
+                                                'kegiatan' => $pr->kegiatans->count(),
                                             ];
                                         }),
                                     ];
                                 }),
                             ];
                         }),
-                        'programs'     => $r->programs->map(function ($p) {
-                            return [
-                                'id'       => $p->id,
-                                'nama'     => $p->nama_program,
-                                'kegiatan' => $p->kegiatans->count(),
-                            ];
-                        }),
                     ];
-                }),
+                })->values(),
             ];
         });
 

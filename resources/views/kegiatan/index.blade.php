@@ -15,7 +15,7 @@
         showDetailModal: false,
         editData: {
             id: '', program_id: '', kode_kegiatan: '', nama_kegiatan: '', indikator_kinerja: '',
-            target_kegiatan: '', penanggung_jawab: '', waktu_mulai: '', waktu_selesai: '',
+            target_kegiatan: '', penanggung_jawab: '', tgl_mulai_pelaksanaan: '', tgl_selesai_pelaksanaan: '',
             tahun_akademik: '', kebutuhan_anggaran: '', status: '', catatan: ''
         },
         detailData: {

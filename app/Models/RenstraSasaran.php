@@ -10,7 +10,9 @@ class RenstraSasaran extends Model
 
     protected $fillable = [
         'renstra_id',
-        'sasaran',
+        'bidang_id',
+        'kode_sasaran',
+        'nama_sasaran',
         'urutan',
     ];
 
@@ -19,8 +21,13 @@ class RenstraSasaran extends Model
         return $this->belongsTo(Renstra::class);
     }
 
+    public function bidang()
+    {
+        return $this->belongsTo(Bidang::class);
+    }
+
     public function strategis()
     {
-        return $this->hasMany(RenstraStrategi::class, 'renstra_sasaran_id')->orderBy('urutan');
+        return $this->hasMany(RenstraStrategi::class, 'sasaran_id')->orderBy('urutan');
     }
 }

@@ -9,13 +9,21 @@ class RenstraProgram extends Model
     protected $table = 'renstra_program';
 
     protected $fillable = [
-        'renstra_strategi_id',
-        'program_tahunan',
+        'strategi_id',
+        'nama_program',
+        'kode_program',
+        'deskripsi',
+        'status',
         'urutan',
     ];
 
     public function renstraStrategi()
     {
-        return $this->belongsTo(RenstraStrategi::class);
+        return $this->belongsTo(RenstraStrategi::class, 'strategi_id');
+    }
+
+    public function kegiatans()
+    {
+        return $this->hasMany(Kegiatan::class, 'program_id');
     }
 }

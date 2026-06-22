@@ -97,7 +97,7 @@
                         </button>
                         @if(auth()->user()->canWrite('kegiatan'))
                         <button type="button" id="btn-edit-{{ $kegiatan->id }}"
-                            @click="const d = {{ json_encode($kegiatan->toArray()) }}; if (d.waktu_mulai) d.waktu_mulai = d.waktu_mulai.substring(0, 7); if (d.waktu_selesai) d.waktu_selesai = d.waktu_selesai.substring(0, 7); editData = d; showEditModal = true"
+                            @click="const d = {{ json_encode($kegiatan->toArray()) }}; if (d.tgl_mulai_pelaksanaan) d.tgl_mulai_pelaksanaan = d.tgl_mulai_pelaksanaan.substring(0, 7); if (d.tgl_selesai_pelaksanaan) d.tgl_selesai_pelaksanaan = d.tgl_selesai_pelaksanaan.substring(0, 7); editData = d; showEditModal = true"
                             class="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                             title="Edit">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">

@@ -147,26 +147,12 @@
             <div class="px-6 py-5 space-y-5 max-h-[75vh] overflow-y-auto bg-slate-50/30">
                 <input type="hidden" id="edit-id">
 
-                {{-- Bidang & Kode Sasaran --}}
+                {{-- Kode & Fakultas --}}
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Bidang <span class="text-red-500">*</span></label>
-                        <select id="f-bidang"
-                            class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            <option value="">Pilih Bidang</option>
-                            @foreach($bidangList as $b)
-                            <option value="{{ $b->id }}">{{ $b->kode_bidang }} - {{ $b->nama_bidang }}</option>
-                            @endforeach
-                        </select>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode RENSTRA</label>
+                        <input id="f-kode" type="text" placeholder="RS-01" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Sasaran</label>
-                        <input id="f-kode" type="text" placeholder="SS1" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition">
-                    </div>
-                </div>
-
-                {{-- Fakultas --}}
-                <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">Fakultas <span class="text-red-500">*</span></label>
                         <select id="f-fakultas"
@@ -176,8 +162,6 @@
                             <option value="{{ $f->id }}">{{ $f->kode_fakultas }} ({{ $f->nama_fakultas }})</option>
                             @endforeach
                         </select>
-                    </div>
-                    <div>
                     </div>
                 </div>
 
@@ -286,16 +270,24 @@
 
     function getGroupedData(bidangId, fakultasId, periodeKey) {
         const filtered = renstraData.filter(d => {
-            let matchBid = !bidangId || d.bidang_id == bidangId;
+            let matchBid = !bidangId || (d.sasarans || []).some(s => s.bidang_id == bidangId);
             let matchFak = !fakultasId || d.fakultas_id == fakultasId;
             let matchPeriode = !periodeKey || (d.tahunMulai + '-' + d.tahunSelesai) === periodeKey;
-            return matchBid && matchFak && matchPeriode;
+            return matchFak && matchPeriode && matchBid;
         });
         return filtered;
     }
 
     // ── Repeater helpers ──
-    function sasaranTemplate(sasaranVal, strategisHtml) {
+    function getBidangSelect(value) {
+        let opts = '<option value="">Pilih Bidang</option>';
+        bidangList.forEach(b => {
+            opts += `<option value="${b.id}" ${b.id == value ? 'selected' : ''}>${b.kode_bidang} - ${b.nama_bidang}</option>`;
+        });
+        return opts;
+    }
+
+    function sasaranTemplate(sasaranVal, strategisHtml, bidangId) {
         sasaranCounter++;
         const idx = sasaranCounter;
         return `
@@ -307,6 +299,7 @@
                         Hapus
                     </button>
                 </div>
+                <select class="bidang-input w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition mb-2">${getBidangSelect(bidangId)}</select>
                 <input type="text" class="sasaran-input w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-500 transition" placeholder="Contoh: Meningkatkan kualitas penelitian dosen" value="${sasaranVal || ''}">
                 <div class="mt-3 pl-4 border-l-2 border-sky-100 space-y-2">
                     <div class="flex items-center justify-between">
@@ -366,7 +359,7 @@
         `;
     }
 
-    function addSasaran(sasaranVal, strategisData) {
+    function addSasaran(sasaranVal, strategisData, bidangId) {
         const container = document.getElementById('sasaran-container');
         const empty = document.getElementById('sasaran-empty');
         if (empty) empty.style.display = 'none';
@@ -377,14 +370,14 @@
                 let programsHtml = '';
                 if (sd.programs && sd.programs.length) {
                     sd.programs.forEach(pd => {
-                        programsHtml += programTemplate(pd.program_tahunan || '');
+                        programsHtml += programTemplate(pd.nama_program || '');
                     });
                 }
-                strategisHtml += strategiTemplate(sd.strategi || '', programsHtml);
+                strategisHtml += strategiTemplate(sd.nama_strategi || '', programsHtml);
             });
         }
 
-        container.insertAdjacentHTML('beforeend', sasaranTemplate(sasaranVal || '', strategisHtml));
+        container.insertAdjacentHTML('beforeend', sasaranTemplate(sasaranVal || '', strategisHtml, bidangId));
     }
 
     function addStrategi(btn, strategiVal, programsData) {
@@ -392,7 +385,7 @@
         let programsHtml = '';
         if (programsData && programsData.length) {
             programsData.forEach(pd => {
-                programsHtml += programTemplate(pd.program_tahunan || '');
+                programsHtml += programTemplate(pd.nama_program || '');
             });
         }
         container.insertAdjacentHTML('beforeend', strategiTemplate(strategiVal || '', programsHtml));
@@ -424,6 +417,8 @@
         const groups = document.querySelectorAll('#sasaran-container > .sasaran-group');
         const result = [];
         groups.forEach(g => {
+            const bidangInput = g.querySelector('.bidang-input');
+            const bidangId = bidangInput ? bidangInput.value : '';
             const sasaranInput = g.querySelector('.sasaran-input');
             const sasaranVal = sasaranInput ? sasaranInput.value.trim() : '';
             if (!sasaranVal) return;
@@ -441,18 +436,31 @@
                     const progInput = pg.querySelector('.program-input');
                     const progVal = progInput ? progInput.value.trim() : '';
                     if (!progVal) return;
-                    programs.push({ program_tahunan: progVal });
+                    programs.push({ nama_program: progVal });
                 });
 
-                strategis.push({ strategi: strategiVal, programs });
+                strategis.push({ nama_strategi: strategiVal, programs });
             });
 
-            result.push({ sasaran: sasaranVal, strategis });
+            result.push({ bidang_id: bidangId || null, nama_sasaran: sasaranVal, strategis });
         });
         return result;
     }
 
     // ── Tree rendering ──
+    function getBidangForRenstra(r) {
+        const sasarans = r.sasarans || [];
+        if (sasarans.length === 0) return { id: 'null', name: 'Tanpa Bidang' };
+        // Group by bidang_id — use the first one found
+        for (const s of sasarans) {
+            if (s.bidang_id) {
+                const b = bidangList.find(x => x.id === s.bidang_id);
+                return { id: s.bidang_id, name: b ? b.nama_bidang : 'Tanpa Bidang' };
+            }
+        }
+        return { id: 'null', name: 'Tanpa Bidang' };
+    }
+
     function renderTree() {
         const bidangId = document.getElementById('filter-bidang').value;
         const fakultasId = document.getElementById('filter-fakultas').value;
@@ -470,9 +478,9 @@
 
         const grouped = {};
         data.forEach(r => {
-            const bid = r.bidang_id || 'null';
-            if (!grouped[bid]) grouped[bid] = { bidang: r.bidang || 'Tanpa Bidang', items: [] };
-            grouped[bid].items.push(r);
+            const bInfo = getBidangForRenstra(r);
+            if (!grouped[bInfo.id]) grouped[bInfo.id] = { bidang: bInfo.name, items: [] };
+            grouped[bInfo.id].items.push(r);
         });
 
         let html = '';
@@ -543,7 +551,7 @@
                                     </div>
                                     <div>
                                         <p class="text-[10px] font-semibold text-sky-400 uppercase tracking-wider mb-0.5">Sasaran Strategis #${si + 1}</p>
-                                        <p class="text-sm font-bold text-slate-800">${s.sasaran}</p>
+                                        <p class="text-sm font-bold text-slate-800">${s.nama_sasaran}</p>
                                     </div>
                                 </div>`;
 
@@ -558,7 +566,7 @@
                                             </div>
                                             <div>
                                                 <p class="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider mb-0.5">Strategi #${sti + 1}</p>
-                                                <p class="text-sm font-bold text-slate-800">${st.strategi}</p>
+                                                <p class="text-sm font-bold text-slate-800">${st.nama_strategi}</p>
                                             </div>
                                         </div>`;
 
@@ -572,7 +580,7 @@
                                                 </div>
                                                 <div>
                                                     <p class="text-[10px] font-semibold text-emerald-500 uppercase tracking-wider mb-0.5">Program Tahunan #${pri + 1}</p>
-                                                    <p class="text-sm font-bold text-slate-800">${pr.program_tahunan}</p>
+                                                    <p class="text-sm font-bold text-slate-800">${pr.nama_program}</p>
                                                 </div>
                                             </div>
                                         </div>`;
@@ -613,7 +621,6 @@
             const row = renstraData.find(d => d.id === id);
             if (row) {
                 document.getElementById('modal-title-text').textContent = 'Edit Data RENSTRA';
-                document.getElementById('f-bidang').value = row.bidang_id || '';
                 document.getElementById('f-fakultas').value = row.fakultas_id || '';
                 document.getElementById('f-kode').value = row.kode || '';
                 document.getElementById('f-tahun-mulai').value = row.tahunMulai || '';
@@ -623,21 +630,20 @@
                 const sasarans = row.sasarans || [];
                 if (sasarans.length > 0) {
                     sasarans.forEach(s => {
-                        addSasaran(s.sasaran, s.strategis || []);
+                        addSasaran(s.nama_sasaran, s.strategis || [], s.bidang_id);
                     });
                 } else {
-                    addSasaran('', []);
+                    addSasaran('', [], '');
                 }
             }
         } else {
             document.getElementById('modal-title-text').textContent = 'Tambah Data RENSTRA';
-            document.getElementById('f-bidang').value = document.getElementById('filter-bidang').value || '';
             document.getElementById('f-fakultas').value = document.getElementById('filter-fakultas').value || '';
             document.getElementById('f-kode').value = '';
             document.getElementById('f-tahun-mulai').value = '';
             document.getElementById('f-tahun-selesai').value = '';
             document.getElementById('f-status').value = 'belum_tercapai';
-            addSasaran('', []);
+            addSasaran('', [], '');
         }
 
         document.getElementById('renstra-modal').classList.remove('modal-closed');
@@ -651,7 +657,6 @@
 
     function saveRenstra() {
         const id = document.getElementById('edit-id').value;
-        const bidangId = document.getElementById('f-bidang').value;
         const fakultasId = document.getElementById('f-fakultas').value;
         const kode = document.getElementById('f-kode').value.trim();
         const tahunMulai = parseInt(document.getElementById('f-tahun-mulai').value);
@@ -661,8 +666,8 @@
 
         const errEl = document.getElementById('form-error');
 
-        if (!bidangId || !fakultasId || !tahunMulai || !tahunSelesai) {
-            errEl.textContent = 'Bidang, Fakultas, Tahun Mulai, dan Tahun Selesai wajib diisi.';
+        if (!fakultasId || !tahunMulai || !tahunSelesai) {
+            errEl.textContent = 'Fakultas, Tahun Mulai, dan Tahun Selesai wajib diisi.';
             errEl.classList.remove('hidden');
             return;
         }
@@ -680,7 +685,6 @@
         errEl.classList.add('hidden');
 
         const payload = {
-            bidang_id: bidangId || null,
             fakultas_id: fakultasId || null,
             kode: kode || null,
             tahun_mulai: tahunMulai,

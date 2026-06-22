@@ -25,8 +25,8 @@ Route::middleware([
         $totalKerjasama = \App\Models\Kerjasama::count();
         $totalPrestasi = \App\Models\PrestasiAkademik::count() + \App\Models\PrestasiNonAkademik::count();
 
-        $upcomingKegiatans = \App\Models\Kegiatan::where('waktu_mulai', '>=', now())
-            ->orderBy('waktu_mulai')
+        $upcomingKegiatans = \App\Models\Kegiatan::where('tgl_mulai_pelaksanaan', '>=', now())
+            ->orderBy('tgl_mulai_pelaksanaan')
             ->take(5)
             ->get();
 
@@ -85,7 +85,6 @@ Route::middleware([
     // ── Admin, LPPM ──
     Route::middleware(['role:Admin,LPPM'])->group(function () {
         Route::resource('bidang', App\Http\Controllers\BidangController::class)->except(['create', 'show', 'edit']);
-        Route::resource('program', App\Http\Controllers\ProgramController::class)->except(['create', 'show', 'edit']);
     });
 
     // ── Admin, Dekan, LPPM (non-Kaprodi) ──
@@ -124,9 +123,9 @@ Route::middleware([
             ->names('kegiatan');
 
         Route::get('/rkt/kalender', function () {
-            $kegiatans = \App\Models\Kegiatan::with('program.bidang')
-                ->whereNotNull('waktu_mulai')
-                ->orderBy('waktu_mulai')
+            $kegiatans = \App\Models\Kegiatan::with('program.renstraStrategi.renstraSasaran.bidang')
+                ->whereNotNull('tgl_mulai_pelaksanaan')
+                ->orderBy('tgl_mulai_pelaksanaan')
                 ->get();
 
             $eventsData = $kegiatans->map(function ($k) {
@@ -140,9 +139,9 @@ Route::middleware([
                     'id'        => $k->id,
                     'title'     => $k->nama_kegiatan,
                     'program'   => $k->program?->nama_program ?? '-',
-                    'bidang'    => $k->program?->bidang?->nama_bidang ?? '-',
-                    'start'     => $k->waktu_mulai,
-                    'end'       => $k->waktu_selesai ?? $k->waktu_mulai,
+                    'bidang'    => $k->program?->renstraStrategi?->renstraSasaran?->bidang?->nama_bidang ?? '-',
+                    'start'     => $k->tgl_mulai_pelaksanaan,
+                    'end'       => $k->tgl_selesai_pelaksanaan ?? $k->tgl_mulai_pelaksanaan,
                     'pj'        => $k->penanggung_jawab,
                     'status'    => $statusMap[$k->status] ?? 'upcoming',
                     'anggaran'  => $k->kebutuhan_anggaran,

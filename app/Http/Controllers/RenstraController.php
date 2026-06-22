@@ -3,30 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
-use App\Models\Fakultas;
-use App\Models\Bidang;
 use App\Models\Renstra;
 use App\Models\RenstraSasaran;
 use App\Models\RenstraStrategi;
 use App\Models\RenstraProgram;
+use App\Models\Fakultas;
+use App\Models\Bidang;
 use Illuminate\Http\Request;
 
 class RenstraController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Renstra::with(['fakultas', 'bidang', 'programs', 'sasarans.strategis.programs']);
+        $query = Renstra::with(['fakultas', 'sasarans.bidang', 'sasarans.strategis.programs']);
 
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('kode', 'like', "%{$search}%")
                   ->orWhereHas('sasarans', function ($sq) use ($search) {
-                      $sq->where('sasaran', 'like', "%{$search}%")
+                      $sq->where('nama_sasaran', 'like', "%{$search}%")
                         ->orWhereHas('strategis', function ($stq) use ($search) {
-                            $stq->where('strategi', 'like', "%{$search}%")
+                            $stq->where('nama_strategi', 'like', "%{$search}%")
                               ->orWhereHas('programs', function ($prq) use ($search) {
-                                  $prq->where('program_tahunan', 'like', "%{$search}%");
+                                  $prq->where('nama_program', 'like', "%{$search}%");
                               });
                         });
                   });
@@ -38,7 +38,9 @@ class RenstraController extends Controller
         }
 
         if ($request->filled('bidang_id')) {
-            $query->where('bidang_id', $request->bidang_id);
+            $query->whereHas('sasarans', function ($q) use ($request) {
+                $q->where('bidang_id', $request->bidang_id);
+            });
         }
 
         $renstras = $query->latest()->paginate(10)->withQueryString();
@@ -50,28 +52,27 @@ class RenstraController extends Controller
             return [
                 'id' => $r->id,
                 'fakultas_id' => $r->fakultas_id,
-                'bidang_id' => $r->bidang_id,
                 'fakultas' => $r->fakultas?->nama_fakultas ?? 'Semua',
-                'bidang' => $r->bidang?->nama_bidang ?? 'Tanpa Bidang',
                 'tahunMulai' => $r->tahun_mulai,
                 'tahunSelesai' => $r->tahun_selesai,
                 'kode' => $r->kode,
                 'status' => $r->status ?? 'belum_tercapai',
-                'totalProgram' => $r->programs->count(),
                 'sasarans' => $r->sasarans->map(function ($s) {
                     return [
                         'id' => $s->id,
-                        'sasaran' => $s->sasaran,
+                        'bidang_id' => $s->bidang_id,
+                        'bidang' => $s->bidang?->nama_bidang ?? 'Tanpa Bidang',
+                        'nama_sasaran' => $s->nama_sasaran,
                         'urutan' => $s->urutan,
                         'strategis' => $s->strategis->map(function ($st) {
                             return [
                                 'id' => $st->id,
-                                'strategi' => $st->strategi,
+                                'nama_strategi' => $st->nama_strategi,
                                 'urutan' => $st->urutan,
                                 'programs' => $st->programs->map(function ($p) {
                                     return [
                                         'id' => $p->id,
-                                        'program_tahunan' => $p->program_tahunan,
+                                        'nama_program' => $p->nama_program,
                                         'urutan' => $p->urutan,
                                     ];
                                 }),
@@ -93,7 +94,12 @@ class RenstraController extends Controller
         foreach ($sasarans as $idx => $sasaranData) {
             $sasaran = $renstra->sasarans()->updateOrCreate(
                 ['id' => $sasaranData['id'] ?? null],
-                ['sasaran' => $sasaranData['sasaran'], 'urutan' => $idx + 1]
+                [
+                    'bidang_id' => $sasaranData['bidang_id'] ?? null,
+                    'kode_sasaran' => $sasaranData['kode_sasaran'] ?? null,
+                    'nama_sasaran' => $sasaranData['nama_sasaran'],
+                    'urutan' => $idx + 1,
+                ]
             );
             $incomingIds[] = $sasaran->id;
 
@@ -103,7 +109,7 @@ class RenstraController extends Controller
             foreach ($sasaranData['strategis'] ?? [] as $si => $strategiData) {
                 $strategi = $sasaran->strategis()->updateOrCreate(
                     ['id' => $strategiData['id'] ?? null],
-                    ['strategi' => $strategiData['strategi'], 'urutan' => $si + 1]
+                    ['nama_strategi' => $strategiData['nama_strategi'], 'urutan' => $si + 1]
                 );
                 $incomingStrategiIds[] = $strategi->id;
 
@@ -113,7 +119,7 @@ class RenstraController extends Controller
                 foreach ($strategiData['programs'] ?? [] as $pi => $programData) {
                     $program = $strategi->programs()->updateOrCreate(
                         ['id' => $programData['id'] ?? null],
-                        ['program_tahunan' => $programData['program_tahunan'], 'urutan' => $pi + 1]
+                        ['nama_program' => $programData['nama_program'], 'urutan' => $pi + 1]
                     );
                     $incomingProgramIds[] = $program->id;
                 }
@@ -143,22 +149,22 @@ class RenstraController extends Controller
         }
 
         $validated = $request->validate([
-            'bidang_id'       => 'nullable|exists:bidangs,id',
             'fakultas_id'     => 'nullable|exists:fakultas,id',
             'kode'            => 'nullable|string|max:20',
             'tahun_mulai'     => 'required|integer|min:2000|max:2099',
             'tahun_selesai'   => 'required|integer|min:2000|max:2099|gte:tahun_mulai',
             'status'          => 'nullable|string|in:tercapai,dalam_proses,belum_tercapai',
             'sasarans'        => 'required|array|min:1',
-            'sasarans.*.sasaran'         => 'required|string|max:255',
-            'sasarans.*.strategis'       => 'nullable|array',
-            'sasarans.*.strategis.*.strategi'     => 'required|string|max:255',
+            'sasarans.*.bidang_id'                => 'nullable|exists:bidangs,id',
+            'sasarans.*.kode_sasaran'             => 'nullable|string|max:20',
+            'sasarans.*.nama_sasaran'             => 'required|string|max:255',
+            'sasarans.*.strategis'                => 'nullable|array',
+            'sasarans.*.strategis.*.nama_strategi' => 'required|string|max:255',
             'sasarans.*.strategis.*.programs'     => 'nullable|array',
-            'sasarans.*.strategis.*.programs.*.program_tahunan' => 'required|string|max:255',
+            'sasarans.*.strategis.*.programs.*.nama_program' => 'required|string|max:255',
         ]);
 
         $renstra = Renstra::create([
-            'bidang_id'     => $validated['bidang_id'],
             'fakultas_id'   => $validated['fakultas_id'],
             'kode'          => $validated['kode'],
             'tahun_mulai'   => $validated['tahun_mulai'],
@@ -179,22 +185,22 @@ class RenstraController extends Controller
         }
 
         $validated = $request->validate([
-            'bidang_id'       => 'nullable|exists:bidangs,id',
             'fakultas_id'     => 'nullable|exists:fakultas,id',
             'kode'            => 'nullable|string|max:20',
             'tahun_mulai'     => 'required|integer|min:2000|max:2099',
             'tahun_selesai'   => 'required|integer|min:2000|max:2099|gte:tahun_mulai',
             'status'          => 'nullable|string|in:tercapai,dalam_proses,belum_tercapai',
             'sasarans'        => 'required|array|min:1',
-            'sasarans.*.sasaran'         => 'required|string|max:255',
-            'sasarans.*.strategis'       => 'nullable|array',
-            'sasarans.*.strategis.*.strategi'     => 'required|string|max:255',
+            'sasarans.*.bidang_id'                => 'nullable|exists:bidangs,id',
+            'sasarans.*.kode_sasaran'             => 'nullable|string|max:20',
+            'sasarans.*.nama_sasaran'             => 'required|string|max:255',
+            'sasarans.*.strategis'                => 'nullable|array',
+            'sasarans.*.strategis.*.nama_strategi' => 'required|string|max:255',
             'sasarans.*.strategis.*.programs'     => 'nullable|array',
-            'sasarans.*.strategis.*.programs.*.program_tahunan' => 'required|string|max:255',
+            'sasarans.*.strategis.*.programs.*.nama_program' => 'required|string|max:255',
         ]);
 
         $renstra->update([
-            'bidang_id'     => $validated['bidang_id'],
             'fakultas_id'   => $validated['fakultas_id'],
             'kode'          => $validated['kode'],
             'tahun_mulai'   => $validated['tahun_mulai'],

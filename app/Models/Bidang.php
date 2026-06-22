@@ -15,16 +15,16 @@ class Bidang extends Model
 
     public function renstras()
     {
-        return $this->hasMany(Renstra::class);
+        return $this->hasManyThrough(Renstra::class, RenstraSasaran::class, 'bidang_id', 'id', 'id', 'renstra_id')->distinct();
     }
 
-    public function programs()
+    public function sasarans()
     {
-        return $this->hasManyThrough(Program::class, Renstra::class);
+        return $this->hasMany(RenstraSasaran::class);
     }
 
     public function kegiatans()
     {
-        return $this->hasManyThrough(Kegiatan::class, Program::class, 'renstra_id', 'program_id');
+        return $this->hasManyThrough(Kegiatan::class, RenstraProgram::class, null, 'program_id', null, 'id');
     }
 }

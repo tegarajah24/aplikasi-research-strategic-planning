@@ -45,21 +45,24 @@
                         <select name="program_id" id="create-program" required
                             class="mt-1 block w-full border border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             <option value="">Pilih Program</option>
-                            @foreach($programs as $prog)
-                            <option value="{{ $prog->id }}">
-                                [{{ $prog->kode_program }}] {{ $prog->nama_program }}
-                                @if($prog->renstra)
-                                 ({{ $prog->renstra->tahun_mulai }} - {{ $prog->renstra->tahun_selesai }})
-                                @endif
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
+                             @foreach($programs as $prog)
+                             <option value="{{ $prog->id }}">
+                                 [{{ $prog->kode_program }}] {{ $prog->nama_program }}
+                                 @php
+                                     $renstra = $prog->renstraStrategi?->renstraSasaran?->renstra;
+                                 @endphp
+                                 @if($renstra)
+                                  ({{ $renstra->tahun_mulai }} - {{ $renstra->tahun_selesai }})
+                                 @endif
+                             </option>
+                             @endforeach
+                         </select>
+                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Kegiatan <span class="text-rose-500">*</span></label>
-                            <input type="text" name="kode_kegiatan" id="create-kode" placeholder="Cth: 2.1.1" required
+                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                         <div>
+                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Kegiatan <span class="text-rose-500">*</span></label>
+                             <input type="text" name="kode_kegiatan" id="create-kode" placeholder="Cth: 2.1.1" required
                                 class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                         </div>
                         <div>
@@ -98,12 +101,12 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Waktu Mulai <span class="text-rose-500">*</span></label>
-                            <input type="month" name="waktu_mulai" id="create-waktu-mulai" required
+                            <input type="month" name="tgl_mulai_pelaksanaan" id="create-tgl-mulai" required
                                 class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Waktu Selesai <span class="text-rose-500">*</span></label>
-                            <input type="month" name="waktu_selesai" id="create-waktu-selesai" required
+                            <input type="month" name="tgl_selesai_pelaksanaan" id="create-tgl-selesai" required
                                 class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                         </div>
                     </div>
@@ -200,21 +203,24 @@
                         <select name="program_id" id="edit-program" x-model="editData.program_id" required
                             class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             <option value="">Pilih Program</option>
-                            @foreach($programs as $prog)
-                            <option value="{{ $prog->id }}">
-                                [{{ $prog->kode_program }}] {{ $prog->nama_program }}
-                                @if($prog->renstra)
-                                 ({{ $prog->renstra->tahun_mulai }} - {{ $prog->renstra->tahun_selesai }})
-                                @endif
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
+                             @foreach($programs as $prog)
+                             <option value="{{ $prog->id }}">
+                                 [{{ $prog->kode_program }}] {{ $prog->nama_program }}
+                                 @php
+                                     $renstra = $prog->renstraStrategi?->renstraSasaran?->renstra;
+                                 @endphp
+                                 @if($renstra)
+                                  ({{ $renstra->tahun_mulai }} - {{ $renstra->tahun_selesai }})
+                                 @endif
+                             </option>
+                             @endforeach
+                         </select>
+                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Kegiatan <span class="text-rose-500">*</span></label>
-                            <input type="text" name="kode_kegiatan" x-model="editData.kode_kegiatan" required
+                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                         <div>
+                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kode Kegiatan <span class="text-rose-500">*</span></label>
+                             <input type="text" name="kode_kegiatan" x-model="editData.kode_kegiatan" required
                                 class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
                         </div>
                         <div>
@@ -253,12 +259,12 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Waktu Mulai <span class="text-rose-500">*</span></label>
-                            <input type="month" name="waktu_mulai" x-model="editData.waktu_mulai" required
+                            <input type="month" name="tgl_mulai_pelaksanaan" x-model="editData.tgl_mulai_pelaksanaan" required
                                 class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Waktu Selesai <span class="text-rose-500">*</span></label>
-                            <input type="month" name="waktu_selesai" x-model="editData.waktu_selesai" required
+                            <input type="month" name="tgl_selesai_pelaksanaan" x-model="editData.tgl_selesai_pelaksanaan" required
                                 class="block w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
                         </div>
                     </div>
