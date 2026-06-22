@@ -70,7 +70,7 @@
                             <select name="tahun_akademik" id="create-tahun"
                                 class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="">Pilih Tahun Akademik</option>
-                                @foreach(range(now()->year - 4, now()->year) as $y)
+                                @foreach(range($tahunMulai, $tahunSelesai - 1) as $y)
                                 <option value="{{ $y }}/{{ $y + 1 }}">{{ $y }}/{{ $y + 1 }}</option>
                                 @endforeach
                             </select>
@@ -228,7 +228,7 @@
                             <select name="tahun_akademik" x-model="editData.tahun_akademik"
                                 class="mt-1 block w-full border-slate-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="">Pilih Tahun Akademik</option>
-                                @foreach(range(now()->year - 4, now()->year) as $y)
+                                @foreach(range($tahunMulai, $tahunSelesai - 1) as $y)
                                 <option value="{{ $y }}/{{ $y + 1 }}">{{ $y }}/{{ $y + 1 }}</option>
                                 @endforeach
                             </select>

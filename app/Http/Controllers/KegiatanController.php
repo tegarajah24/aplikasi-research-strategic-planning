@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
 use App\Models\Kegiatan;
+use App\Models\Renstra;
 use App\Models\RenstraProgram;
 use Illuminate\Http\Request;
 
@@ -50,6 +51,9 @@ class KegiatanController extends Controller
             ->orderBy('kode_program')
             ->get();
 
+        $tahunMulai   = Renstra::min('tahun_mulai') ?? (now()->year - 4);
+        $tahunSelesai = Renstra::max('tahun_selesai') ?? now()->year;
+
         return view('kegiatan.index', compact(
             'kegiatans',
             'totalKegiatan',
@@ -58,7 +62,9 @@ class KegiatanController extends Controller
             'kegiatanAktif',
             'tahunAkademikOptions',
             'penanggungJawabOptions',
-            'programs'
+            'programs',
+            'tahunMulai',
+            'tahunSelesai'
         ));
     }
 
