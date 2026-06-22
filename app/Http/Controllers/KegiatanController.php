@@ -84,7 +84,8 @@ class KegiatanController extends Controller
             'indikator_kinerja' => 'required|string',
             'target_kegiatan'   => 'required|string|max:100',
             'penanggung_jawab'  => 'required|string|max:100',
-            'waktu_pelaksanaan' => 'required|string|max:150',
+            'waktu_mulai'       => 'required|date_format:Y-m',
+            'waktu_selesai'     => 'required|date_format:Y-m',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|string|max:200',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
@@ -92,10 +93,16 @@ class KegiatanController extends Controller
             'dokumen'           => 'nullable|string',
         ]);
 
-        // Auto map waktu_mulai and waktu_selesai based on selected single year
-        $year = (int)$validated['waktu_pelaksanaan'];
-        $validated['waktu_mulai'] = "{$year}-01-01";
-        $validated['waktu_selesai'] = "{$year}-12-31";
+        $startDate = \Carbon\Carbon::createFromFormat('Y-m', $validated['waktu_mulai'])->startOfMonth();
+        $endDate   = \Carbon\Carbon::createFromFormat('Y-m', $validated['waktu_selesai'])->endOfMonth();
+
+        if ($endDate->lt($startDate)) {
+            return back()->withErrors(['waktu_selesai' => 'Waktu selesai harus setelah atau sama dengan waktu mulai.'])->withInput();
+        }
+
+        $validated['waktu_mulai']   = $startDate->toDateString();
+        $validated['waktu_selesai'] = $endDate->toDateString();
+        $validated['waktu_pelaksanaan'] = self::formatWaktuPelaksanaan($startDate, $endDate);
 
         $kegiatan = Kegiatan::create($validated);
         ActivityLog::log('Menambahkan kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);
@@ -119,7 +126,8 @@ class KegiatanController extends Controller
             'indikator_kinerja' => 'required|string',
             'target_kegiatan'   => 'required|string|max:100',
             'penanggung_jawab'  => 'required|string|max:100',
-            'waktu_pelaksanaan' => 'required|string|max:150',
+            'waktu_mulai'       => 'required|date_format:Y-m',
+            'waktu_selesai'     => 'required|date_format:Y-m',
             'tahun_akademik'    => 'nullable|string|max:20',
             'kebutuhan_anggaran'=> 'required|string|max:200',
             'status'            => 'required|in:perencanaan,berjalan,selesai,tertunda',
@@ -127,15 +135,38 @@ class KegiatanController extends Controller
             'dokumen'           => 'nullable|string',
         ]);
 
-        // Auto map waktu_mulai and waktu_selesai based on selected single year
-        $year = (int)$validated['waktu_pelaksanaan'];
-        $validated['waktu_mulai'] = "{$year}-01-01";
-        $validated['waktu_selesai'] = "{$year}-12-31";
+        $startDate = \Carbon\Carbon::createFromFormat('Y-m', $validated['waktu_mulai'])->startOfMonth();
+        $endDate   = \Carbon\Carbon::createFromFormat('Y-m', $validated['waktu_selesai'])->endOfMonth();
+
+        if ($endDate->lt($startDate)) {
+            return back()->withErrors(['waktu_selesai' => 'Waktu selesai harus setelah atau sama dengan waktu mulai.'])->withInput();
+        }
+
+        $validated['waktu_mulai']   = $startDate->toDateString();
+        $validated['waktu_selesai'] = $endDate->toDateString();
+        $validated['waktu_pelaksanaan'] = self::formatWaktuPelaksanaan($startDate, $endDate);
 
         $kegiatan->update($validated);
         ActivityLog::log('Memperbarui kegiatan', 'Kegiatan', $kegiatan->id, $kegiatan->nama_kegiatan);
 
         return redirect()->route('kegiatan.index')->with('success', 'Kegiatan berhasil diperbarui.');
+    }
+
+    private static function formatWaktuPelaksanaan(\Carbon\Carbon $start, \Carbon\Carbon $end): string
+    {
+        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        $startMonth = $months[(int)$start->format('m') - 1];
+        $endMonth = $months[(int)$end->format('m') - 1];
+        $startYear = $start->format('Y');
+        $endYear = $end->format('Y');
+
+        if ($start->format('Y-m') === $end->format('Y-m')) {
+            return "{$startMonth} {$startYear}";
+        }
+        if ($startYear === $endYear) {
+            return "{$startMonth} - {$endMonth} {$endYear}";
+        }
+        return "{$startMonth} {$startYear} - {$endMonth} {$endYear}";
     }
 
     /**

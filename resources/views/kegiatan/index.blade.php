@@ -15,7 +15,7 @@
         showDetailModal: false,
         editData: {
             id: '', program_id: '', kode_kegiatan: '', nama_kegiatan: '', indikator_kinerja: '',
-            target_kegiatan: '', penanggung_jawab: '', waktu_pelaksanaan: '',
+            target_kegiatan: '', penanggung_jawab: '', waktu_mulai: '', waktu_selesai: '',
             tahun_akademik: '', kebutuhan_anggaran: '', status: '', catatan: ''
         },
         detailData: {
@@ -23,13 +23,7 @@
             target_kegiatan: '', penanggung_jawab: '', waktu_pelaksanaan: '',
             tahun_akademik: '', kebutuhan_anggaran: '', status: '', catatan: ''
         }
-    }" x-init="$watch('editData.program_id', value => {
-        setTimeout(() => {
-            if (typeof window.updateYears === 'function') {
-                window.updateYears('edit', editData.waktu_pelaksanaan);
-            }
-        }, 50);
-    })" @open-create-modal.window="showCreateModal = true">
+    }" @open-create-modal.window="showCreateModal = true">
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
