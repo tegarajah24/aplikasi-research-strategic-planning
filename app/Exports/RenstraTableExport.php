@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\RenstraProgram;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -15,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class RenstraTableExport implements FromCollection, WithHeadings, WithStyles, ShouldAutoSize, WithEvents
 {
+    use Exportable;
     public function collection()
     {
         $programs = RenstraProgram::with([
