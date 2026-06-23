@@ -258,21 +258,19 @@
                 </button>
             </div>
             <div class="px-6 py-5 max-h-[70vh] overflow-auto">
-                <div class="table-responsive shadow-sm rounded">
-                    <table class="table table-bordered align-middle bg-white">
-                        <thead class="table-dark text-center">
-                            <tr>
-                                <th style="width: 35%;">Sasaran Strategis</th>
-                                <th style="width: 35%;">Strategi</th>
-                                <th style="width: 30%;">Program Tahunan</th>
+                <div class="overflow-x-auto rounded-lg shadow-sm border border-slate-200">
+                    <table class="w-full bg-white" style="border-collapse:collapse;">
+                        <thead>
+                            <tr style="background:#1e293b;">
+                                <th style="width:35%;padding:12px 16px;text-align:center;font-weight:700;font-size:12px;color:#fff;border:1px solid #334155;text-transform:uppercase;letter-spacing:0.05em;">Sasaran Strategis</th>
+                                <th style="width:35%;padding:12px 16px;text-align:center;font-weight:700;font-size:12px;color:#fff;border:1px solid #334155;text-transform:uppercase;letter-spacing:0.05em;">Strategi</th>
+                                <th style="width:30%;padding:12px 16px;text-align:center;font-weight:700;font-size:12px;color:#fff;border:1px solid #334155;text-transform:uppercase;letter-spacing:0.05em;">Program Tahunan</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($grouped as $bidangName => $sasarans)
-                                <tr class="fw-bold text-primary" style="background-color: #e2e8f0;">
-                                    <td colspan="3" class="p-3" style="font-size: 1.05rem; background-color: #e2e8f0;">
-                                        {{ $bidangName }}
-                                    </td>
+                                <tr style="background:#e2e8f0;">
+                                    <td colspan="3" style="padding:12px 16px;font-size:1.05rem;font-weight:700;color:#1e40af;border:1px solid #cbd5e1;">{{ $bidangName }}</td>
                                 </tr>
 
                                 @foreach($sasarans as $sasaranIdx => $sasaran)
@@ -294,19 +292,15 @@
                                         @foreach($strategi->programs as $prIdx => $program)
                                             <tr>
                                                 @if($stIdx === 0 && $prIdx === 0)
-                                                    <td rowspan="{{ $totalSasaranRows }}" class="align-top p-3 fw-medium" style="vertical-align:top;padding:16px;">
-                                                        {{ $sasaran->nama_sasaran }}
-                                                    </td>
+                                                    <td rowspan="{{ $totalSasaranRows }}" style="vertical-align:top;padding:14px 16px;font-weight:500;border:1px solid #cbd5e1;">{{ $sasaran->nama_sasaran }}</td>
                                                 @endif
                                                 @if($prIdx === 0)
-                                                    <td rowspan="{{ $programRows }}" class="align-top p-3 text-muted" style="vertical-align:top;padding:16px;">
-                                                        {{ $strategi->nama_strategi }}
-                                                    </td>
+                                                    <td rowspan="{{ $programRows }}" style="vertical-align:top;padding:14px 16px;color:#64748b;border:1px solid #cbd5e1;">{{ $strategi->nama_strategi }}</td>
                                                 @endif
-                                                <td class="align-top p-3" style="padding:12px 16px;">
+                                                <td style="padding:10px 16px;border:1px solid #cbd5e1;">
                                                     {{ $program->nama_program }}
                                                     @if($program->tahun_akademik)
-                                                        <span class="text-muted" style="font-size:11px;color:#6c757d;"> ({{ $program->tahun_akademik }})</span>
+                                                        <span style="font-size:11px;color:#64748b;"> ({{ $program->tahun_akademik }})</span>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -315,23 +309,19 @@
                                         @if($strategi->programs->isEmpty())
                                             <tr>
                                                 @if($stIdx === 0)
-                                                    <td rowspan="{{ $totalSasaranRows }}" class="align-top p-3 fw-medium" style="vertical-align:top;padding:16px;">
-                                                        {{ $sasaran->nama_sasaran }}
-                                                    </td>
+                                                    <td rowspan="{{ $totalSasaranRows }}" style="vertical-align:top;padding:14px 16px;font-weight:500;border:1px solid #cbd5e1;">{{ $sasaran->nama_sasaran }}</td>
                                                 @endif
-                                                <td class="align-top p-3 text-muted" style="vertical-align:top;padding:16px;">
-                                                    {{ $strategi->nama_strategi }}
-                                                </td>
-                                                <td class="text-muted fst-italic p-3 text-center" style="padding:12px;color:#6c757d;text-align:center;">- Belum ada program -</td>
+                                                <td style="vertical-align:top;padding:14px 16px;color:#64748b;border:1px solid #cbd5e1;">{{ $strategi->nama_strategi }}</td>
+                                                <td style="padding:10px 16px;color:#94a3b8;font-style:italic;text-align:center;border:1px solid #cbd5e1;">- Belum ada program -</td>
                                             </tr>
                                         @endif
                                     @endforeach
 
                                     @if($strategis->isEmpty())
                                         <tr>
-                                            <td class="p-3 fw-medium" style="padding:16px;">{{ $sasaran->nama_sasaran }}</td>
-                                            <td class="text-muted fst-italic p-3 text-center" style="padding:12px;color:#6c757d;text-align:center;">- Belum ada strategi -</td>
-                                            <td class="text-muted fst-italic p-3 text-center" style="padding:12px;color:#6c757d;text-align:center;">- Belum ada program -</td>
+                                            <td style="padding:14px 16px;font-weight:500;border:1px solid #cbd5e1;">{{ $sasaran->nama_sasaran }}</td>
+                                            <td style="padding:10px 16px;color:#94a3b8;font-style:italic;text-align:center;border:1px solid #cbd5e1;">- Belum ada strategi -</td>
+                                            <td style="padding:10px 16px;color:#94a3b8;font-style:italic;text-align:center;border:1px solid #cbd5e1;">- Belum ada program -</td>
                                         </tr>
                                     @endif
                                 @endforeach
