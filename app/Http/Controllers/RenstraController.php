@@ -240,20 +240,15 @@ class RenstraController extends Controller
 
     public function exportWord()
     {
-        $programs = RenstraProgram::with([
-            'renstraStrategi.renstraSasaran.bidang'
-        ])->get()->sortBy(function ($p) {
-            return $p->renstraStrategi?->renstraSasaran?->bidang?->nama_bidang
-                . $p->renstraStrategi?->renstraSasaran?->nama_sasaran
-                . $p->renstraStrategi?->nama_strategi
-                . $p->nama_program;
-        });
+        $sasarans = RenstraSasaran::with(['bidang', 'strategis.programs'])
+            ->orderBy('nama_sasaran')
+            ->get();
 
         $headers = [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'Content-Disposition' => 'attachment; filename="data-program-renstra.doc"',
         ];
 
-        return response()->view('master-data.renstra.export-word', compact('programs'), 200, $headers);
+        return response()->view('master-data.renstra.export-word', compact('sasarans'), 200, $headers);
     }
 }
