@@ -304,7 +304,6 @@
                                                     </td>
                                                 @endif
                                                 <td class="align-top p-3" style="padding:12px 16px;">
-                                                    <span class="badge bg-success me-1" style="display:inline-block;padding:2px 8px;font-size:11px;background:#198754;color:#fff;border-radius:4px;">Tahunan</span>
                                                     {{ $program->nama_program }}
                                                     @if($program->tahun_akademik)
                                                         <span class="text-muted" style="font-size:11px;color:#6c757d;"> ({{ $program->tahun_akademik }})</span>
