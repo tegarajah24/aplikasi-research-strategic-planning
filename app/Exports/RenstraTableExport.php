@@ -14,19 +14,21 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class RenstraTableExport implements FromCollection, WithHeadings, WithStyles, ShouldAutoSize, WithEvents
+class RenstraTableExport implements FromCollection, WithHeadings, WithStyles, WithEvents
 {
     use Exportable;
+
     public function collection()
     {
         $programs = RenstraProgram::with([
             'renstraStrategi.renstraSasaran.bidang'
-        ])->get()->sortBy(function ($p) {
+        ])->orderBy('nama_program')->get()
+        ->sortBy(function ($p) {
             return $p->renstraStrategi?->renstraSasaran?->bidang?->nama_bidang
                 . $p->renstraStrategi?->renstraSasaran?->nama_sasaran
                 . $p->renstraStrategi?->nama_strategi
                 . $p->nama_program;
-        });
+        })->values();
 
         $rows = collect();
         $no = 0;
@@ -61,6 +63,13 @@ class RenstraTableExport implements FromCollection, WithHeadings, WithStyles, Sh
         $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14)->setName('Calibri');
         $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
+        $sheet->getColumnDimension('A')->setWidth(6);
+        $sheet->getColumnDimension('B')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(30);
+        $sheet->getColumnDimension('D')->setWidth(30);
+        $sheet->getColumnDimension('E')->setWidth(35);
+        $sheet->getColumnDimension('F')->setWidth(16);
+
         $headerRange = 'A3:F3';
         $sheet->getStyle($headerRange)->getFont()->setBold(true)->setSize(11)->setName('Calibri')->getColor()->setARGB('FFFFFF');
         $sheet->getStyle($headerRange)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('1F3864');
@@ -79,12 +88,6 @@ class RenstraTableExport implements FromCollection, WithHeadings, WithStyles, Sh
 
                 $sheet->getStyle("A3:F{$lastRow}")->getBorders()->getAllBorders()
                     ->setBorderStyle(Border::BORDER_THIN)->getColor()->setARGB('999999');
-
-                $sheet->getRowDimension(3)->setRowHeight(24);
-
-                for ($r = 4; $r <= $lastRow; $r++) {
-                    $sheet->getRowDimension($r)->setRowHeight(20);
-                }
 
                 $sheet->getStyle("E4:F{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyle("A4:A{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
