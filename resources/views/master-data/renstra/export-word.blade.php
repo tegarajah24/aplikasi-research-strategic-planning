@@ -10,7 +10,6 @@
         th { background-color: #1F3864; color: #ffffff; padding: 8px 6px; text-align: center; font-weight: bold; border: 1px solid #999; }
         td { padding: 6px; border: 1px solid #ccc; vertical-align: top; }
         .bidang-header { background-color: #D6E4F0; color: #1F3864; font-weight: bold; font-size: 11pt; padding: 8px; }
-        .badge { display: inline-block; background-color: #198754; color: #fff; padding: 1px 6px; border-radius: 3px; font-size: 9pt; margin-right: 4px; }
         .tahun { color: #666; font-size: 9pt; }
         .empty { color: #999; font-style: italic; text-align: center; }
     </style>
@@ -56,7 +55,6 @@
                                     <td rowspan="{{ $programRows }}" style="color:#555;padding:10px 8px;">{{ $strategi->nama_strategi }}</td>
                                 @endif
                                 <td style="padding:8px;">
-                                    <span class="badge">Tahunan</span>
                                     {{ $program->nama_program }}
                                     @if($program->tahun_akademik)
                                         <span class="tahun">({{ $program->tahun_akademik }})</span>

@@ -88,7 +88,7 @@ class RenstraTableExport implements WithEvents, WithStyles
                         foreach ($programs as $program) {
                             $sheet->setCellValue("B{$currentRow}", $strategi->nama_strategi);
                             $tahun = $program->tahun_akademik ? " ({$program->tahun_akademik})" : '';
-                            $sheet->setCellValue("C{$currentRow}", 'Tahunan - ' . $program->nama_program . $tahun);
+                            $sheet->setCellValue("C{$currentRow}", $program->nama_program . $tahun);
                             $currentRow++;
                             $sasaranRowCount++;
                             $strategiRowCount++;
