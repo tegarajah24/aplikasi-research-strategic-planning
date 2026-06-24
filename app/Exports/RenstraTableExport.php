@@ -16,6 +16,13 @@ class RenstraTableExport implements WithEvents, WithStyles
 {
     use Exportable;
 
+    private $filters;
+
+    public function __construct(array $filters = [])
+    {
+        $this->filters = $filters;
+    }
+
     public function registerEvents(): array
     {
         return [
@@ -54,8 +61,27 @@ class RenstraTableExport implements WithEvents, WithStyles
 
         $currentRow = 4;
 
-        $grouped = RenstraSasaran::with(['bidang', 'strategis.programs'])
-            ->orderBy('nama_sasaran')
+        $query = RenstraSasaran::with(['bidang', 'strategis.programs', 'renstra']);
+
+        if (!empty($this->filters['periode'])) {
+            [$tahunMulai, $tahunSelesai] = explode('-', $this->filters['periode']);
+            $query->whereHas('renstra', function ($q) use ($tahunMulai, $tahunSelesai) {
+                $q->where('tahun_mulai', $tahunMulai)
+                  ->where('tahun_selesai', $tahunSelesai);
+            });
+        }
+
+        if (!empty($this->filters['bidang_id'])) {
+            $query->where('bidang_id', $this->filters['bidang_id']);
+        }
+
+        if (!empty($this->filters['fakultas_id'])) {
+            $query->whereHas('renstra', function ($q) {
+                $q->where('fakultas_id', $this->filters['fakultas_id']);
+            });
+        }
+
+        $grouped = $query->orderBy('nama_sasaran')
             ->get()
             ->groupBy(fn($s) => $s->bidang?->nama_bidang ?? 'Tanpa Bidang');
 

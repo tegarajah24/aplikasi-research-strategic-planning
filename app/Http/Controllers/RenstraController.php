@@ -233,16 +233,35 @@ class RenstraController extends Controller
         return redirect()->route('renstra.index')->with('success', 'Data RENSTRA berhasil dihapus.');
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return (new RenstraTableExport)->download('data-program-renstra.xlsx');
+        return (new RenstraTableExport($request->only(['periode', 'bidang_id', 'fakultas_id'])))
+            ->download('data-program-renstra.xlsx');
     }
 
-    public function exportWord()
+    public function exportWord(Request $request)
     {
-        $sasarans = RenstraSasaran::with(['bidang', 'strategis.programs'])
-            ->orderBy('nama_sasaran')
-            ->get();
+        $query = RenstraSasaran::with(['bidang', 'strategis.programs', 'renstra']);
+
+        if ($request->filled('periode')) {
+            [$tahunMulai, $tahunSelesai] = explode('-', $request->periode);
+            $query->whereHas('renstra', function ($q) use ($tahunMulai, $tahunSelesai) {
+                $q->where('tahun_mulai', $tahunMulai)
+                  ->where('tahun_selesai', $tahunSelesai);
+            });
+        }
+
+        if ($request->filled('bidang_id')) {
+            $query->where('bidang_id', $request->bidang_id);
+        }
+
+        if ($request->filled('fakultas_id')) {
+            $query->whereHas('renstra', function ($q) use ($request) {
+                $q->where('fakultas_id', $request->fakultas_id);
+            });
+        }
+
+        $sasarans = $query->orderBy('nama_sasaran')->get();
 
         $headers = [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
