@@ -25,10 +25,6 @@ class KegiatanController extends Controller
             });
         }
 
-        if ($request->filled('tahun_akademik')) {
-            $query->where('tahun_akademik', $request->tahun_akademik);
-        }
-
         if ($request->filled('penanggung_jawab')) {
             $query->where('penanggung_jawab', $request->penanggung_jawab);
         }

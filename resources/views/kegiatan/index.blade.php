@@ -52,15 +52,18 @@
     function filterTable() {
         const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
         const status = (document.getElementById('filter-status').value || '').trim();
+        const tahun = (document.getElementById('filter-tahun').value || '').trim();
         let visible = 0;
 
         document.querySelectorAll('#table-body tr[data-search]').forEach(row => {
             const text = (row.getAttribute('data-search') || '').toLowerCase();
             const rowStatus = (row.getAttribute('data-status') || '').trim();
+            const rowTahun = (row.getAttribute('data-tahun') || '').trim();
 
             const matchSearch = !q || text.includes(q);
             const matchStatus = !status || rowStatus === status;
-            const show = matchSearch && matchStatus;
+            const matchTahun = !tahun || rowTahun === tahun;
+            const show = matchSearch && matchStatus && matchTahun;
             row.style.display = show ? '' : 'none';
             if (show) visible++;
         });
