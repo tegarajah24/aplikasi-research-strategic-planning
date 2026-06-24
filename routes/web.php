@@ -76,6 +76,9 @@ Route::middleware([
             ->except(['create', 'show', 'edit'])
             ->names('kegiatan');
 
+        Route::get('rkt/kegiatan/export/excel', [App\Http\Controllers\KegiatanController::class, 'exportExcel'])->name('kegiatan.export.excel');
+        Route::get('rkt/kegiatan/export/word', [App\Http\Controllers\KegiatanController::class, 'exportWord'])->name('kegiatan.export.word');
+
         Route::get('/rkt/kalender', [App\Http\Controllers\KalenderController::class, 'index'])->name('rkt.kalender');
     });
 

@@ -6,6 +6,7 @@ use App\Models\ActivityLog;
 use App\Models\Kegiatan;
 use App\Models\Renstra;
 use App\Models\RenstraProgram;
+use App\Exports\KegiatanTableExport;
 use Illuminate\Http\Request;
 
 class KegiatanController extends Controller
@@ -54,6 +55,19 @@ class KegiatanController extends Controller
         $tahunMulai   = Renstra::min('tahun_mulai') ?? (now()->year - 4);
         $tahunSelesai = Renstra::max('tahun_selesai') ?? now()->year;
 
+        // Data untuk modal tabel grup
+        $allKegiatans = Kegiatan::with('program.renstraStrategi.renstraSasaran.bidang')
+            ->orderBy('kode_kegiatan')
+            ->get();
+
+        $groupedKegiatans = $allKegiatans->groupBy(function ($item) {
+            return $item->program?->renstraStrategi?->renstraSasaran?->bidang?->nama_bidang ?? 'Tanpa Bidang';
+        })->map(function ($bidangGroup) {
+            return $bidangGroup->groupBy(function ($item) {
+                return $item->program?->nama_program ?? 'Tanpa Program';
+            });
+        });
+
         return view('kegiatan.index', compact(
             'kegiatans',
             'totalKegiatan',
@@ -64,7 +78,8 @@ class KegiatanController extends Controller
             'penanggungJawabOptions',
             'programs',
             'tahunMulai',
-            'tahunSelesai'
+            'tahunSelesai',
+            'groupedKegiatans'
         ));
     }
 
@@ -163,6 +178,21 @@ class KegiatanController extends Controller
             return "{$startMonth} - {$endMonth} {$endYear}";
         }
         return "{$startMonth} {$startYear} - {$endMonth} {$endYear}";
+    }
+
+    public function exportExcel()
+    {
+        return (new KegiatanTableExport)->download('data-kegiatan.xlsx');
+    }
+
+    public function exportWord()
+    {
+        $headers = [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'Content-Disposition' => 'attachment; filename="data-kegiatan.doc"',
+        ];
+
+        return response()->view('kegiatan.export-word', [], 200, $headers);
     }
 
     public function destroy(Kegiatan $kegiatan)

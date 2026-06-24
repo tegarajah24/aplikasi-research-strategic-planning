@@ -13,6 +13,7 @@
         showCreateModal: false,
         showEditModal: false,
         showDetailModal: false,
+        showTableModal: false,
         editData: {
             id: '', program_id: '', kode_kegiatan: '', nama_kegiatan: '', indikator_kinerja: '',
             target_kegiatan: '', penanggung_jawab: '', tgl_mulai_pelaksanaan: '', tgl_selesai_pelaksanaan: '',
@@ -40,6 +41,7 @@
 
         @include('kegiatan.modals.create-edit')
         @include('kegiatan.modals.detail')
+        @include('kegiatan._table_modal')
     </div>
 
     <style>
