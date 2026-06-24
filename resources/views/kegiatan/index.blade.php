@@ -13,7 +13,7 @@
         showCreateModal: false,
         showEditModal: false,
         showDetailModal: false,
-        showTableModal: false,
+        showTableModal: @js($showTable ?? false),
         editData: {
             id: '', program_id: '', kode_kegiatan: '', nama_kegiatan: '', indikator_kinerja: '',
             target_kegiatan: '', penanggung_jawab: '', tgl_mulai_pelaksanaan: '', tgl_selesai_pelaksanaan: '',

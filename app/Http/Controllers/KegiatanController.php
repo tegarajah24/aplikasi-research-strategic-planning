@@ -52,9 +52,13 @@ class KegiatanController extends Controller
         $tahunSelesai = Renstra::max('tahun_selesai') ?? now()->year;
 
         // Data untuk modal tabel grup
-        $allKegiatans = Kegiatan::with('program.renstraStrategi.renstraSasaran.bidang')
-            ->orderBy('kode_kegiatan')
-            ->get();
+        $allKegiatansQuery = Kegiatan::with('program.renstraStrategi.renstraSasaran.bidang');
+
+        if ($request->filled('table_tahun')) {
+            $allKegiatansQuery->where('tahun_akademik', $request->table_tahun);
+        }
+
+        $allKegiatans = $allKegiatansQuery->orderBy('kode_kegiatan')->get();
 
         $groupedKegiatans = $allKegiatans->groupBy(function ($item) {
             return $item->program?->renstraStrategi?->renstraSasaran?->bidang?->nama_bidang ?? 'Tanpa Bidang';
@@ -63,6 +67,8 @@ class KegiatanController extends Controller
                 return $item->program?->nama_program ?? 'Tanpa Program';
             });
         });
+
+        $showTable = $request->filled('table_tahun');
 
         return view('kegiatan.index', compact(
             'kegiatans',
@@ -75,7 +81,8 @@ class KegiatanController extends Controller
             'programs',
             'tahunMulai',
             'tahunSelesai',
-            'groupedKegiatans'
+            'groupedKegiatans',
+            'showTable'
         ));
     }
 
